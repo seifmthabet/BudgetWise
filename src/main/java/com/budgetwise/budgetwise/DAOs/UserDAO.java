@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class UserDAO implements GenericDAO<User> {
@@ -59,5 +60,32 @@ public class UserDAO implements GenericDAO<User> {
         }
         return false;
     }
+    public User findByEmail(String email) {
 
+        String sql = "SELECT * FROM users WHERE email = ?";
+
+        try (Connection conn = DatabaseManager.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+
+                User user = new User(
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("password")
+                );
+
+                return user;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
