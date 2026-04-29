@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="root" prefHeight="768" prefWidth="1366" style="-fx-background-color:#d2be9d;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.budgetwise.budgetwise.controllers.LandingController">
+
+    <children>
+
+        <!-- TOP BAR -->
+        <HBox alignment="CENTER_LEFT" prefHeight="70" prefWidth="1538.0" spacing="15" style="-fx-background-color:#c9b18b; -fx-padding:15 30;">
+
+            <Label fx:id="logoLabel" style="-fx-font-size:28px; -fx-font-weight:bold; -fx-text-fill:#8b0000;" text="BudgetWise" />
+
+            <Pane HBox.hgrow="ALWAYS" />
+
+            <!-- LOGIN BUTTON -->
+            <Button fx:id="loginBtn" onMouseEntered="#loginHoverIn" onMouseExited="#loginHoverOut" style="-fx-background-color:white;-fx-text-fill:#8b0000;-fx-background-radius:20; -fx-font-size:15px;" text="Login" onMouseClicked="#goToLogin" />
+
+            <!-- REGISTER BUTTON -->
+            <Button fx:id="registerBtn" onMouseEntered="#registerHoverIn" onMouseExited="#registerHoverOut" style="-fx-background-color:#b91c1c; -fx-text-fill:white;-fx-background-radius:20;-fx-font-size:15px;" text="Register" onMouseClicked="#goToRegister" />
+        </HBox>
+
+        <!-- LEFT SIDE -->
+        <VBox layoutX="80" layoutY="180" spacing="25">
+
+            <Label fx:id="titleLabel" style="-fx-font-size:55px; -fx-font-weight:bold; -fx-text-fill:#8b0000;" text="Welcome to BudgetWise" wrapText="true" />
+
+            <Label fx:id="descLabel" prefWidth="550" style="-fx-font-size:22px; -fx-text-fill:#6b4f2a;" text="Smart budgeting made simple. Track expenses, manage savings, and control your future." wrapText="true" />
+
+            <Button fx:id="startBtn" style="-fx-background-color:#b91c1c;                            -fx-text-fill:white;                            -fx-font-size:18px;                            -fx-background-radius:30;                            -fx-padding:12 30;" text="Get Started" />
+
+        </VBox>
+
+        <!-- RIGHT SIDE -->
+        <VBox fx:id="teamBox" alignment="CENTER" layoutX="900" layoutY="220" prefWidth="330" spacing="18" style="-fx-background-color:rgba(255,255,255,0.35);                      -fx-background-radius:30;                      -fx-padding:30;">
+
+            <Label style="-fx-font-size:34px; -fx-font-weight:bold; -fx-text-fill:#8b0000;" text="Dev Team" />
+
+            <Label style="-fx-font-size:20px; -fx-text-fill:#5c4033;" text="Abdullah Basyouni" />
+
+            <Label style="-fx-font-size:20px; -fx-text-fill:#5c4033;" text="Seif Mohamed" />
+
+            <Label style="-fx-font-size:20px; -fx-text-fill:#5c4033;" text="Mazen Abo El-Mahasen" />
+
+            <Label style="-fx-font-size:20px; -fx-text-fill:#5c4033;" text="Kareem Essam" />
+
+        </VBox>
+
+    </children>
+
+</AnchorPane>
