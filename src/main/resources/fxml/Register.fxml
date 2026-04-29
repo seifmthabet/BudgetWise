@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="762.0" prefWidth="1282.0" style="-fx-background-color: linear-gradient(to bottom, #d6c2a1, #cbb38f);" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.budgetwise.budgetwise.controllers.AuthController">
+    <children>
+        <ImageView fitHeight="842.0" fitWidth="447.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../images/6891eb5be1d066f2f2ba3fb01b7e078e.jpg" />
+            </image></ImageView>
+        <Label layoutX="985.0" layoutY="107.0" prefHeight="70.0" prefWidth="154.0" style="-fx-text-fill: #b91c1c; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0.5, 1, 1); -fx-font-size: 40; -fx-font-weight: bold;" text="Sign Up" />
+        <TextField fx:id="nameField" layoutX="937.0" layoutY="206.0" prefHeight="41.0" prefWidth="244.0" promptText="Name" style="-fx-background-color: #f5f1e6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cbb38f; -fx-padding: 10; -fx-text-fill: #3f3f3f; -fx-prompt-text-fill: #9ca3af;" />
+        <TextField fx:id="PasswordField" layoutX="939.0" layoutY="343.0" prefHeight="41.0" prefWidth="244.0" promptText="Password" style="-fx-background-color: #f5f1e6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cbb38f; -fx-padding: 10; -fx-text-fill: #3f3f3f; -fx-prompt-text-fill: #9ca3af;" />
+        <Button layoutX="927.0" layoutY="403.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="270.0" style="-fx-background-color: #B22222; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;" stylesheets="@../css/app.css" text="Create Account" onAction="#handleRegister"  />
+      <TextField fx:id="EmailField" layoutX="938.0" layoutY="275.0" prefHeight="41.0" prefWidth="244.0" promptText="Email" style="-fx-background-color: #f5f1e6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cbb38f; -fx-padding: 10; -fx-text-fill: #3f3f3f; -fx-prompt-text-fill: #9ca3af;" />
+      <Label layoutX="958.0" layoutY="475.0" prefHeight="37.0" prefWidth="162.0" style="-fx-text-fill: #555555; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0.5, 1, 1); -fx-font-size: 13;" text="Already have an account?" />
+      <Label layoutX="1115.0" layoutY="475.0" prefHeight="38.0" prefWidth="39.0" style="-fx-text-fill: #B22222; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0.5, 1, 1); -fx-font-size: 13; -fx-font-weight: bold; -fx-cursor: hand;" text="Login" />
+    </children>
+</AnchorPane>

@@ -12,8 +12,8 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception {
         DatabaseManager.getInstance();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LoginView.fxml"));
-        Scene scene = new Scene(loader.load(), 420, 600);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Register.fxml"));
+        Scene scene = new Scene(loader.load(), 300, 300);
         scene.getStylesheets().add(getClass().getResource("/css/app.css").toExternalForm());
 
         stage.setTitle("BudgetWise");
