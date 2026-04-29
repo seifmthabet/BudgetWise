@@ -19,5 +19,13 @@ public class UserService {
         return user;
     }
 
+    public User Login(String email,String password){
+        if(ud.existEmail(email)){
+            user =  ud.findByEmail(email);
+            return user;
+        }
+        return null;
+    }
+
 
 }

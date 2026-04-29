@@ -14,8 +14,8 @@
             <Image url="@../images/6891eb5be1d066f2f2ba3fb01b7e078e.jpg" />
          </image></ImageView>
       <Label layoutX="987.0" layoutY="103.0" prefHeight="70.0" prefWidth="146.0" style="-fx-text-fill: #b91c1c; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 2, 0.5, 1, 1); -fx-font-size: 40; -fx-font-weight: bold;" text="Sign In" />
-      <TextField layoutX="938.0" layoutY="208.0" prefHeight="41.0" prefWidth="244.0" promptText="Email" style="-fx-background-color: #f5f1e6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cbb38f; -fx-padding: 10; -fx-text-fill: #3f3f3f; -fx-prompt-text-fill: #9ca3af;" />
-      <TextField layoutX="938.0" layoutY="301.0" prefHeight="41.0" prefWidth="244.0" promptText="Password" style="-fx-background-color: #f5f1e6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cbb38f; -fx-padding: 10; -fx-text-fill: #3f3f3f; -fx-prompt-text-fill: #9ca3af;" />
-      <Button layoutX="939.0" layoutY="403.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="244.0" style="-fx-background-color: #B22222; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;" stylesheets="@../css/app.css" text="Login in " />
+      <TextField fx:id="emailField" layoutX="938.0" layoutY="208.0" prefHeight="41.0" prefWidth="244.0" promptText="Email" style="-fx-background-color: #f5f1e6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cbb38f; -fx-padding: 10; -fx-text-fill: #3f3f3f; -fx-prompt-text-fill: #9ca3af;" />
+      <TextField fx:id="passwordField" layoutX="938.0" layoutY="301.0" prefHeight="41.0" prefWidth="244.0" promptText="Password" style="-fx-background-color: #f5f1e6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cbb38f; -fx-padding: 10; -fx-text-fill: #3f3f3f; -fx-prompt-text-fill: #9ca3af;" />
+      <Button layoutX="939.0" layoutY="403.0" mnemonicParsing="false" onAction="#handleLogin" prefHeight="34.0" prefWidth="244.0" style="-fx-background-color: #B22222; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 10; -fx-cursor: hand;" stylesheets="@../css/app.css" text="Login in " />
    </children>
 </AnchorPane>
