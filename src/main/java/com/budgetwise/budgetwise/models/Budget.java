@@ -26,12 +26,17 @@ public class Budget {
     public int getBudgetId() {
         return budgetId;
     }
+    public int getUserId(){return userId;}
+    public int getCategoryId(){return categoryId;}
     public double getAmount() {
         return amount;
     }
     public double getSpentAmount() {
         return spentAmount;
     }
+    public LocalDate getStartDate(){return startDate;}
+    public LocalDate getEndDate(){return endDate;}
+    public int getAlertThreshold(){return alertThreshold;}
     public BudgetStatus getStatus() {
         if (spentAmount >= amount) {
             return BudgetStatus.EXCEEDED;

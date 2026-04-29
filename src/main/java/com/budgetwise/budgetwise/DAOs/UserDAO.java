@@ -76,7 +76,7 @@ public class UserDAO implements GenericDAO<User> {
         return users;
     }
 
-    public void update(com.budgetwise.budgetwise.models.User entity){
+    public void update(User entity){
         String command = "UPDATE users SET name = ?,email = ? , password = ? WHERE user_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(command) ){
