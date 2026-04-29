@@ -11,6 +11,7 @@ module com.budgetwise.budgetwise {
     requires eu.hansolo.tilesfx;
     requires java.sql;
     requires org.xerial.sqlitejdbc;
+    requires jbcrypt;
 
     opens com.budgetwise.budgetwise.controllers to javafx.fxml;
     opens com.budgetwise.budgetwise.models to javafx.base;
