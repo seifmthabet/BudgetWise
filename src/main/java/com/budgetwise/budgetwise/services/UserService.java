@@ -8,7 +8,7 @@ import com.budgetwise.budgetwise.utils.Validation;
 public class UserService {
     private final UserDAO ud = new UserDAO();
     private  User user = null;
-    private Validation valid = new Validation();
+    private final Validation valid = new Validation();
 
     public User register(String name,String email,String password){
         user = new User(name,email,password);
@@ -25,6 +25,10 @@ public class UserService {
             return user;
         }
         return null;
+    }
+    public void UpdateProfile(User u){
+        user = u;
+        ud.update(user);
     }
 
 
