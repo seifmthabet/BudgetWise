@@ -1,5 +1,7 @@
 package com.budgetwise.budgetwise.utils;
 
+import com.budgetwise.budgetwise.models.Budget;
+
 public class Validation {
     private AlertUtil alertUtil = new AlertUtil();
     //Register Validation
@@ -40,6 +42,13 @@ public class Validation {
         }
         if(password == null || password.trim().isEmpty()){
             alertUtil.showError("Password Is Required");
+            return false;
+        }
+        return true;
+    }
+    private boolean validateBudget(Budget budget){
+        if(budget.getAlertThreshold() < 0 || budget.getAlertThreshold() > 100){
+            alertUtil.showError("Alert threshold must be between 0 and 100");
             return false;
         }
         return true;
