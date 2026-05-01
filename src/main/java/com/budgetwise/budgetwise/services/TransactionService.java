@@ -48,7 +48,6 @@ public class TransactionService {
 
     public double getTotalExpense() {
         final double[] expense = {0};
-
         transactionDAO.findAll().forEach(tx -> {
             if (tx.getType() == TransactionType.EXPENSE) {
                 expense[0] += tx.getAmount();
