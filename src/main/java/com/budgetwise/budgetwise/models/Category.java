@@ -1,5 +1,7 @@
 package com.budgetwise.budgetwise.models;
 
+import java.util.Locale;
+
 public class Category {
     private int categoryId;
     private int userId;
@@ -22,4 +24,6 @@ public class Category {
     public boolean isDefault() {
         return isDefault;
     }
+
+    public int getUserId() {return  userId;}
 }
