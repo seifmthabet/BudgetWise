@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefWidth="900" prefHeight="600"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.budgetwise.budgetwise.controllers.BudgetController">
+
+    <Pane prefWidth="900" prefHeight="600"
+          style="-fx-background-color: #c9b08b;" />
+
+    <VBox layoutX="275" layoutY="80" spacing="18"
+          prefWidth="350"
+          style="-fx-background-color: #f5f1e6;
+                 -fx-background-radius: 20;
+                 -fx-padding: 30;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10,0,0,4);">
+
+        <Label text="Create Budget"
+               style="-fx-font-size: 26px;
+                      -fx-text-fill: #b22222;
+                      -fx-font-weight: bold;" />
+
+        <VBox spacing="5">
+            <Label text="Category"/>
+            <ComboBox promptText="Select Category"/>
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="Amount"/>
+            <TextField promptText="Enter total budget"/>
+        </VBox>
+
+        <VBox spacing="5">
+            <Label text="Spent Amount"/>
+            <TextField promptText="Enter spent (optional)"/>
+        </VBox>
+
+        <HBox spacing="10">
+            <VBox spacing="5">
+                <Label text="Start"/>
+                <DatePicker prefWidth="140"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="End"/>
+                <DatePicker prefWidth="140"/>
+            </VBox>
+        </HBox>
+
+        <VBox spacing="5">
+            <Label text="Alert Threshold (%)"/>
+            <TextField promptText="e.g. 80"/>
+        </VBox>
+
+        <Button text="Save Budget"
+                prefHeight="40"
+                style="-fx-background-color: #b22222;
+                       -fx-text-fill: white;
+                       -fx-font-size: 14px;
+                       -fx-background-radius: 12;" />
+
+    </VBox>
+
+</AnchorPane>

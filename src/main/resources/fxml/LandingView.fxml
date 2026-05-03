@@ -19,10 +19,10 @@
             <Pane HBox.hgrow="ALWAYS" />
 
             <!-- LOGIN BUTTON -->
-            <Button fx:id="loginBtn" onMouseEntered="#loginHoverIn" onMouseExited="#loginHoverOut" style="-fx-background-color:white;-fx-text-fill:#8b0000;-fx-background-radius:20; -fx-font-size:15px;" text="Login" onMouseClicked="#goToLogin" />
+            <Button fx:id="loginBtn" onMouseClicked="#goToLogin" onMouseEntered="#loginHoverIn" onMouseExited="#loginHoverOut" style="-fx-background-color:white;-fx-text-fill:#8b0000;-fx-background-radius:20; -fx-font-size:15px;" text="Login" />
 
             <!-- REGISTER BUTTON -->
-            <Button fx:id="registerBtn" onMouseEntered="#registerHoverIn" onMouseExited="#registerHoverOut" style="-fx-background-color:#b91c1c; -fx-text-fill:white;-fx-background-radius:20;-fx-font-size:15px;" text="Register" onMouseClicked="#goToRegister" />
+            <Button fx:id="registerBtn" onMouseClicked="#goToRegister" onMouseEntered="#registerHoverIn" onMouseExited="#registerHoverOut" style="-fx-background-color:#b91c1c; -fx-text-fill:white;-fx-background-radius:20;-fx-font-size:15px;" text="Register" />
         </HBox>
 
         <!-- LEFT SIDE -->

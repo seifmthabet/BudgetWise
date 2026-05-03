@@ -40,7 +40,7 @@ public class Budget {
     public BudgetStatus getStatus() {
         if (spentAmount >= amount) {
             return BudgetStatus.EXCEEDED;
-        } else if (spentAmount >= (0.9 * amount)) {
+        } else if (spentAmount >= (alertThreshold / 100.0) * amount) {
             return BudgetStatus.NEAR_LIMIT;
         } else {
             return BudgetStatus.ON_TRACK;
@@ -50,4 +50,18 @@ public class Budget {
     private double getRemainingAmount() {
         return amount - spentAmount;
     }
+    public void setAmount(double amount){
+        this.amount = amount;
+    }
+    public void setSpentAmount(double amount){
+        this.spentAmount = amount;
+    }
+    public void setEndDate(LocalDate date){
+        this.endDate = date;
+    }
+    public void setBudgetId(int budgetId){
+        this.budgetId = budgetId;
+    }
+
+
 }
