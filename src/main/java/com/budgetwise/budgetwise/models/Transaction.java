@@ -14,33 +14,33 @@ public class Transaction {
     private BigDecimal amount;
     private String description;
     private PaymentMethod paymentMethod;
-    private LocalDateTime timestmap;
+    private LocalDateTime timestamp;
 
     public Transaction(int userId, int categoryId, TransactionType type, BigDecimal amount, String description, PaymentMethod paymentMethod) {
-        if(amount.compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Amount must be greater than zero");
-        if(description.isEmpty()) throw new IllegalArgumentException("Description cannot be empty");
-        if(paymentMethod == null) throw new IllegalArgumentException("Payment method cannot be null");
-        if(type == null) throw new IllegalArgumentException("Transaction type cannot be null");
-        if(userId <= 0) throw new IllegalArgumentException("User ID must be positive");
-        if(categoryId <= 0) throw new IllegalArgumentException("Category ID must be positive");
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Amount must be greater than zero");
+        if (description == null || description.trim().isEmpty()) throw new IllegalArgumentException("Description cannot be empty");
+        if (paymentMethod == null) throw new IllegalArgumentException("Payment method cannot be null");
+        if (type == null) throw new IllegalArgumentException("Transaction type cannot be null");
+        if (userId <= 0) throw new IllegalArgumentException("User ID must be positive");
+        if (categoryId <= 0) throw new IllegalArgumentException("Category ID must be positive");
         this.userId = userId;
         this.categoryId = categoryId;
         this.type = type;
         this.amount = amount;
         this.description = description;
         this.paymentMethod = paymentMethod;
-        this.timestmap = LocalDateTime.now();
+        this.timestamp = LocalDateTime.now();
     }
 
     public Transaction(int transactionId,int userId, int categoryId, TransactionType type, BigDecimal amount, String description, PaymentMethod paymentMethod, LocalDateTime timestamp) {
-        if(amount.compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Amount must be greater than zero");
-        if(description.isEmpty()) throw new IllegalArgumentException("Description cannot be empty");
-        if(paymentMethod == null) throw new IllegalArgumentException("Payment method cannot be empty");
-        if(type == null) throw new IllegalArgumentException("Transaction type cannot be null");
-        if(userId <= 0) throw new IllegalArgumentException("User ID must be positive");
-        if(categoryId <= 0) throw new IllegalArgumentException("Category ID must be positive");
-        if(transactionId <= 0) throw new IllegalArgumentException("Transaction ID must be positive");
-        if(timestamp == null) throw new IllegalArgumentException("Timestamp cannot be null");
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Amount must be greater than zero");
+        if (description == null || description.trim().isEmpty()) throw new IllegalArgumentException("Description cannot be empty");
+        if (paymentMethod == null) throw new IllegalArgumentException("Payment method cannot be null");
+        if (type == null) throw new IllegalArgumentException("Transaction type cannot be null");
+        if (userId <= 0) throw new IllegalArgumentException("User ID must be positive");
+        if (categoryId <= 0) throw new IllegalArgumentException("Category ID must be positive");
+        if (transactionId <= 0) throw new IllegalArgumentException("Transaction ID must be positive");
+        if (timestamp == null) throw new IllegalArgumentException("Timestamp cannot be null");
         this.transactionId = transactionId;
         this.userId = userId;
         this.categoryId = categoryId;
@@ -48,7 +48,7 @@ public class Transaction {
         this.amount = amount;
         this.description = description;
         this.paymentMethod = paymentMethod;
-        this.timestmap = timestamp;
+        this.timestamp = timestamp;
     }
 
     public int getUserId() {
@@ -72,7 +72,7 @@ public class Transaction {
     }
 
     public LocalDateTime getDate() {
-        return timestmap;
+        return timestamp;
     }
 
     public TransactionType getType() {

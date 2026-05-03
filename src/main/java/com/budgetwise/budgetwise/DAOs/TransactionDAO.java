@@ -5,10 +5,7 @@ import com.budgetwise.budgetwise.models.enums.PaymentMethod;
 import com.budgetwise.budgetwise.models.enums.TransactionType;
 import com.budgetwise.budgetwise.utils.DatabaseManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,21 +21,31 @@ public class TransactionDAO implements GenericDAO<Transaction>{
                 rs.getBigDecimal("amount"),
                 rs.getString("description"),
                 PaymentMethod.valueOf(rs.getString("payment_method")),
-                LocalDateTime.parse(rs.getString("date"))
+                rs.getTimestamp("date").toLocalDateTime()
         );
     }
 
     public void save(Transaction entity) {
-        String query = "INSERT INTO transactions (user_id, category_id, amount, date, description) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+        String query = """
+                INSERT INTO transactions
+                (user_id, category_id, type, amount, date, description, payment_method)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                """;
+
+        try (Connection conn = DatabaseManager.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
             stmt.setInt(1, entity.getUserId());
             stmt.setInt(2, entity.getCategoryId());
-            stmt.setBigDecimal(3, entity.getAmount());
-            stmt.setString(4, entity.getDate().toString());
-            stmt.setString(5, entity.getDescription());
+            stmt.setString(3, entity.getType().name());
+            stmt.setBigDecimal(4, entity.getAmount());
+            stmt.setTimestamp(5, Timestamp.valueOf(entity.getDate()));
+            stmt.setString(6, entity.getDescription());
+            stmt.setString(7, entity.getPaymentMethod().name());
             stmt.executeUpdate();
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to save transaction", e);
         }
     }
 
@@ -47,15 +54,16 @@ public class TransactionDAO implements GenericDAO<Transaction>{
         Transaction entity;
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                entity = mapResultSetToTransaction(rs);
-                return entity;
+            try(ResultSet rs = stmt.executeQuery()) {
+                if(rs.next()) {
+                    entity = mapResultSetToTransaction(rs);
+                    return entity;
+                }
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to find transaction by ID", e);
         }
 
         return null;
@@ -63,17 +71,18 @@ public class TransactionDAO implements GenericDAO<Transaction>{
 
     public List<Transaction> findAll() {
         List<Transaction> transactions = new ArrayList<>();
-        String query = "SELECT * FROM transactions";
+        String query = "SELECT * FROM transactions ORDER BY date DESC";
 
         try(Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
-           ResultSet rs = stmt.executeQuery();
 
-           while (rs.next()) {
-               transactions.add(mapResultSetToTransaction(rs));
-           }
+            try(ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    transactions.add(mapResultSetToTransaction(rs));
+                }
+            }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to fetch transactions:", e);
         }
 
         return transactions;
@@ -87,7 +96,7 @@ public class TransactionDAO implements GenericDAO<Transaction>{
             stmt.setInt(3, entity.getTransactionId());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to update transaction:", e);
         }
     }
 
@@ -97,66 +106,69 @@ public class TransactionDAO implements GenericDAO<Transaction>{
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to delete transaction:", e);
         }
     }
 
     public List<Transaction> findByUserId(int userId){
-        String query = "SELECT * FROM transactions WHERE user_id = ?";
+        String query = "SELECT * FROM transactions WHERE user_id = ? ORDER BY date DESC";
         List<Transaction> transactions = new ArrayList<>();
 
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, userId);
-           ResultSet rs = stmt.executeQuery();
 
-           while(rs.next()) {
-               transactions.add(mapResultSetToTransaction(rs));
-           }
+            try(ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    transactions.add(mapResultSetToTransaction(rs));
+                }
+            }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to fetch transactions by user ID:", e);
         }
 
         return transactions;
     }
 
     public List<Transaction> findByCategoryId(int userId, int categoryId){
-        String query = "SELECT * FROM transactions WHERE user_id = ? AND category_id = ?";
+        String query = "SELECT * FROM transactions WHERE user_id = ? AND category_id = ? ORDER BY date DESC";
         List<Transaction> transactions = new ArrayList<>();
 
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
            stmt.setInt(1, userId);
            stmt.setInt(2, categoryId);
-           ResultSet rs = stmt.executeQuery();
 
-           while(rs.next()) {
-               transactions.add(mapResultSetToTransaction(rs));
+           try(ResultSet rs = stmt.executeQuery()) {
+               while (rs.next()) {
+                   transactions.add(mapResultSetToTransaction(rs));
+               }
            }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to fetch transactions by category ID:", e);
         }
 
         return transactions;
     }
 
-    public List<Transaction> findByDateRange(int userId, String startDate, String endDate){
+    public List<Transaction> findByDateRange(int userId, LocalDateTime startDate, LocalDateTime endDate){
         List<Transaction> transactions = new ArrayList<>();
-        String query = "SELECT * FROM transactions WHERE user_id = ? AND date BETWEEN ? AND ?";
+        String query = "SELECT * FROM transactions WHERE user_id = ? AND date BETWEEN ? AND ? ORDER BY date DESC";
 
         try (Connection conn = DatabaseManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, userId);
-            stmt.setString(2, startDate);
-            stmt.setString(3, endDate);
+            stmt.setTimestamp(2, Timestamp.valueOf(startDate));
+            stmt.setTimestamp(3, Timestamp.valueOf(endDate));
 
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                transactions.add(mapResultSetToTransaction(rs));
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    transactions.add(mapResultSetToTransaction(rs));
+                }
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to fetch transactions by date range:", e);
         }
 
         return transactions;
