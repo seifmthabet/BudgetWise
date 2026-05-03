@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS notifications (
     user_id         INTEGER NOT NULL,
     type            TEXT    NOT NULL,
     message         TEXT    NOT NULL,
-    is_read         INTEGER NOT NULL DEFAULT 0,
+    is_read         BOOLEAN NOT NULL DEFAULT FALSE,
     timestamp       TEXT    NOT NULL DEFAULT (datetime('now')),
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
