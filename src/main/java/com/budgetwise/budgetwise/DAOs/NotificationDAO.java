@@ -1,28 +1,36 @@
 package com.budgetwise.budgetwise.DAOs;
 
 import com.budgetwise.budgetwise.models.Notification;
+import com.budgetwise.budgetwise.models.enums.NotificationType;
 import com.budgetwise.budgetwise.utils.DatabaseManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NotificationDAO implements GenericDAO<Notification> {
+
+    private Notification mapResultSetToNotification(ResultSet rs) throws SQLException {
+        return new Notification(
+                rs.getInt("notification_id"),
+                rs.getInt("user_id"),
+                NotificationType.valueOf(rs.getString("type")),
+                rs.getString("message"),
+                rs.getBoolean("is_read"),
+                rs.getTimestamp("timestamp").toLocalDateTime());
+    }
+
     public void save(Notification entity){
         String query = "INSERT INTO notifications (user_id,type,message,is_read,timestamp) VALUES (?,?,?,?,?)";
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, entity.getUserId());
-            stmt.setString(2, entity.getType());
+            stmt.setString(2, entity.getType().name());
             stmt.setString(3, entity.getMessage());
             stmt.setBoolean(4, entity.isRead());
-            stmt.setString(5, entity.getTimestamp().toString());
+            stmt.setTimestamp(5, Timestamp.valueOf(entity.getTimestamp()));
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to save notification", e);
         }
     }
 
@@ -32,48 +40,34 @@ public class NotificationDAO implements GenericDAO<Notification> {
 
         try(Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                entity = new Notification(
-                        rs.getInt("notification_id"),
-                        rs.getInt("user_id"),
-                        rs.getString("type"),
-                        rs.getString("message"),
-                        rs.getBoolean("is_read"),
-                        LocalDate.parse(rs.getString("timestamp"))
-                );
-
-                return entity;
+            try(ResultSet rs = stmt.executeQuery()) {
+                if(rs.next()) {
+                    entity = mapResultSetToNotification(rs);
+                }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to find notification by ID", e);
         }
 
-        return null;
+        return entity;
     }
 
     public List<Notification> findAll(){
         List<Notification> notifications = new ArrayList<>();
-        String query = "SELECT * FROM notifications";
+        String query = "SELECT * FROM notifications ORDER BY timestamp DESC";
 
-        try(Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query);) {
-            ResultSet rs = stmt.executeQuery();
+        try(Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            while(rs.next()) {
-                notifications.add(new Notification(
-                        rs.getInt("notification_id"),
-                        rs.getInt("user_id"),
-                        rs.getString("type"),
-                        rs.getString("message"),
-                        rs.getBoolean("is_read"),
-                        LocalDate.parse(rs.getString("timestamp"))
-                ));
+            try(ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    notifications.add(mapResultSetToNotification(rs));
+                }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to fetch notifications:", e);
         }
 
         return notifications;
@@ -86,7 +80,7 @@ public class NotificationDAO implements GenericDAO<Notification> {
             stmt.setInt(2, entity.getNotificationId());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to update notification:", e);
         }
     }
 
@@ -97,22 +91,42 @@ public class NotificationDAO implements GenericDAO<Notification> {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to delete notification:", e);
         }
     }
 
     public List<Notification> findAllByUserId(int id) {
-        List<Notification> notifications = findAll();
-
-        notifications.stream().filter(n -> n.getUserId() == id);
+        String query = "SELECT * FROM notifications WHERE user_id = ? ORDER BY timestamp DESC";
+        List<Notification> notifications = new ArrayList<>();
+        try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    notifications.add(mapResultSetToNotification(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to fetch notifications by user ID:", e);
+        }
 
         return notifications;
     }
 
     public List<Notification> findUnreadByUserId(int id) {
-        List<Notification> notifications = findAllByUserId(id);
+        String query = "SELECT * FROM notifications WHERE user_id = ? AND is_read = false ORDER BY timestamp DESC";
+        List<Notification> notifications = new ArrayList<>();
 
-        notifications.stream().filter(n -> !n.isRead());
+        try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    notifications.add(mapResultSetToNotification(rs));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to fetch notifications by user ID:", e);
+        }
+
 
         return notifications;
     }
