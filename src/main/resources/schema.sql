@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS budgets (
     category_id     INTEGER NOT NULL,
     amount          REAL    NOT NULL CHECK(amount > 0),
     spent_amount    REAL    NOT NULL DEFAULT 0,
-    start_date      TEXT    NOT NULL,
-    end_date        TEXT    NOT NULL,
+    start_date      TIMESTAMP    NOT NULL,
+    end_date        TIMESTAMP    NOT NULL,
     alert_threshold INTEGER NOT NULL DEFAULT 80,
     FOREIGN KEY (user_id)     REFERENCES users(user_id)      ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(category_id)
@@ -58,8 +58,8 @@ CREATE TABLE IF NOT EXISTS notifications (
     user_id         INTEGER NOT NULL,
     type            TEXT    NOT NULL,
     message         TEXT    NOT NULL,
-    is_read         INTEGER NOT NULL DEFAULT 0,
-    timestamp       TEXT    NOT NULL DEFAULT (datetime('now')),
+    is_read         BOOLEAN NOT NULL DEFAULT FALSE,
+    timestamp       TIMESTAMP    NOT NULL DEFAULT (datetime('now')),
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 

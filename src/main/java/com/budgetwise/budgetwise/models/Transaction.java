@@ -1,93 +1,86 @@
 package com.budgetwise.budgetwise.models;
 
+import com.budgetwise.budgetwise.models.enums.PaymentMethod;
 import com.budgetwise.budgetwise.models.enums.TransactionType;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class Transaction {
     private int transactionId;
+    private int userId;
+    private int categoryId;
+    private TransactionType type;
+    private BigDecimal amount;
+    private String description;
+    private PaymentMethod paymentMethod;
+    private LocalDateTime timestamp;
+
+    public Transaction(int userId, int categoryId, TransactionType type, BigDecimal amount, String description, PaymentMethod paymentMethod) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Amount must be greater than zero");
+        if (description == null || description.trim().isEmpty()) throw new IllegalArgumentException("Description cannot be empty");
+        if (paymentMethod == null) throw new IllegalArgumentException("Payment method cannot be null");
+        if (type == null) throw new IllegalArgumentException("Transaction type cannot be null");
+        if (userId <= 0) throw new IllegalArgumentException("User ID must be positive");
+        if (categoryId <= 0) throw new IllegalArgumentException("Category ID must be positive");
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.type = type;
+        this.amount = amount;
+        this.description = description;
+        this.paymentMethod = paymentMethod;
+        this.timestamp = LocalDateTime.now();
+    }
+
+    public Transaction(int transactionId,int userId, int categoryId, TransactionType type, BigDecimal amount, String description, PaymentMethod paymentMethod, LocalDateTime timestamp) {
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Amount must be greater than zero");
+        if (description == null || description.trim().isEmpty()) throw new IllegalArgumentException("Description cannot be empty");
+        if (paymentMethod == null) throw new IllegalArgumentException("Payment method cannot be null");
+        if (type == null) throw new IllegalArgumentException("Transaction type cannot be null");
+        if (userId <= 0) throw new IllegalArgumentException("User ID must be positive");
+        if (categoryId <= 0) throw new IllegalArgumentException("Category ID must be positive");
+        if (transactionId <= 0) throw new IllegalArgumentException("Transaction ID must be positive");
+        if (timestamp == null) throw new IllegalArgumentException("Timestamp cannot be null");
+        this.transactionId = transactionId;
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.type = type;
+        this.amount = amount;
+        this.description = description;
+        this.paymentMethod = paymentMethod;
+        this.timestamp = timestamp;
+    }
 
     public int getUserId() {
         return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public int getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(int transactionId) {
-        this.transactionId = transactionId;
-    }
-
     public int getCategoryId() {
         return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getPaymentMethod() {
+    public PaymentMethod getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public LocalDateTime getDate() {
+        return timestamp;
     }
 
     public TransactionType getType() {
         return type;
     }
 
-    public void setType(TransactionType type) {
-        this.type = type;
-    }
-
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    private int userId;
-    private int categoryId;
-    private TransactionType type;
-    private double amount;
-    private String description;
-    private String paymentMethod;
-    private LocalDate date;
-
-    public Transaction(int userId, int categoryId, TransactionType type,double amount, String description, String paymentMethod) {
-        this.userId = userId;
-        this.categoryId = categoryId;
-        this.type = type;
-        this.amount = amount;
-        this.description = description;
-        this.paymentMethod = paymentMethod;
-        this.date = LocalDate.now();
-    }
-
 
 }

@@ -1,6 +1,8 @@
 package com.budgetwise.budgetwise.utils;
 
-import com.budgetwise.budgetwise.models.Budget;
+import com.budgetwise.budgetwise.models.Transaction;
+
+import java.math.BigDecimal;
 
 public class Validation {
     private AlertUtil alertUtil = new AlertUtil();
@@ -46,11 +48,36 @@ public class Validation {
         }
         return true;
     }
-    private boolean validateBudget(Budget budget){
-        if(budget.getAlertThreshold() < 0 || budget.getAlertThreshold() > 100){
-            alertUtil.showError("Alert threshold must be between 0 and 100");
-            return false;
+
+    public boolean validateTransaction(Transaction tx){
+        if (tx == null) {
+            throw new IllegalArgumentException("Transaction cannot be null");
         }
+
+        if (tx.getUserId() <= 0) {
+            throw new IllegalArgumentException("User id must be positive");
+        }
+
+        if (tx.getCategoryId() <= 0) {
+            throw new IllegalArgumentException("Category id must be positive");
+        }
+
+        if (tx.getType() == null) {
+            throw new IllegalArgumentException("Transaction type is required");
+        }
+
+        if (tx.getAmount() == null || tx.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Amount must be positive");
+        }
+
+        if (tx.getPaymentMethod() == null) {
+            throw new IllegalArgumentException("Payment method is required");
+        }
+
+        if (tx.getDate() == null) {
+            throw new IllegalArgumentException("Transaction date is required");
+        }
+
         return true;
     }
 }

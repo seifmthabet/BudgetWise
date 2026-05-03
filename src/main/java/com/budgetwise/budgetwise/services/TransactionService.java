@@ -3,19 +3,37 @@ package com.budgetwise.budgetwise.services;
 import com.budgetwise.budgetwise.DAOs.TransactionDAO;
 import com.budgetwise.budgetwise.models.Transaction;
 import com.budgetwise.budgetwise.models.enums.TransactionType;
+import com.budgetwise.budgetwise.utils.Validation;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class TransactionService {
-    private final TransactionDAO transactionDAO = new TransactionDAO();
-    private final BudgetService budgetService = new BudgetService();
+    private final TransactionDAO transactionDAO;
+    private final Validation validator;
 
-    public void addTransaction(Transaction tx) {
-        transactionDAO.save(tx);
+    public TransactionService(TransactionDAO transactionDAO, Validation validator) {
+        this.transactionDAO = transactionDAO;
+        this.validator = validator;
     }
 
-    public void deleteTransaction(int transactionId) {
+    public void addTransaction(Transaction tx) {
+        if (validator.validateTransaction(tx))
+            transactionDAO.save(tx);
+    }
+
+    public boolean deleteTransaction(int transactionId) {
+        if (transactionId <= 0) {
+            throw new IllegalArgumentException("Invalid transaction ID");
+        }
+
+        if (transactionDAO.findById(transactionId) == null) {
+            return false;
+        }
+
         transactionDAO.delete(transactionId);
+        return true;
     }
 
     public List<Transaction> getTransactions(){
@@ -23,38 +41,51 @@ public class TransactionService {
     }
 
     public List<Transaction> filterByUserId(int userId){
+        if (userId <= 0) {
+            throw new IllegalArgumentException("Invalid user ID");
+        }
         return transactionDAO.findByUserId(userId);
     }
 
     public List<Transaction> filterByCategoryId(int userId, int categoryId){
+        if (userId <= 0 || categoryId <= 0) {
+            throw new IllegalArgumentException("Invalid user ID or category ID");
+        }
         return transactionDAO.findByCategoryId(userId, categoryId);
     }
 
-    public List<Transaction> filterByDateRange(int userId, String startDate, String endDate){
+    public List<Transaction> filterByDateRange(int userId, LocalDateTime startDate, LocalDateTime endDate){
+        if (userId <= 0 || startDate == null || endDate == null) {
+            throw new IllegalArgumentException("Invalid user ID or date range");
+        }
+
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("Start date cannot be after end date");
+        }
+
         return transactionDAO.findByDateRange(userId, startDate, endDate);
     }
 
-    public double getTotalIncome() {
-        final double[] income = {0};
+    public BigDecimal getTotalIncome(int userId) {
+        if (userId <= 0) {
+            throw new IllegalArgumentException("Invalid user ID");
+        }
 
-        transactionDAO.findAll().forEach(tx -> {
-            if (tx.getType() == TransactionType.INCOME) {
-                income[0] += tx.getAmount();
-            }
-        });
-
-        return income[0];
+        return transactionDAO.findByUserId(userId).stream()
+                .filter(tx -> tx.getType() == TransactionType.INCOME)
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public double getTotalExpense() {
-        final double[] expense = {0};
-        transactionDAO.findAll().forEach(tx -> {
-            if (tx.getType() == TransactionType.EXPENSE) {
-                expense[0] += tx.getAmount();
-            }
-        });
+    public BigDecimal getTotalExpense(int userId) {
+        if (userId <= 0) {
+            throw new IllegalArgumentException("Invalid user ID");
+        }
 
-        return expense[0];
+        return transactionDAO.findByUserId(userId).stream()
+                .filter(tx -> tx.getType() == TransactionType.EXPENSE)
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 
