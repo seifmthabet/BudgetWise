@@ -4,7 +4,6 @@ import com.budgetwise.budgetwise.models.enums.PaymentMethod;
 import com.budgetwise.budgetwise.models.enums.TransactionType;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Transaction {
