@@ -1,144 +1,174 @@
 package com.budgetwise.budgetwise.DAOs;
 
 import com.budgetwise.budgetwise.models.Transaction;
+import com.budgetwise.budgetwise.models.enums.PaymentMethod;
 import com.budgetwise.budgetwise.models.enums.TransactionType;
 import com.budgetwise.budgetwise.utils.DatabaseManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TransactionDAO implements GenericDAO<Transaction>{
+
+    private Transaction mapResultSetToTransaction(ResultSet rs) throws SQLException {
+        return new Transaction(
+                rs.getInt("transaction_id"),
+                rs.getInt("user_id"),
+                rs.getInt("category_id"),
+                TransactionType.valueOf(rs.getString("type")),
+                rs.getBigDecimal("amount"),
+                rs.getString("description"),
+                PaymentMethod.valueOf(rs.getString("payment_method")),
+                rs.getTimestamp("date").toLocalDateTime()
+        );
+    }
+
     public void save(Transaction entity) {
-        String query = "INSERT INTO transactions (userId, categoryId, amount, date, description) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+        String query = """
+                INSERT INTO transactions
+                (user_id, category_id, type, amount, date, description, payment_method)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+                """;
+
+        try (Connection conn = DatabaseManager.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
             stmt.setInt(1, entity.getUserId());
             stmt.setInt(2, entity.getCategoryId());
-            stmt.setDouble(3, entity.getAmount());
-            stmt.setString(4, entity.getDate().toString());
-            stmt.setString(5, entity.getDescription());
+            stmt.setString(3, entity.getType().name());
+            stmt.setBigDecimal(4, entity.getAmount());
+            stmt.setTimestamp(5, Timestamp.valueOf(entity.getDate()));
+            stmt.setString(6, entity.getDescription());
+            stmt.setString(7, entity.getPaymentMethod().name());
             stmt.executeUpdate();
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to save transaction", e);
         }
     }
 
     public Transaction findById(int id){
-        String query = "SELECT * FROM transactions WHERE transactionId = ?";
-        Transaction entity = null;
+        String query = "SELECT * FROM transactions WHERE transaction_id = ?";
+        Transaction entity;
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                entity = new Transaction(
-                     rs.getInt("user_id")  ,
-                     rs.getInt("category_id"),
-                     TransactionType.valueOf(rs.getString("type")),
-                     rs.getDouble("amount"),
-                     rs.getString("description"),
-                        rs.getString("payment_method")
-                );
-                return entity;
+            try(ResultSet rs = stmt.executeQuery()) {
+                if(rs.next()) {
+                    entity = mapResultSetToTransaction(rs);
+                    return entity;
+                }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to find transaction by ID", e);
         }
 
         return null;
     }
 
     public List<Transaction> findAll() {
-        List<Transaction> entity = new ArrayList<>();
-        String query = "SELECT * FROM transactions";
+        List<Transaction> transactions = new ArrayList<>();
+        String query = "SELECT * FROM transactions ORDER BY date DESC";
 
         try(Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
-           ResultSet rs = stmt.executeQuery();
 
-           while (rs.next()) {
-               entity.add(new Transaction(
-                       rs.getInt("user_id")  ,
-                       rs.getInt("category_id"),
-                       TransactionType.valueOf(rs.getString("type")),
-                       rs.getDouble("amount"),
-                       rs.getString("description"),
-                       rs.getString("payment_method")
-               ));
-           }
+            try(ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    transactions.add(mapResultSetToTransaction(rs));
+                }
+            }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to fetch transactions:", e);
         }
 
-        return entity;
+        return transactions;
     }
 
     public void update(Transaction entity) {
-        String query = "UPDATE transactions SET amount = ?, description = ? WHERE transactionId = ?";
+        String query = "UPDATE transactions SET amount = ?, description = ? WHERE transaction_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setDouble(1, entity.getAmount());
+            stmt.setBigDecimal(1, entity.getAmount());
             stmt.setString(2, entity.getDescription());
             stmt.setInt(3, entity.getTransactionId());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to update transaction:", e);
         }
     }
 
     public void delete(int id) {
-        String query = "DELETE FROM transactions WHERE transactionId = ?";
+        String query = "DELETE FROM transactions WHERE transaction_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to delete transaction:", e);
         }
     }
 
     public List<Transaction> findByUserId(int userId){
-        List<Transaction> transactions = findAll();
+        String query = "SELECT * FROM transactions WHERE user_id = ? ORDER BY date DESC";
+        List<Transaction> transactions = new ArrayList<>();
 
-        transactions.stream().filter(t -> t.getUserId() == userId);
+        try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, userId);
+
+            try(ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    transactions.add(mapResultSetToTransaction(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to fetch transactions by user ID:", e);
+        }
 
         return transactions;
     }
 
     public List<Transaction> findByCategoryId(int userId, int categoryId){
-        List<Transaction> transactions = findAll();
+        String query = "SELECT * FROM transactions WHERE user_id = ? AND category_id = ? ORDER BY date DESC";
+        List<Transaction> transactions = new ArrayList<>();
 
-        transactions.stream().filter(t -> t.getUserId() == userId && t.getCategoryId() == categoryId);
+        try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+           stmt.setInt(1, userId);
+           stmt.setInt(2, categoryId);
+
+           try(ResultSet rs = stmt.executeQuery()) {
+               while (rs.next()) {
+                   transactions.add(mapResultSetToTransaction(rs));
+               }
+           }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to fetch transactions by category ID:", e);
+        }
 
         return transactions;
     }
 
-    public List<Transaction> findByDateRange(int userId, String startDate, String endDate){
+    public List<Transaction> findByDateRange(int userId, LocalDateTime startDate, LocalDateTime endDate){
         List<Transaction> transactions = new ArrayList<>();
-        String query = "SELECT * FROM transactions WHERE user_id = ? AND date BETWEEN ? AND ?";
+        String query = "SELECT * FROM transactions WHERE user_id = ? AND date BETWEEN ? AND ? ORDER BY date DESC";
 
         try (Connection conn = DatabaseManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, userId);
-            stmt.setString(2, startDate);
-            stmt.setString(3, endDate);
+            stmt.setTimestamp(2, Timestamp.valueOf(startDate));
+            stmt.setTimestamp(3, Timestamp.valueOf(endDate));
 
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                transactions.add(new Transaction(
-                        rs.getInt("user_id")  ,
-                        rs.getInt("category_id"),
-                        TransactionType.valueOf(rs.getString("type")),
-                        rs.getDouble("amount"),
-                        rs.getString("description"),
-                        rs.getString("payment_method")
-                ));
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    transactions.add(mapResultSetToTransaction(rs));
+                }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to fetch transactions by date range:", e);
         }
 
         return transactions;
