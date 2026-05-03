@@ -15,7 +15,9 @@ public class TransactionService {
     }
 
     public void deleteTransaction(int transactionId) {
-        transactionDAO.delete(transactionId);
+        if (transactionDAO.findById(transactionId) != null) {
+            transactionDAO.delete(transactionId);
+        }
     }
 
     public List<Transaction> getTransactions(){
@@ -34,10 +36,10 @@ public class TransactionService {
         return transactionDAO.findByDateRange(userId, startDate, endDate);
     }
 
-    public double getTotalIncome() {
+    public double getTotalIncome(int userId) {
         final double[] income = {0};
 
-        transactionDAO.findAll().forEach(tx -> {
+        transactionDAO.findByUserId(userId).forEach(tx -> {
             if (tx.getType() == TransactionType.INCOME) {
                 income[0] += tx.getAmount();
             }
@@ -46,10 +48,10 @@ public class TransactionService {
         return income[0];
     }
 
-    public double getTotalExpense() {
+    public double getTotalExpense(int userId) {
         final double[] expense = {0};
 
-        transactionDAO.findAll().forEach(tx -> {
+        transactionDAO.findByUserId(userId).forEach(tx -> {
             if (tx.getType() == TransactionType.EXPENSE) {
                 expense[0] += tx.getAmount();
             }
