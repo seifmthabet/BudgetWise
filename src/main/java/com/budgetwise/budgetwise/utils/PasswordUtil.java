@@ -3,7 +3,7 @@ package com.budgetwise.budgetwise.utils;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class PasswordUtil {
-    public static String hashPassword(String password) throws Exception {
+    public static String hashPassword(String password) {
         int logRounds = 12;
 
         String salt = BCrypt.gensalt(logRounds);

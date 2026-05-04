@@ -1,77 +1,79 @@
 package com.budgetwise.budgetwise.DAOs;
-
 import com.budgetwise.budgetwise.models.User;
 import com.budgetwise.budgetwise.utils.DatabaseManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDate;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO implements GenericDAO<User> {
 
-    public void save(User entity){
-        String command = "INSERT INTO users(name,email,password,currency,language,created_at)" +
-                "VALUES (?,?,?,?,?,?)";
-        try(Connection conn = DatabaseManager.getInstance().getConnection();
-            PreparedStatement stmt = conn.prepareStatement(command);){
-            stmt.setString(1,entity.getName());
-            stmt.setString(2,entity.getEmail());
-            stmt.setString(3,entity.getPassword());
-            stmt.setString(4,entity.getCurrency());
-            stmt.setString(5,entity.getLanguage());
-            stmt.setString(6, entity.getCreatedAt().toString());
+    private User mapResultSetToUser(ResultSet rs) throws SQLException {
+
+        return new User(
+                rs.getInt("user_id"),
+                rs.getString("name"),
+                rs.getString("email"),
+                rs.getString("password"),
+                rs.getString("currency"),
+                rs.getString("language"),
+                rs.getTimestamp("created_at").toLocalDateTime()
+        );
+    }
+
+
+    public void save(User entity) {
+        String sql = """
+        INSERT INTO users(name, email, password, currency, language, created_at)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """;
+
+        try (Connection conn = DatabaseManager.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, entity.getName());
+            stmt.setString(2, entity.getEmail());
+            stmt.setString(3, entity.getPassword());
+            stmt.setString(4, entity.getCurrency());
+            stmt.setString(5, entity.getLanguage());
+            stmt.setTimestamp(6, Timestamp.valueOf(entity.getCreatedAt()));
+
             stmt.executeUpdate();
 
-        }catch (SQLException e){
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to save user", e);
         }
     }
 
     public User findById(int id){
-        String command = "SELECT * FROM users WHERE user_id = ?";
+        String query = "SELECT * FROM users WHERE user_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
-        PreparedStatement stmt = conn.prepareStatement(command) ){
+        PreparedStatement stmt = conn.prepareStatement(query) ){
             stmt.setInt(1,id);
 
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
-                User user = new User(
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("password")
-                );
-                return user;
+                return mapResultSetToUser(rs);
             }
 
         }catch (SQLException e){
-            e.printStackTrace();
-        }
+            throw new RuntimeException("Failed to find User by ID",e);        }
 
         return null;
     }
 
     public List<User> findAll(){
         List<User> users = new ArrayList<>();
-        String command = "SELECT * FROM users";
+        String query = "SELECT * FROM users";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(command) ){
+             PreparedStatement stmt = conn.prepareStatement(query) ){
 
             ResultSet rs = stmt.executeQuery();
             while(rs.next()){
-                User user = new User(
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("password")
-                );
-                users.add(user);
+                users.add(mapResultSetToUser(rs));
             }
 
         }catch (SQLException e){
-            e.printStackTrace();
+            throw new RuntimeException("Failed to fetch Users:", e);
         }
         return users;
     }
@@ -88,7 +90,7 @@ public class UserDAO implements GenericDAO<User> {
             stmt.executeUpdate();
 
         }catch (SQLException e){
-            e.printStackTrace();
+            throw new RuntimeException("Failed to update Users:", e);
         }
 
     }
@@ -101,26 +103,25 @@ public class UserDAO implements GenericDAO<User> {
             stmt.executeUpdate();
 
         }catch (SQLException e){
-            e.printStackTrace();
+            throw new RuntimeException("Failed to delete Users:", e);
         }
     }
-    public Boolean existEmail(String email){
-        String command = "SELECT 1 FROM users WHERE email = ?";
-        try(Connection conn = DatabaseManager.getInstance().getConnection();
-        PreparedStatement stmt = conn.prepareStatement(command)) {
-            stmt.setString(1,email);
+    public boolean emailExists(String email) {
+        String sql = "SELECT 1 FROM users WHERE email = ?";
 
+        try (Connection conn = DatabaseManager.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
+            stmt.setString(1, email);
 
-            ResultSet re = stmt.executeQuery();
-            return re.next();
-        }catch (SQLException e){
-            e.printStackTrace();
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error while checking if email exists", e);
         }
-        return false;
     }
     public User findByEmail(String email) {
-
         String sql = "SELECT * FROM users WHERE email = ?";
 
         try (Connection conn = DatabaseManager.getInstance().getConnection();
@@ -131,18 +132,11 @@ public class UserDAO implements GenericDAO<User> {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-
-                User user = new User(
-                        rs.getString("name"),
-                        rs.getString("email"),
-                        rs.getString("password")
-                );
-
-                return user;
+                return mapResultSetToUser(rs);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
 
         return null;

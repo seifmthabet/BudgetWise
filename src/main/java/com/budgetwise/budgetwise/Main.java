@@ -13,7 +13,7 @@ public class Main extends Application {
         DatabaseManager.getInstance();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LandingView.fxml"));
-        Scene scene = new Scene(loader.load(), 300, 300);
+        Scene scene = new Scene(loader.load(), 1500, 500);
         //scene.getStylesheets().add(getClass().getResource("/css/app.css").toExternalForm());
 
         stage.setTitle("BudgetWise");

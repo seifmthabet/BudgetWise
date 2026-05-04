@@ -37,6 +37,7 @@ public class Budget {
     public LocalDate getStartDate(){return startDate;}
     public LocalDate getEndDate(){return endDate;}
     public int getAlertThreshold(){return alertThreshold;}
+
     public BudgetStatus getStatus() {
         if (spentAmount >= amount) {
             return BudgetStatus.EXCEEDED;
