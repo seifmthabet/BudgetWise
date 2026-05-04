@@ -129,14 +129,16 @@ public class UserDAO implements GenericDAO<User> {
 
             stmt.setString(1, email);
 
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                return mapResultSetToUser(rs);
+            try(ResultSet rs = stmt.executeQuery();) {
+                if (rs.next()) {
+                    return mapResultSetToUser(rs);
+                }
             }
 
         } catch (SQLException e) {
-            System.out.println(e);
+            System.err.println("Database error while finding user by email: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Database error: " + e.getMessage(), e);
         }
 
         return null;

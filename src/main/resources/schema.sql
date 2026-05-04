@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS users (
     password    TEXT    NOT NULL,
     currency    TEXT    NOT NULL DEFAULT 'USD',
     language    TEXT    NOT NULL DEFAULT 'en',
-    created_at  TEXT    NOT NULL DEFAULT (date('now'))
+    created_at  TIMESTAMP    NOT NULL DEFAULT (date('now'))
 );
 
 CREATE TABLE IF NOT EXISTS categories (
