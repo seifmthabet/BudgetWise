@@ -1,7 +1,6 @@
 package com.budgetwise.budgetwise.DAOs;
 
 import com.budgetwise.budgetwise.models.Budget;
-import com.budgetwise.budgetwise.models.User;
 import com.budgetwise.budgetwise.utils.DatabaseManager;
 
 import java.sql.Connection;

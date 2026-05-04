@@ -3,33 +3,42 @@ package com.budgetwise.budgetwise.services;
 import com.budgetwise.budgetwise.DAOs.UserDAO;
 import com.budgetwise.budgetwise.models.User;
 import com.budgetwise.budgetwise.utils.PasswordUtil;
-import com.budgetwise.budgetwise.utils.Validation;
 
 public class UserService {
-    private final UserDAO ud = new UserDAO();
-    private  User user = null;
-    private final Validation valid = new Validation();
 
-    public User register(String name,String email,String password){
-        user = new User(name,email,password);
-        if(ud.existEmail(email)){
-           return null;
+    private final UserDAO userDAO;
+
+    public UserService(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    public User register(String name, String email, String password) {
+
+        if (userDAO.emailExists(email)) {
+            throw new IllegalArgumentException("Email already exists");
         }
-        ud.save(user);
+
+        String hashed = PasswordUtil.hashPassword(password);
+
+        User user = new User(name, email, hashed);
+
+        userDAO.save(user);
+
         return user;
     }
 
-    public User Login(String email,String password){
-        if(ud.existEmail(email)){
-            user =  ud.findByEmail(email);
-            return user;
+    public User login(String email, String password) {
+
+        User user = userDAO.findByEmail(email);
+
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
         }
-        return null;
-    }
-    public void UpdateProfile(User u){
-        user = u;
-        ud.update(user);
-    }
 
+        if (!PasswordUtil.verify(password, user.getPassword())) {
+            throw new IllegalArgumentException("Invalid password");
+        }
 
+        return user;
+    }
 }

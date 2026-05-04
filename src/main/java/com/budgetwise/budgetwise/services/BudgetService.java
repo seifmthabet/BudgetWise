@@ -8,7 +8,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class BudgetService {
-    private final BudgetDAO budgetDAO = new BudgetDAO();
+    private final BudgetDAO budgetDAO ;
+    public BudgetService(BudgetDAO budgetDAO){
+        this.budgetDAO = budgetDAO;
+    }
 
     public void createBudget(Budget budget){
         budgetDAO.save(budget);
