@@ -2,7 +2,6 @@ package com.budgetwise.budgetwise.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -137,7 +136,7 @@ public class LandingController {
     public void goToRegister() {
         try {
             Parent registerView = FXMLLoader.load(
-                    getClass().getResource("/fxml/Register.fxml")
+                    getClass().getResource("/fxml/RegisterView.fxml")
             );
 
             AnchorPane parent = root;

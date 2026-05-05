@@ -1,53 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
 
-<AnchorPane fx:id="root" prefHeight="768" prefWidth="1366" style="-fx-background-color:#d2be9d;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.budgetwise.budgetwise.controllers.LandingController">
+<AnchorPane prefWidth="1000" prefHeight="650"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.budgetwise.budgetwise.controllers.LandingController"
+            style="-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b);">
 
     <children>
 
-        <!-- TOP BAR -->
-        <HBox alignment="CENTER_LEFT" prefHeight="70" prefWidth="1538.0" spacing="15" style="-fx-background-color:#c9b18b; -fx-padding:15 30;">
+        <!-- 🫧 BUBBLES -->
+        <Circle fx:id="bubble1" radius="70"
+                layoutX="120" layoutY="120"
+                style="-fx-fill: linear-gradient(#ff7eb3,#ff758c); -fx-opacity:0.3;"/>
 
-            <Label fx:id="logoLabel" style="-fx-font-size:28px; -fx-font-weight:bold; -fx-text-fill:#8b0000;" text="BudgetWise" />
+        <Circle fx:id="bubble2" radius="50"
+                layoutX="850" layoutY="150"
+                style="-fx-fill:#6366f1; -fx-opacity:0.2;"/>
 
-            <Pane HBox.hgrow="ALWAYS" />
+        <Circle fx:id="bubble3" radius="30"
+                layoutX="700" layoutY="550"
+                style="-fx-fill:#22c55e; -fx-opacity:0.2;"/>
 
-            <!-- LOGIN BUTTON -->
-            <Button fx:id="loginBtn" onMouseClicked="#goToLogin" onMouseEntered="#loginHoverIn" onMouseExited="#loginHoverOut" style="-fx-background-color:white;-fx-text-fill:#8b0000;-fx-background-radius:20; -fx-font-size:15px;" text="Login" />
+        <!-- 🧊 MAIN CARD -->
+        <VBox alignment="CENTER" spacing="20"
+              layoutX="250" layoutY="80"
+              prefWidth="500"
+              style="-fx-background-color: rgba(17,24,39,0.85);
+                     -fx-padding:40;
+                     -fx-background-radius:25;
+                     -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.5), 25,0,0,5);">
 
-            <!-- REGISTER BUTTON -->
-            <Button fx:id="registerBtn" onMouseClicked="#goToRegister" onMouseEntered="#registerHoverIn" onMouseExited="#registerHoverOut" style="-fx-background-color:#b91c1c; -fx-text-fill:white;-fx-background-radius:20;-fx-font-size:15px;" text="Register" />
-        </HBox>
+            <!-- APP NAME -->
+            <Label text="Investors"
+                   style="-fx-text-fill:white; -fx-font-size:34; -fx-font-weight:bold;"/>
 
-        <!-- LEFT SIDE -->
-        <VBox layoutX="80" layoutY="180" spacing="25">
+            <Label text="Smart Budget and Investment Tracking"
+                   style="-fx-text-fill:#9ca3af; -fx-font-size:14;"/>
 
-            <Label fx:id="titleLabel" style="-fx-font-size:55px; -fx-font-weight:bold; -fx-text-fill:#8b0000;" text="Welcome to BudgetWise" wrapText="true" />
+            <!-- BUTTONS -->
+            <HBox spacing="15" alignment="CENTER">
 
-            <Label fx:id="descLabel" prefWidth="550" style="-fx-font-size:22px; -fx-text-fill:#6b4f2a;" text="Smart budgeting made simple. Track expenses, manage savings, and control your future." wrapText="true" />
+                <Button text="Login"
+                        onAction="#goToLogin"
+                        style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);
+                               -fx-text-fill:white;
+                               -fx-background-radius:12;
+                               -fx-padding:10 25;
+                               -fx-font-weight:bold;"/>
 
-            <Button fx:id="startBtn" style="-fx-background-color:#b91c1c;                            -fx-text-fill:white;                            -fx-font-size:18px;                            -fx-background-radius:30;                            -fx-padding:12 30;" text="Get Started" />
+                <Button text="Register"
+                        onAction="#goToRegister"
+                        style="-fx-background-color:#1f2937;
+                               -fx-text-fill:white;
+                               -fx-background-radius:12;
+                               -fx-padding:10 25;"/>
 
-        </VBox>
+            </HBox>
 
-        <!-- RIGHT SIDE -->
-        <VBox fx:id="teamBox" alignment="CENTER" layoutX="900" layoutY="220" prefWidth="330" spacing="18" style="-fx-background-color:rgba(255,255,255,0.35);                      -fx-background-radius:30;                      -fx-padding:30;">
+            <!-- TEAM SECTION -->
+            <VBox spacing="5" alignment="CENTER"
+                  style="-fx-padding:20 0 0 0;">
 
-            <Label style="-fx-font-size:34px; -fx-font-weight:bold; -fx-text-fill:#8b0000;" text="Dev Team" />
+                <Label text="Developed By"
+                       style="-fx-text-fill:#9ca3af; -fx-font-size:14;"/>
 
-            <Label style="-fx-font-size:20px; -fx-text-fill:#5c4033;" text="Abdullah Basyouni" />
+                <Label text="Seif Mohamed Thabet (Team Leader and Software Engineer)"
+                       style="-fx-text-fill:white;"/>
 
-            <Label style="-fx-font-size:20px; -fx-text-fill:#5c4033;" text="Seif Mohamed" />
+                <Label text="Abdullah Basyouni (Software Engineer and UI Designer)"
+                       style="-fx-text-fill:white;"/>
 
-            <Label style="-fx-font-size:20px; -fx-text-fill:#5c4033;" text="Mazen Abo El-Mahasen" />
+                <Label text="Kareem Essam Rafee (Software Engineer)"
+                       style="-fx-text-fill:white;"/>
 
-            <Label style="-fx-font-size:20px; -fx-text-fill:#5c4033;" text="Kareem Essam" />
+                <Label text="Mazen Aba El-Mahasen (Software Engineer)"
+                       style="-fx-text-fill:white;"/>
+
+            </VBox>
 
         </VBox>
 

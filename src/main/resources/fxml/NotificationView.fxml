@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.budgetwise.budgetwise.controllers.NotificationController"
+      style="-fx-background-color:#0f172a; -fx-padding:30;">
+
+    <!-- HEADER -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="🔔 Notifications"
+               style="-fx-text-fill:white; -fx-font-size:22; -fx-font-weight:bold;"/>
+
+        <Button text="Clear All"
+                onAction="#handleClearAll"
+                style="-fx-background-color:#ef4444; -fx-text-fill:white; -fx-background-radius:8;"/>
+    </HBox>
+
+    <!-- LIST -->
+    <ListView fx:id="notificationList"
+              prefHeight="450"
+              style="-fx-background-color:#1f2937; -fx-background-radius:10;"/>
+
+</VBox>

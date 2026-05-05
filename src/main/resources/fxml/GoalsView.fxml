@@ -5,66 +5,67 @@
 
 <StackPane xmlns="http://javafx.com/javafx/17"
            xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.budgetwise.budgetwise.controllers.BudgetController"
+           fx:controller="com.budgetwise.budgetwise.controllers.GoalController"
            style="-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b);">
 
-    <!-- ================= MAIN ================= -->
+    <!-- ================= MAIN CONTENT ================= -->
     <VBox spacing="20" style="-fx-padding:30;">
 
         <!-- HEADER -->
         <HBox spacing="10" alignment="CENTER_LEFT">
-            <Label text="💰 Budgets"
+            <Label text="🎯 Goals"
                    style="-fx-text-fill:white; -fx-font-size:24; -fx-font-weight:bold;"/>
 
-            <Button text="+ New Budget"
+            <Button text="+ Add Goal"
                     onAction="#showForm"
                     style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);
                            -fx-text-fill:white;"/>
         </HBox>
 
-        <!-- LIST -->
-        <ListView fx:id="budgetList"
+        <!-- GOALS LIST -->
+        <ListView fx:id="goalList"
                   prefHeight="400"
                   style="-fx-background-color:#1f2937; -fx-background-radius:10;"/>
 
     </VBox>
 
-    <!-- ================= FORM ================= -->
+
+    <!-- ================= OVERLAY FORM ================= -->
     <AnchorPane fx:id="formOverlay"
                 visible="false"
                 style="-fx-background-color: rgba(0,0,0,0.6);">
 
-        <VBox spacing="15"
-              alignment="CENTER"
+        <VBox alignment="CENTER"
+              spacing="15"
               layoutX="300" layoutY="120"
               style="-fx-background-color:#111827;
                      -fx-padding:30;
                      -fx-background-radius:20;">
 
-            <Label text="Create Budget"
+            <Label text="Create Goal"
                    style="-fx-text-fill:white; -fx-font-size:20;"/>
 
-            <!-- Category -->
-            <ComboBox fx:id="categoryBox"
-                      promptText="Select Category"
-                      style="-fx-background-color:#1f2937; -fx-text-fill:white;"/>
-
-            <!-- Amount -->
-            <TextField fx:id="amountField"
-                       promptText="Budget Amount"
+            <TextField fx:id="goalNameField"
+                       promptText="Goal Name"
                        style="-fx-background-color:#1f2937; -fx-text-fill:white;"/>
 
-            <!-- Period -->
-            <DatePicker fx:id="periodPicker"/>
+            <TextField fx:id="targetField"
+                       promptText="Target Amount"
+                       style="-fx-background-color:#1f2937; -fx-text-fill:white;"/>
 
-            <!-- Buttons -->
+            <TextField fx:id="savedField"
+                       promptText="Saved Amount (optional)"
+                       style="-fx-background-color:#1f2937; -fx-text-fill:white;"/>
+
+            <DatePicker fx:id="deadlinePicker"/>
+
             <HBox spacing="10">
                 <Button text="Cancel"
                         onAction="#hideForm"
                         style="-fx-background-color:#374151; -fx-text-fill:white;"/>
 
-                <Button text="Save"
-                        onAction="#handleSaveBudget"
+                <Button text="Create"
+                        onAction="#handleCreateGoal"
                         style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);
                                -fx-text-fill:white;"/>
             </HBox>
