@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+
+<?import javafx.collections.FXCollections?>
+<VBox spacing="20"
+      alignment="CENTER"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.budgetwise.budgetwise.controllers.TransactionController"
+      style="-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b);">
+
+    <!-- CARD -->
+    <VBox spacing="15"
+          maxWidth="350"
+          style="-fx-background-color:#111827;
+                 -fx-padding:30;
+                 -fx-background-radius:20;
+                 -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.5), 20,0,0,5);">
+
+        <Label text="Add Transaction"
+               style="-fx-text-fill:white; -fx-font-size:22; -fx-font-weight:bold;"/>
+
+        <!-- Title -->
+        <TextField fx:id="titleField"
+                   promptText="Transaction Title"
+                   style="-fx-background-color:#1f2937; -fx-text-fill:white; -fx-background-radius:10;"/>
+
+        <!-- Amount -->
+        <TextField fx:id="amountField"
+                   promptText="Amount"
+                   style="-fx-background-color:#1f2937; -fx-text-fill:white; -fx-background-radius:10;"/>
+
+        <!-- Type -->
+        <ComboBox fx:id="typeCombo"
+                  promptText="Select Type"
+                  style="-fx-background-color:#1f2937; -fx-text-fill:white; -fx-background-radius:10;">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Income"/>
+                    <String fx:value="Expense"/>
+                </FXCollections>
+            </items>
+        </ComboBox>
+
+        <!-- Date -->
+        <DatePicker fx:id="datePicker"
+                    style="-fx-background-color:#1f2937; -fx-background-radius:10;"/>
+
+        <!-- Button -->
+        <Button text="Save Transaction"
+                onAction="#handleSaveTransaction"
+                style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);
+                       -fx-text-fill:white;
+                       -fx-background-radius:10;
+                       -fx-padding:10 20;"/>
+
+    </VBox>
+
+</VBox>

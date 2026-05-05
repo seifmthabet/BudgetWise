@@ -3,33 +3,44 @@ package com.budgetwise.budgetwise.DAOs;
 import com.budgetwise.budgetwise.models.Budget;
 import com.budgetwise.budgetwise.utils.DatabaseManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BudgetDAO implements GenericDAO<Budget> {
+    private Budget mapResultSetToBudget(ResultSet rs) throws SQLException {
+
+        return new Budget(
+                rs.getInt("budget_id"),
+                rs.getInt("user_id"),
+                rs.getInt("category_id"),
+                rs.getDouble("amount"),
+                rs.getDouble("spent_amount"),
+                rs.getTimestamp("start_date").toLocalDateTime(),
+                rs.getTimestamp("end_date").toLocalDateTime(),
+                rs.getInt("alert_threshold")
+        );
+    }
+
     public void save(Budget entity) {
         String command = "INSERT INTO budgets (user_id,category_id,amount,spent_amount,start_date,end_date,alert_threshold)" +
                 "VALUES (?,?,?,?,?,?,?)";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(command);) {
+             PreparedStatement stmt = conn.prepareStatement(command)) {
             stmt.setInt(1, entity.getUserId());
             stmt.setInt(2, entity.getCategoryId());
             stmt.setDouble(3, entity.getAmount());
             stmt.setDouble(4, entity.getSpentAmount());
-            stmt.setString(5, entity.getStartDate().toString());
-            stmt.setString(6, entity.getEndDate().toString());
+            stmt.setTimestamp(5, Timestamp.valueOf(entity.getStartDate()));
+            stmt.setTimestamp(6, Timestamp.valueOf(entity.getEndDate()));
             stmt.setInt(7, entity.getAlertThreshold());
 
 
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to save Budget", e);
         }
     }
 
@@ -41,21 +52,11 @@ public class BudgetDAO implements GenericDAO<Budget> {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                Budget budget = new Budget(
-                        rs.getInt("user_id"),
-                        rs.getInt("category_id"),
-                        rs.getDouble("amount"),
-                        rs.getDouble("spent_amount"),
-                        LocalDate.parse(rs.getString("start_date")),
-                        LocalDate.parse(rs.getString("end_date")),
-                        rs.getInt("alert_threshold")
-                );
-                budget.setBudgetId(rs.getInt("budget_id"));
-                return budget;
+                return mapResultSetToBudget(rs);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to find Budget by ID",e);
         }
 
         return null;
@@ -69,21 +70,11 @@ public class BudgetDAO implements GenericDAO<Budget> {
 
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Budget budget = new Budget(
-                        rs.getInt("user_id"),
-                        rs.getInt("category_id"),
-                        rs.getDouble("amount"),
-                        rs.getDouble("spent_amount"),
-                        LocalDate.parse(rs.getString("start_date")),
-                        LocalDate.parse(rs.getString("end_date")),
-                        rs.getInt("alert_threshold")
-                );
-                budget.setBudgetId(rs.getInt("budget_id"));
-                budgets.add(budget);
+                budgets.add(mapResultSetToBudget(rs));
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to fetch Budgets:", e);
         }
         return budgets;
     }
@@ -100,7 +91,7 @@ public class BudgetDAO implements GenericDAO<Budget> {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to update Budgets:", e);
         }
 
     }
@@ -113,7 +104,7 @@ public class BudgetDAO implements GenericDAO<Budget> {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to delete Budgets:", e);
         }
     }
 
@@ -130,37 +121,20 @@ public class BudgetDAO implements GenericDAO<Budget> {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-
-                Budget budget = new Budget(
-                        rs.getInt("user_id"),
-                        rs.getInt("category_id"),
-                        rs.getDouble("amount"),
-                        rs.getDouble("spent_amount"),
-                        LocalDate.parse(rs.getString("start_date")),
-                        LocalDate.parse(rs.getString("end_date")),
-                        rs.getInt("alert_threshold")
-                );
-                budget.setBudgetId(rs.getInt("budget_id"));
-                budgets.add(budget);
+                budgets.add(mapResultSetToBudget(rs));
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to Find User's Budgets:", e);
         }
         return budgets;
 
     }
+    
     public Budget findByCategoryAndDate(int user_id, int category_id, int month, int year) {
 
-        Budget budget = null;
-
-        String command = """
-        SELECT * FROM budgets 
-        WHERE user_id = ? 
-        AND category_id = ? 
-        AND start_date >= ? 
-        AND start_date < ?
-    """;
+        String command ="""
+        SELECT * FROM budgets WHERE user_id = ? AND category_id = ? AND start_date >= ? AND start_date < ?""";
 
         try (Connection conn = DatabaseManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(command)) {
@@ -176,23 +150,14 @@ public class BudgetDAO implements GenericDAO<Budget> {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                budget = new Budget(
-                        rs.getInt("user_id"),
-                        rs.getInt("category_id"),
-                        rs.getDouble("amount"),
-                        rs.getDouble("spent_amount"),
-                        rs.getDate("start_date").toLocalDate(),
-                        rs.getDate("end_date").toLocalDate(),
-                        rs.getInt("alert_threshold")
-                );
-                budget.setBudgetId(rs.getInt("budget_id"));
+                return mapResultSetToBudget(rs);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to Find User's Budgets:", e);
         }
 
-        return budget;
+        return null;
     }
 }
 

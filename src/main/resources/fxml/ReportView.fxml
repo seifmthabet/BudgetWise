@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox spacing="20"
+      xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.budgetwise.budgetwise.controllers.ReportController"
+      style="-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b); -fx-padding:30;">
+
+    <!-- HEADER -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="📊 Reports and Analytics"
+               style="-fx-text-fill:white; -fx-font-size:24; -fx-font-weight:bold;"/>
+
+        <ComboBox fx:id="rangeBox"
+                  promptText="Select Range"
+                  onAction="#handleRangeChange"
+                  style="-fx-background-color:#1f2937; -fx-text-fill:white;"/>
+    </HBox>
+
+    <!-- EMPTY MESSAGE -->
+    <Label fx:id="emptyLabel"
+           text="No transaction data available for this period."
+           visible="false"
+           style="-fx-text-fill:#9ca3af;"/>
+
+    <!-- PIE CHART -->
+    <PieChart fx:id="expensePieChart"
+              title="Expenses by Category"
+              prefHeight="250"
+              style="-fx-background-color:#111827; -fx-background-radius:15;"/>
+
+    <!-- BAR CHART -->
+    <BarChart fx:id="incomeExpenseChart" prefHeight="300">
+
+        <xAxis>
+            <CategoryAxis />
+        </xAxis>
+
+        <yAxis>
+            <NumberAxis />
+        </yAxis>
+
+    </BarChart>
+
+    <!-- INSIGHT -->
+    <Label fx:id="insightLabel"
+           style="-fx-text-fill:#22c55e; -fx-font-size:14;"/>
+
+</VBox>

@@ -3,6 +3,7 @@ package com.budgetwise.budgetwise.models;
 import com.budgetwise.budgetwise.models.enums.BudgetStatus;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Budget {
     private int budgetId;
@@ -10,11 +11,36 @@ public class Budget {
     private int categoryId;
     private double amount;
     private double spentAmount;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private int alertThreshold;
 
-    public Budget(int userId, int categoryId, double amount, double spentAmount, LocalDate startDate, LocalDate endDate, int alertThreshold) {
+    public Budget(int userId, int categoryId, double amount, double spentAmount, LocalDateTime startDate, LocalDateTime endDate, int alertThreshold) {
+        if (userId <= 0) throw new IllegalArgumentException("User ID must be positive");
+        if (categoryId <= 0) throw new IllegalArgumentException("Category ID must be positive");
+        if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
+        if (spentAmount < 0) throw new IllegalArgumentException("SpentAmount must be positive");
+        if(startDate == null){throw new IllegalArgumentException("StartTime cannot be empty");}
+        if(endDate == null){throw new IllegalArgumentException("EndTime cannot be empty");}
+        if (alertThreshold <= 0) throw new IllegalArgumentException("alertThreshold must be positive");
+        this.userId = userId;
+        this.categoryId = categoryId;
+        this.amount = amount;
+        this.spentAmount = spentAmount;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.alertThreshold = alertThreshold;
+    }
+    public Budget(int budgetId , int userId, int categoryId, double amount, double spentAmount, LocalDateTime startDate, LocalDateTime endDate, int alertThreshold) {
+        if (budgetId <= 0) throw new IllegalArgumentException("Budget ID must be positive");
+        if (userId <= 0) throw new IllegalArgumentException("User ID must be positive");
+        if (categoryId <= 0) throw new IllegalArgumentException("Category must be positive");
+        if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
+        if (spentAmount < 0) throw new IllegalArgumentException("SpentAmount must be positive");
+        if(startDate == null){throw new IllegalArgumentException("StartTime cannot be empty");}
+        if(endDate == null){throw new IllegalArgumentException("EndTime cannot be empty");}
+        if (alertThreshold <= 0) throw new IllegalArgumentException("alertThreshold must be positive");
+       this.budgetId = budgetId;
         this.userId = userId;
         this.categoryId = categoryId;
         this.amount = amount;
@@ -34,8 +60,8 @@ public class Budget {
     public double getSpentAmount() {
         return spentAmount;
     }
-    public LocalDate getStartDate(){return startDate;}
-    public LocalDate getEndDate(){return endDate;}
+    public LocalDateTime getStartDate(){return startDate;}
+    public LocalDateTime getEndDate(){return endDate;}
     public int getAlertThreshold(){return alertThreshold;}
 
     public BudgetStatus getStatus() {
@@ -57,7 +83,7 @@ public class Budget {
     public void setSpentAmount(double amount){
         this.spentAmount = amount;
     }
-    public void setEndDate(LocalDate date){
+    public void setEndDate(LocalDateTime date){
         this.endDate = date;
     }
     public void setBudgetId(int budgetId){

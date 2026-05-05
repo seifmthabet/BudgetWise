@@ -4,14 +4,14 @@ import com.budgetwise.budgetwise.DAOs.UserDAO;
 import com.budgetwise.budgetwise.models.User;
 import com.budgetwise.budgetwise.services.UserService;
 import com.budgetwise.budgetwise.utils.AlertUtil;
+import com.budgetwise.budgetwise.utils.NavigationUtil;
 import com.budgetwise.budgetwise.utils.Validation;
+import javafx.animation.Animation;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 public class AuthController {
@@ -22,16 +22,26 @@ public class AuthController {
 
     @FXML private TextField emailField;
     @FXML private TextField passwordField;
+    @FXML
+    private AnchorPane rootPane;
+    @FXML private Circle bubble1;
+    @FXML private Circle bubble2;
+    @FXML private Circle bubble3;
 
     private UserService userService;
     private AlertUtil alertUtil;
     private Validation validation;
+    private NavigationUtil navigationUtil;
 
     @FXML
     public void initialize() {
         userService = new UserService(new UserDAO());
         alertUtil = new AlertUtil();
         validation = new Validation();
+        navigationUtil = new NavigationUtil();
+        animateBubble(bubble1, 15);
+        animateBubble(bubble2, 20);
+        animateBubble(bubble3, 25);
     }
 
     @FXML
@@ -70,31 +80,22 @@ public class AuthController {
             alertUtil.showError(e.getMessage());
         }
     }
-    public void goToLogin() {
-
-        try {
-
-            Parent root = FXMLLoader.load(
-                    getClass().getResource("/fxml/LoginView.fxml")
-            );
-
-            Scene scene = nameField.getScene();
-
-            root.translateXProperty().set(scene.getWidth());
-
-            AnchorPane parent = (AnchorPane) scene.getRoot();
-            parent.getChildren().add(root);
-
-            TranslateTransition tt = new TranslateTransition(
-                    Duration.seconds(0.7),
-                    root
-            );
-
-            tt.setToX(0);
-            tt.play();
-
-        } catch (Exception e) {
-            alertUtil.showError("Error");
-        }
+    public void goToLogin(){
+        navigationUtil.goToPage(rootPane,"/fxml/LoginView.fxml");
     }
+    public void goToRegister(){
+        navigationUtil.goToPage(rootPane, "/fxml/RegisterView.fxml");
+    }
+
+
+
+    private void animateBubble(Circle bubble, int duration) {
+        TranslateTransition tt = new TranslateTransition(Duration.seconds(duration), bubble);
+        tt.setFromY(0);
+        tt.setToY(-50);
+        tt.setAutoReverse(true);
+        tt.setCycleCount(Animation.INDEFINITE);
+        tt.play();
+    }
+
 }
