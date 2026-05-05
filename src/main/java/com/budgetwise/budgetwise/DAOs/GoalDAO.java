@@ -25,7 +25,7 @@ public class GoalDAO {
     public void save (Goal entity){
         String query = """
                 INSERT INTO goals
-                (goal_id, user_id, name, target_amount, current_amount, dead_line, status)
+                (goal_id, user_id, name, target_amount, current_amount, deadline, status)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
                 """;
 
@@ -68,8 +68,7 @@ public class GoalDAO {
 
     public List<Goal> findAll(int userId) {
         List<Goal> goals = new ArrayList<>();
-        String query = "SELECT * FROM goals WHERE user_id = ?" +
-                "ORDER BY date DESC";
+        String query = "SELECT * FROM goals WHERE user_id = ?";
 
         try(Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, userId);
@@ -88,7 +87,7 @@ public class GoalDAO {
     }
 
     public void update(Goal entity) {
-        String query = "UPDATE goals SET target_amount = ?, dead_line = ? WHERE goal_id = ?";
+        String query = "UPDATE goals SET target_amount = ?, deadline = ? WHERE goal_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setDouble(1, entity.getTargetAmount());
             stmt.setString(2, entity.getDeadline().toString());

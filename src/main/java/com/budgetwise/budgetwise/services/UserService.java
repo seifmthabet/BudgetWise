@@ -3,6 +3,7 @@ package com.budgetwise.budgetwise.services;
 import com.budgetwise.budgetwise.DAOs.UserDAO;
 import com.budgetwise.budgetwise.models.User;
 import com.budgetwise.budgetwise.utils.PasswordUtil;
+import com.budgetwise.budgetwise.core.SessionManager;
 
 public class UserService {
 

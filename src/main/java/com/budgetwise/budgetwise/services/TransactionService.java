@@ -88,5 +88,11 @@ public class TransactionService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    public BigDecimal getTotalBalance(int userId) {
+        if (userId <= 0) {
+            throw new IllegalArgumentException("Invalid user ID");
+        }
+        return getTotalIncome(userId).subtract(getTotalExpense(userId));
+    }
 
 }

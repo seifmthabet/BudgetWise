@@ -1,27 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox spacing="20"
-      xmlns="http://javafx.com/javafx/17"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.budgetwise.budgetwise.controllers.NotificationController"
-      style="-fx-background-color:#0f172a; -fx-padding:30;">
+<BorderPane fx:id="borderPane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b);  " xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.budgetwise.budgetwise.controllers.NotificationController">
 
-    <!-- HEADER -->
-    <HBox spacing="10" alignment="CENTER_LEFT">
-        <Label text="🔔 Notifications"
-               style="-fx-text-fill:white; -fx-font-size:22; -fx-font-weight:bold;"/>
+    <top>
+        <Pane prefHeight="0" />
+    </top>
 
-        <Button text="Clear All"
-                onAction="#handleClearAll"
-                style="-fx-background-color:#ef4444; -fx-text-fill:white; -fx-background-radius:8;"/>
-    </HBox>
+    <left>
+        <VBox spacing="15" style="-fx-background-color:#111827; -fx-padding:20; -fx-pref-width:220;">
 
-    <!-- LIST -->
-    <ListView fx:id="notificationList"
-              prefHeight="450"
-              style="-fx-background-color:#1f2937; -fx-background-radius:10;"/>
+            <Label style="-fx-text-fill:white; -fx-font-size:20; -fx-font-weight:bold;" text="BudgetWise" />
 
-</VBox>
+            <Button fx:id="dashboardBtn" onAction="#goToDashboard" style="-fx-background-color:transparent; -fx-text-fill:#9ca3af;" text="Dashboard" />
+            <Button fx:id="transactionBtn" onAction="#goToTransaction" style="-fx-background-color:transparent; -fx-text-fill:#9ca3af;" text="Transactions" />
+            <Button fx:id="budgetBtn" onAction="#goToBudget" style="-fx-background-color:transparent; -fx-text-fill:#9ca3af;" text="Budgets" />
+            <Button fx:id="goalBtn" onAction="#goToGoal" style="-fx-background-color:transparent; -fx-text-fill:#9ca3af;" text="Goals" />
+            <Button fx:id="notificationBtn" onAction="#goToNotification" style="-fx-background-color:linear-gradient(to right,#ff7eb3,#ff758c); -fx-text-fill:white;" text="Notifications" />
+            <Button fx:id="reportBtn" onAction="#goToReport" style="-fx-background-color:transparent; -fx-text-fill:#9ca3af;" text="Reports" />
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="20"
+              style="-fx-background-color:#0f172a; -fx-padding:30;">
+
+            <!-- HEADER -->
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="🔔 Notifications"
+                       style="-fx-text-fill:white; -fx-font-size:22; -fx-font-weight:bold;"/>
+
+                <Button text="Clear All"
+                        onAction="#handleClearAll"
+                        style="-fx-background-color:#ef4444; -fx-text-fill:white; -fx-background-radius:8;"/>
+            </HBox>
+
+            <!-- LIST -->
+            <ListView fx:id="notificationList"
+                      prefHeight="450"
+                      style="-fx-background-color:#1f2937; -fx-background-radius:10;"/>
+
+        </VBox>
+
+    </center>
+
+</BorderPane>

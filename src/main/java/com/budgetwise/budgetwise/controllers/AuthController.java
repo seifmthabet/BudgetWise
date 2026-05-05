@@ -1,6 +1,7 @@
 package com.budgetwise.budgetwise.controllers;
 
 import com.budgetwise.budgetwise.DAOs.UserDAO;
+import com.budgetwise.budgetwise.core.AppContext;
 import com.budgetwise.budgetwise.models.User;
 import com.budgetwise.budgetwise.services.UserService;
 import com.budgetwise.budgetwise.utils.AlertUtil;
@@ -31,14 +32,12 @@ public class AuthController {
     private UserService userService;
     private AlertUtil alertUtil;
     private Validation validation;
-    private NavigationUtil navigationUtil;
 
     @FXML
     public void initialize() {
-        userService = new UserService(new UserDAO());
-        alertUtil = new AlertUtil();
-        validation = new Validation();
-        navigationUtil = new NavigationUtil();
+        userService = AppContext.getUserService();
+        alertUtil = AppContext.getAlertUtil();
+        validation = AppContext.getValidator();
         animateBubble(bubble1, 15);
         animateBubble(bubble2, 20);
         animateBubble(bubble3, 25);
@@ -75,16 +74,22 @@ public class AuthController {
             User user = userService.login(email, password);
 
             alertUtil.showSuccess("Welcome " + user.getName());
+            AppContext.getSession().setCurrentUser(user);
+            goToDashboard();
 
         } catch (Exception e) {
-            alertUtil.showError(e.getMessage());
+//            alertUtil.showError(e.getMessage());
+            e.printStackTrace();
         }
     }
     public void goToLogin(){
-        navigationUtil.goToPage(rootPane,"/fxml/LoginView.fxml");
+        NavigationUtil.goToPage(rootPane,"/fxml/LoginView.fxml");
     }
     public void goToRegister(){
-        navigationUtil.goToPage(rootPane, "/fxml/RegisterView.fxml");
+        NavigationUtil.goToPage(rootPane, "/fxml/RegisterView.fxml");
+    }
+    public void goToDashboard(){
+        NavigationUtil.goToPage(rootPane, "/fxml/DashboardView.fxml");
     }
 
 

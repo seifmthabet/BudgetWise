@@ -5,13 +5,21 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color:#0f172a;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.budgetwise.budgetwise.controllers.AuthController">
+<AnchorPane prefHeight="720" prefWidth="1280" style="-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.budgetwise.budgetwise.controllers.AuthController" fx:id="rootPane">
 
    <children>
 
-      <VBox alignment="CENTER" layoutX="668.0" layoutY="352.0" spacing="15" style="-fx-background-color:#111827; -fx-padding:40; -fx-background-radius:20;">
+      <Circle fx:id="bubble1" layoutX="775.0" layoutY="372.0" radius="60" style="-fx-fill: linear-gradient(#ff7eb3,#ff758c); -fx-opacity:0.4;" />
+
+      <Circle fx:id="bubble2" layoutX="505.0" layoutY="192.0" radius="40" style="-fx-fill:#6366f1; -fx-opacity:0.2;" />
+
+      <Circle fx:id="bubble3" layoutX="514.0" layoutY="533.0" radius="25" style="-fx-fill:#22c55e; -fx-opacity:0.2;" />
+
+      <VBox alignment="CENTER" layoutX="512.0" layoutY="219.0" spacing="15" style="-fx-background-color: rgba(17,24,39,0.85);               -fx-padding:40;               -fx-background-radius:20;               -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.5), 20,0,0,5);">
 
          <Label style="-fx-text-fill:white; -fx-font-size:26; -fx-font-weight:bold;" text="Sign in" />
 
@@ -21,7 +29,18 @@
 
          <Button onAction="#handleLogin" style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);                            -fx-text-fill:white;                            -fx-background-radius:10;                            -fx-padding:10 20;" text="Sign in" />
 
+         <HBox alignment="CENTER" spacing="5">
+            <Label style="-fx-text-fill:#9ca3af;" text="Don't have an account?" />
+
+            <Label onMouseClicked="#goToRegister" style="-fx-text-fill:#ff7eb3; -fx-font-weight:bold; -fx-cursor:hand;" text="Register" />
+         </HBox>
+
       </VBox>
+
+      <Circle fx:id="bubble11" layoutX="125.0" layoutY="99.0" radius="60" style="-fx-fill: linear-gradient(#ff7eb3,#ff758c); -fx-opacity:0.4;" />
+      <Circle fx:id="bubble21" layoutX="1166.0" layoutY="613.0" radius="40" style="-fx-fill:#6366f1; -fx-opacity:0.2;" />
+      <Circle fx:id="bubble31" layoutX="1031.0" layoutY="296.0" radius="25" style="-fx-fill:#22c55e; -fx-opacity:0.2;" />
+      <Circle fx:id="bubble211" layoutX="208.0" layoutY="468.0" radius="40" style="-fx-fill:#6366f1; -fx-opacity:0.2;" />
 
    </children>
 

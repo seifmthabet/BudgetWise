@@ -1,74 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane prefWidth="900" prefHeight="600"
-            xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.budgetwise.budgetwise.controllers.AuthController"
-            style="-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b);">
+<AnchorPane prefHeight="720" prefWidth="1280" style="-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b);" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.budgetwise.budgetwise.controllers.AuthController" fx:id="rootPane">
 
     <children>
 
-        <!-- 🔵 BUBBLES -->
-        <Circle fx:id="bubble1" radius="60"
-                layoutX="150" layoutY="100"
-                style="-fx-fill: linear-gradient(#ff7eb3,#ff758c); -fx-opacity:0.4;"/>
+        <Circle fx:id="bubble1" layoutX="775.0" layoutY="372.0" radius="60" style="-fx-fill: linear-gradient(#ff7eb3,#ff758c); -fx-opacity:0.4;" />
 
-        <Circle fx:id="bubble2" radius="40"
-                layoutX="700" layoutY="150"
-                style="-fx-fill:#6366f1; -fx-opacity:0.2;"/>
+        <Circle fx:id="bubble2" layoutX="505.0" layoutY="192.0" radius="40" style="-fx-fill:#6366f1; -fx-opacity:0.2;" />
 
-        <Circle fx:id="bubble3" radius="25"
-                layoutX="500" layoutY="500"
-                style="-fx-fill:#22c55e; -fx-opacity:0.2;"/>
+        <Circle fx:id="bubble3" layoutX="514.0" layoutY="533.0" radius="25" style="-fx-fill:#22c55e; -fx-opacity:0.2;" />
 
-        <!-- 🧊 CARD -->
-        <VBox alignment="CENTER" spacing="15"
-              layoutX="300" layoutY="90"
-              style="-fx-background-color: rgba(17,24,39,0.85);
-                     -fx-padding:40;
-                     -fx-background-radius:20;
-                     -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.5), 20,0,0,5);">
+        <VBox alignment="CENTER" layoutX="514.0" layoutY="179.0" spacing="15" style="-fx-background-color: rgba(17,24,39,0.85);
+              -fx-padding:40;
+              -fx-background-radius:20;
+              -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.5), 20,0,0,5);"
+        >
 
-            <Label text="Sign Up"
-                   style="-fx-text-fill:white; -fx-font-size:26; -fx-font-weight:bold;"/>
+            <Label style="-fx-text-fill:white; -fx-font-size:26; -fx-font-weight:bold;" text="Sign Up" />
 
-            <TextField fx:id="nameField"
-                       promptText="Full Name"
-                       style="-fx-background-color:#1f2937; -fx-text-fill:white; -fx-background-radius:10;"/>
+            <TextField fx:id="nameField" promptText="Full Name" style="-fx-background-color:#1f2937; -fx-text-fill:white; -fx-background-radius:10;" />
 
-            <TextField fx:id="emailField"
-                       promptText="Email"
-                       style="-fx-background-color:#1f2937; -fx-text-fill:white; -fx-background-radius:10;"/>
+            <TextField fx:id="emailField" promptText="Email" style="-fx-background-color:#1f2937; -fx-text-fill:white; -fx-background-radius:10;" />
 
-            <PasswordField fx:id="passwordField"
-                           promptText="Password"
-                           style="-fx-background-color:#1f2937; -fx-text-fill:white; -fx-background-radius:10;"/>
+            <PasswordField fx:id="passwordField" promptText="Password" style="-fx-background-color:#1f2937; -fx-text-fill:white; -fx-background-radius:10;" />
 
             <PasswordField fx:id="confirmPasswordField"
                            promptText="Confirm Password"
-                           style="-fx-background-color:#1f2937; -fx-text-fill:white; -fx-background-radius:10;"/>
+                           style="-fx-background-color:#1f2937;
+                            -fx-text-fill:white; -fx-background-radius:10;"
+            />
 
-            <Button text="Create Account"
-                    onAction="#handleRegister"
-                    style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);
-                           -fx-text-fill:white;
-                           -fx-background-radius:10;
-                           -fx-padding:10 20;"/>
+            <Button onAction="#handleRegister" style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);                            -fx-text-fill:white;                            -fx-background-radius:10;                            -fx-padding:10 20;" text="Create Account" />
 
-            <HBox spacing="5" alignment="CENTER">
-                <Label text="Already have an account?"
-                       style="-fx-text-fill:#9ca3af;"/>
+            <HBox alignment="CENTER" spacing="5">
+                <Label style="-fx-text-fill:#9ca3af;" text="Already have an account?" />
 
-                <Label text="Login"
-                       onMouseClicked="#goToLogin"
-                       style="-fx-text-fill:#ff7eb3; -fx-font-weight:bold; -fx-cursor:hand;"/>
+                <Label onMouseClicked="#goToLogin" style="-fx-text-fill:#ff7eb3; -fx-font-weight:bold; -fx-cursor:hand;" text="Login" />
             </HBox>
 
         </VBox>
+      <Circle fx:id="bubble11" layoutX="125.0" layoutY="99.0" radius="60" style="-fx-fill: linear-gradient(#ff7eb3,#ff758c); -fx-opacity:0.4;" />
+      <Circle fx:id="bubble21" layoutX="1166.0" layoutY="613.0" radius="40" style="-fx-fill:#6366f1; -fx-opacity:0.2;" />
+      <Circle fx:id="bubble31" layoutX="1031.0" layoutY="296.0" radius="25" style="-fx-fill:#22c55e; -fx-opacity:0.2;" />
+      <Circle fx:id="bubble211" layoutX="208.0" layoutY="468.0" radius="40" style="-fx-fill:#6366f1; -fx-opacity:0.2;" />
 
     </children>
 

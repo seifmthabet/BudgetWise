@@ -4,20 +4,20 @@ import com.budgetwise.budgetwise.DAOs.GoalDAO;
 import com.budgetwise.budgetwise.models.Goal;
 import com.budgetwise.budgetwise.utils.Validation;
 
+import java.util.List;
+
 public class GoalService {
-    private Goal goal;
     private GoalDAO goalDAO;
     private Validation validator;
 
-    public GoalService (Goal goal, GoalDAO goalDAO, Validation validator){
-        this.goal = goal;
+    public GoalService (GoalDAO goalDAO, Validation validator){
         this.goalDAO = goalDAO;
         this.validator = validator;
     }
 
-    public void createGoal(GoalService goalService){
-        if (goalService.validator.validateGoal(goalService.goal)){
-            goalService.goalDAO.save(goalService.goal);
+    public void createGoal(Goal goal){
+        if (validator.validateGoal(goal)){
+            goalDAO.save(goal);
         }
     }
 
@@ -31,17 +31,20 @@ public class GoalService {
         goalDAO.findById(goalId).addContribution(amount);
     }
 
-    public void getGoals (int userId){
-        if (userId <= 0 || goalDAO.findById(userId) == null) {
-            throw new IllegalArgumentException("Invalid goal ID");
+    public List<Goal> getGoals (int userId){
+        if (userId <= 0) {
+            throw new IllegalArgumentException("Invalid user ID");
         }
-        goalDAO.findAll(userId);
+        return goalDAO.findAll(userId);
     }
 
     public void getProgressPercent (int goalId){
         if (goalId <= 0 || goalDAO.findById(goalId) == null) {
             throw new IllegalArgumentException("Invalid goal ID");
         }
+
+        Goal goal = goalDAO.findById(goalId);
+
         goal.getProgressPercent();
 
     }

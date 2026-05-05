@@ -1,4 +1,6 @@
 package com.budgetwise.budgetwise.controllers;
+import com.budgetwise.budgetwise.utils.AlertUtil;
+import com.budgetwise.budgetwise.utils.NavigationUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class LandingController {
-
+    AlertUtil alertUtil = new AlertUtil();
     @FXML private AnchorPane root;
 
     @FXML private Label titleLabel;
@@ -104,63 +106,17 @@ public class LandingController {
 
     public void goToLogin() {
         try {
-            Parent loginView = FXMLLoader.load(
-                    getClass().getResource("/fxml/LoginView.fxml")
-            );
-
-            AnchorPane parent = root;
-
-            loginView.setTranslateX(parent.getWidth());
-
-            parent.getChildren().add(loginView);
-
-            TranslateTransition in = new TranslateTransition(Duration.seconds(0.7), loginView);
-            in.setToX(0);
-
-            TranslateTransition out = new TranslateTransition(Duration.seconds(0.7), parent.getChildren().get(0));
-            out.setToX(-parent.getWidth());
-
-            ParallelTransition pt = new ParallelTransition(in, out);
-
-            pt.setOnFinished(e -> {
-                parent.getChildren().remove(0); // remove old page
-            });
-
-            pt.play();
-
+            NavigationUtil.goToPage(root,"/fxml/LoginView.fxml");
         } catch (Exception e) {
-            e.printStackTrace();
+            alertUtil.showError("Error loading Login View"+e);
         }
     }
 
     public void goToRegister() {
         try {
-            Parent registerView = FXMLLoader.load(
-                    getClass().getResource("/fxml/RegisterView.fxml")
-            );
-
-            AnchorPane parent = root;
-
-            registerView.setTranslateX(parent.getWidth());
-
-            parent.getChildren().add(registerView);
-
-            TranslateTransition in = new TranslateTransition(Duration.seconds(0.7), registerView);
-            in.setToX(0);
-
-            TranslateTransition out = new TranslateTransition(Duration.seconds(0.7), parent.getChildren().get(0));
-            out.setToX(-parent.getWidth());
-
-            ParallelTransition pt = new ParallelTransition(in, out);
-
-            pt.setOnFinished(e -> {
-                parent.getChildren().remove(0);
-            });
-
-            pt.play();
-
+            NavigationUtil.goToPage(root,"/fxml/RegisterView.fxml");
         } catch (Exception e) {
-            e.printStackTrace();
+            alertUtil.showError("Error loading Login View"+e);
         }
     }
 

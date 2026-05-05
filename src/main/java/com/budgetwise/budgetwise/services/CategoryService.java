@@ -5,7 +5,11 @@ import com.budgetwise.budgetwise.models.Category;
 import java.util.List;
 
 public class CategoryService {
-    private final CategoryDAO categoryDAO = new CategoryDAO();
+    private final CategoryDAO categoryDAO;
+
+    public CategoryService(CategoryDAO categoryDAO) {
+        this.categoryDAO = categoryDAO;
+    }
 
     public void createCategory(Category category) {
         if (categoryDAO.existsDefaultCategoryByName(category.getName())) {
