@@ -1,8 +1,11 @@
 package com.budgetwise.budgetwise.utils;
 
+import com.budgetwise.budgetwise.models.Goal;
 import com.budgetwise.budgetwise.models.Transaction;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Validation {
     public Boolean  validateRigester(String name , String email ,String password){
@@ -71,6 +74,38 @@ public class Validation {
 
         if (tx.getDate() == null) {
             throw new IllegalArgumentException("Transaction date is required");
+        }
+
+        return true;
+    }
+
+    public boolean validateGoal(Goal goal){
+        if (goal == null) {
+            throw new IllegalArgumentException("Goal cannot be null");
+        }
+
+        if (goal.getUserId() <= 0) {
+            throw new IllegalArgumentException("User id must be positive");
+        }
+
+        if (goal.getGoalId() <= 0) {
+            throw new IllegalArgumentException("Goal id must be positive");
+        }
+
+        if (goal.getName() == null) {
+            throw new IllegalArgumentException("Name is required");
+        }
+
+        if (goal.getTargetAmount() <= goal.getCurrentAmount()) {
+            throw new IllegalArgumentException("Target amount must be greater than the current amount");
+        }
+
+        if (goal.getCurrentAmount() < 0) {
+            throw new IllegalArgumentException("Current amount cannot be negative");
+        }
+
+        if (!goal.getDeadline().isAfter(LocalDateTime.now())) {
+            throw new IllegalArgumentException("The deadline date is required and must be a future date");
         }
 
         return true;
