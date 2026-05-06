@@ -1,133 +1,119 @@
-/* ================================
-   Budget App Theme - JavaFX CSS
-   ================================ */
-
-/* Root Background */
-.root {
-    -fx-background-color: #D6C7AF;
-    -fx-font-family: "Arial";
+/* Remove the white background from the ListView and its empty cells */
+.list-view {
+    -fx-background-color: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
 }
 
-/* ================================
-   Labels
-   ================================ */
-
-/* Main Title */
-.label-title {
-    -fx-text-fill: #B22222;
-    -fx-font-size: 28px;
-    -fx-font-weight: bold;
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 4px; /* Gives a little space between list items */
 }
 
-/* Normal Labels */
-.label {
-    -fx-text-fill: #2E2E2E;
-    -fx-font-size: 14px;
+.list-cell:empty {
+    -fx-background-color: transparent;
 }
 
-/* Secondary Label */
-.label-sub {
-    -fx-text-fill: #555555;
-    -fx-font-size: 13px;
+/* Optional: Darken the scrollbar so it fits your theme */
+.list-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
 }
 
-/* ================================
-   Buttons
-   ================================ */
-
-.button:hover {
-    -fx-background-color: #8B1A1A;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.35), 10, 0, 0, 4);
-}
-
-.text-field:hover {
-    -fx-effect: dropshadow(three-pass-box, rgba(178,34,34,0.35), 10, 0, 0, 3);
-}
-
-.text-field:focus {
-    -fx-border-color: #B22222;
-    -fx-effect: dropshadow(three-pass-box, rgba(178,34,34,0.45), 12, 0, 0, 4);
+.list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #334155;
+    -fx-background-radius: 10;
 }
 
 
-/* Secondary Button */
-.button-secondary {
-    -fx-background-color: #A7C8B8;
-    -fx-text-fill: #2E2E2E;
-}
-
-.button-secondary:hover {
-    -fx-background-color: #8FB5A3;
-}
-
-/* ================================
-   Text Fields
-   ================================ */
-
-.text-field {
-    -fx-background-color: white;
-    -fx-border-color: #A7C8B8;
-    -fx-border-width: 2;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-padding: 8;
-    -fx-font-size: 14px;
-}
-
-
-
-/* ================================
-   ComboBox
-   ================================ */
-
-.combo-box {
-    -fx-background-color: white;
-    -fx-border-color: #A7C8B8;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-}
-
-/* ================================
-   TableView
-   ================================ */
-
+/* --- TableView Enhancements --- */
 .table-view {
-    -fx-background-color: #F5F1EA;
-    -fx-border-color: #A7C8B8;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+}
+
+/* Hide the column header background or make it dark */
+.table-view .column-header-background {
+    -fx-background-color: #1e293b;
+    -fx-background-radius: 10 10 0 0;
 }
 
 .table-view .column-header {
-    -fx-background-color: #B22222;
+    -fx-background-color: transparent;
+    -fx-border-color: #334155;
+    -fx-border-width: 0 0 1 0;
 }
 
 .table-view .column-header .label {
+    -fx-text-fill: #9ca3af;
+    -fx-font-weight: bold;
+}
+
+/* Make rows transparent and change selection color */
+.table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: #334155;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-row-cell:filled:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+}
+
+.table-cell {
     -fx-text-fill: white;
-    -fx-font-weight: bold;
+    -fx-alignment: center-left;
 }
 
-/* ================================
-   Cards / Panes
-   ================================ */
-
-.card {
-    -fx-background-color: #F5F1EA;
-    -fx-background-radius: 15;
-    -fx-padding: 20;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 8, 0, 0, 3);
+/* --- Dashboard Card Enhancements --- */
+.card-glass {
+    -fx-background-color: rgba(31, 41, 55, 0.6);
+    -fx-background-radius: 18;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-width: 1;
+    -fx-border-radius: 18;
 }
 
-/* ================================
-   Balance Text
-   ================================ */
-
-.balance-positive {
-    -fx-text-fill: green;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
+.card-title {
+    -fx-text-fill: #9ca3af;
+    -fx-font-size: 13px;
 }
 
-.balance-negative {
-    -fx-text-fill: red;
-    -fx-font-size: 18px;
+/* --- Sidebar Styling --- */
+.sidebar {
+    -fx-background-color: #111827;
+    -fx-border-color: rgba(255, 255, 255, 0.05);
+    -fx-border-width: 0 1 0 0; /* Only right border */
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #9ca3af;
+    -fx-font-size: 14px;
+    -fx-alignment: center-left;
+    -fx-padding: 10 15 10 15;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-pref-width: 180; /* Ensures consistent width */
+}
+
+.nav-button:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.05);
+    -fx-text-fill: white;
+}
+
+/* The style applied when a button is clicked */
+.nav-button-active {
+    -fx-background-color: rgba(59, 130, 246, 0.15); /* Subtle blue glow */
+    -fx-text-fill: #3b82f6;
+    -fx-border-color: #3b82f6;
+    -fx-border-width: 0 0 0 3; /* Left accent bar */
+    -fx-border-radius: 2;
+}
+
+.sidebar-logo {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
     -fx-font-weight: bold;
+    -fx-padding: 0 0 20 0;
 }

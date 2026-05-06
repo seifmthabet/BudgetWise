@@ -3,60 +3,48 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.StackPane?>
-<BorderPane fx:id="borderPane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b);  " xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.budgetwise.budgetwise.controllers.GoalController">
 
-    <top>
-        <Pane prefHeight="0" />
-    </top>
+        <VBox spacing="20" style="-fx-padding:30;-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b); "
+              xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.budgetwise.budgetwise.controllers.GoalController"
+        >
 
-    <left>
-        <VBox spacing="15" style="-fx-background-color:#111827; -fx-padding:20; -fx-pref-width:220;">
+            <!-- HEADER -->
+            <HBox alignment="CENTER_LEFT" spacing="10">
+                <Label style="-fx-text-fill:white; -fx-font-size:24; -fx-font-weight:bold;" text="🎯 Goals" />
 
-            <Label style="-fx-text-fill:white; -fx-font-size:20; -fx-font-weight:bold;" text="BudgetWise" />
-            <Button fx:id="dashboardBtn" onAction="#goToDashboard" style="-fx-background-color:transparent; -fx-text-fill:#9ca3af;" text="Dashboard" />
-            <Button fx:id="transactionBtn" onAction="#goToTransaction" style="-fx-background-color:transparent; -fx-text-fill:#9ca3af;" text="Transactions" />
-            <Button fx:id="budgetBtn" onAction="#goToBudget" style="-fx-background-color:transparent; -fx-text-fill:#9ca3af;" text="Budgets" />
-            <Button fx:id="goalBtn" onAction="#goToGoal" style="-fx-background-color:linear-gradient(to right,#ff7eb3,#ff758c); -fx-text-fill:white;" text="Goals" />
-            <Button fx:id="notificationBtn" onAction="#goToNotification" style="-fx-background-color:transparent; -fx-text-fill:#9ca3af;" text="Notifications" />
-            <Button fx:id="reportBtn" onAction="#goToReport" style="-fx-background-color:transparent; -fx-text-fill:#9ca3af;" text="Reports" />
+                <Button onAction="#showForm" style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);                            -fx-text-fill:white;" text="+ Add Goal" />
+            </HBox>
+
+            <!-- GOALS LIST -->
+            <ListView fx:id="goalList" prefHeight="400" style="-fx-background-color:#1f2937; -fx-background-radius:10;" />
+
         </VBox>
-    </left>
 
-    <center>
-        <StackPane>
-            <VBox spacing="20" style="-fx-padding:30;">
-                <HBox alignment="CENTER_LEFT" spacing="10">
-                    <Label style="-fx-text-fill:white; -fx-font-size:24; -fx-font-weight:bold;" text="🎯 Goals" />
-                    <Button onAction="#showForm" style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c); -fx-text-fill:white;" text="+ Add Goal" />
-                </HBox>
 
-                <ListView fx:id="goalList" prefHeight="400" style="-fx-background-color:#1f2937; -fx-background-radius:10;" />
-            </VBox>
+        <!-- ================= OVERLAY FORM ================= -->
+<!--        <AnchorPane fx:id="formOverlay" style="-fx-background-color: rgba(0,0,0,0.6);" visible="false">-->
 
-            <AnchorPane fx:id="formOverlay" style="-fx-background-color: rgba(0,0,0,0.6);" visible="false">
-                <VBox alignment="CENTER" spacing="15" style="-fx-background-color:#111827; -fx-padding:30; -fx-background-radius:20;"
-                      StackPane.alignment="CENTER"> <Label style="-fx-text-fill:white; -fx-font-size:20;" text="Create Goal" />
-                    <TextField fx:id="goalNameField" promptText="Goal Name" style="-fx-background-color:#1f2937; -fx-text-fill:white;" />
-                    <TextField fx:id="targetField" promptText="Target Amount" style="-fx-background-color:#1f2937; -fx-text-fill:white;" />
-                    <TextField fx:id="savedField" promptText="Saved Amount (optional)" style="-fx-background-color:#1f2937; -fx-text-fill:white;" />
-                    <DatePicker fx:id="deadlinePicker" />
+<!--            <VBox alignment="CENTER" layoutX="300" layoutY="120" spacing="15" style="-fx-background-color:#111827;                      -fx-padding:30;                      -fx-background-radius:20;">-->
 
-                    <HBox spacing="10" alignment="CENTER">
-                        <Button onAction="#hideForm" style="-fx-background-color:#374151; -fx-text-fill:white;" text="Cancel" />
-                        <Button onAction="#handleCreateGoal" style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c); -fx-text-fill:white;" text="Create" />
-                    </HBox>
-                </VBox>
-            </AnchorPane>
-        </StackPane>
-    </center>
+<!--                <Label style="-fx-text-fill:white; -fx-font-size:20;" text="Create Goal" />-->
 
-</BorderPane>
+<!--                <TextField fx:id="goalNameField" promptText="Goal Name" style="-fx-background-color:#1f2937; -fx-text-fill:white;" />-->
+
+<!--                <TextField fx:id="targetField" promptText="Target Amount" style="-fx-background-color:#1f2937; -fx-text-fill:white;" />-->
+
+<!--                <TextField fx:id="savedField" promptText="Saved Amount (optional)" style="-fx-background-color:#1f2937; -fx-text-fill:white;" />-->
+
+<!--                <DatePicker fx:id="deadlinePicker" />-->
+
+<!--                <HBox spacing="10">-->
+<!--                    <Button onAction="#hideForm" style="-fx-background-color:#374151; -fx-text-fill:white;" text="Cancel" />-->
+
+<!--                    <Button onAction="#handleCreateGoal" style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);                                -fx-text-fill:white;" text="Create" />-->
+<!--                </HBox>-->
+
+<!--            </VBox>-->
+
+<!--        </AnchorPane>-->

@@ -14,8 +14,7 @@ public class Main extends Application {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LandingView.fxml"));
         Scene scene = new Scene(loader.load(), 1280, 720);
-        //scene.getStylesheets().add(getClass().getResource("/css/app.css").toExternalForm());
-
+//        scene.getStylesheets().add(getClass().getResource("/css/app.css").toExternalForm());
         stage.setTitle("BudgetWise");
         stage.setMinWidth(1280);
         stage.setMinHeight(720);

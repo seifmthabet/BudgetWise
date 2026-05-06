@@ -55,45 +55,16 @@ public class NavigationUtil {
         }
     }
 
-    public static void goToPage(BorderPane currentRoot, String fxmlPath) {
+    public static void goToPage(BorderPane root, String fxmlPath) {
         try {
-            FXMLLoader loader = new FXMLLoader(
+            Parent view = FXMLLoader.load(
                     Objects.requireNonNull(Main.class.getResource(fxmlPath))
             );
 
-            Parent view = loader.load();
-
-            currentRoot.applyCss();
-            currentRoot.layout();
-
-            double width = currentRoot.getWidth();
-
-            if (width == 0) {
-                width = currentRoot.getPrefWidth(); // fallback
-            }
-
-            view.setTranslateX(width);
-
-            currentRoot.getChildren().add(view);
-
-            Node oldView = currentRoot.getChildren().get(0);
-
-            TranslateTransition in = new TranslateTransition(Duration.seconds(0.7), view);
-            in.setFromX(width);
-            in.setToX(0);
-
-            TranslateTransition out = new TranslateTransition(Duration.seconds(0.7), oldView);
-            out.setFromX(0);
-            out.setToX(-width);
-
-            ParallelTransition pt = new ParallelTransition(in, out);
-
-            pt.setOnFinished(e -> currentRoot.getChildren().remove(oldView));
-
-            pt.play();
+            root.setCenter(view);
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }
