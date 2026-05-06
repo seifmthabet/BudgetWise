@@ -5,38 +5,19 @@ import com.budgetwise.budgetwise.models.Transaction;
 import com.budgetwise.budgetwise.services.BudgetService;
 import com.budgetwise.budgetwise.services.GoalService;
 import com.budgetwise.budgetwise.services.TransactionService;
+import com.budgetwise.budgetwise.utils.AlertUtil;
 import com.budgetwise.budgetwise.utils.NavigationUtil;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 
 import java.math.BigDecimal;
 
 public class DashboardController {
-    @FXML
-    private BorderPane borderPane;
-
-    // Buttons
-    @FXML
-    private Button dashboardBtn;
-    @FXML
-    private Button transactionBtn;
-    @FXML
-    private Button budgetBtn;
-    @FXML
-    private Button goalBtn;
-    @FXML
-    private Button notificationBtn;
-    @FXML
-    private Button reportBtn;
-
     // Labels
     @FXML
     private Label balanceLabel;
@@ -66,6 +47,7 @@ public class DashboardController {
     private TransactionService transactionService;
     private BudgetService budgetService;
     private GoalService goalService;
+    private AlertUtil alertUtil;
     private int userId;
 
     @FXML
@@ -74,6 +56,7 @@ public class DashboardController {
         budgetService = AppContext.getBudgetService();
         goalService = AppContext.getGoalService();
         userId = AppContext.getSession().getCurrentUser().getUserId();
+        alertUtil = AppContext.getAlertUtil();
 
         titleColumn.setCellValueFactory(data -> new SimpleStringProperty(
                 data.getValue().getDescription()
@@ -87,6 +70,41 @@ public class DashboardController {
         dateColumn.setCellValueFactory(data -> new SimpleStringProperty(
                 data.getValue().getDate().toString()
         ));
+        amountColumn.setCellFactory(column -> new TableCell<Transaction, BigDecimal>() {
+            @Override
+            protected void updateItem(BigDecimal amount, boolean empty) {
+                super.updateItem(amount, empty);
+                if (empty || amount == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText("$" + amount.toString());
+                    Transaction rowData = getTableView().getItems().get(getIndex());
+                    if (rowData.getType().toString().equalsIgnoreCase("INCOME")) {
+                        setStyle("-fx-text-fill: #22c55e; -fx-font-weight: bold;");
+                    } else {
+                        setStyle("-fx-text-fill: #ef4444; -fx-font-weight: bold;");
+                    }
+                }
+            }
+        });
+        typeColumn.setCellFactory(column -> new TableCell<Transaction, String>() {
+            @Override
+            protected void updateItem(String type, boolean empty) {
+                super.updateItem(type, empty);
+                if (empty || type == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    Label badge = new Label(type);
+                    String color = type.equalsIgnoreCase("INCOME") ? "#22c55e" : "#ef4444";
+                    badge.setStyle("-fx-background-color: rgba(" + (type.equalsIgnoreCase("INCOME") ? "34, 197, 94" : "239, 68, 68") + ", 0.15); " +
+                            "-fx-text-fill: " + color + "; " +
+                            "-fx-padding: 2 8; -fx-background-radius: 5; -fx-font-size: 11;");
+                    setGraphic(badge);
+                }
+            }
+        });
 
         balanceLabel.setText(transactionService.getTotalBalance(userId).toString());
         incomeLabel.setText(transactionService.getTotalIncome(userId).toString());
@@ -100,28 +118,11 @@ public class DashboardController {
     }
 
     private ObservableList<Transaction> getData() {
-        return FXCollections.observableArrayList(transactionService.filterByUserId(userId));
+        try {
+            return FXCollections.observableArrayList(transactionService.filterByUserId(userId));
+        } catch (Exception e) {
+             alertUtil.showError(e.getMessage());
+        }
+        return null;
     }
-
-    public void goToDashboard() {
-        NavigationUtil.goToPage(borderPane, "/fxml/DashboardView.fxml");
-    }
-    public void goToTransaction() {
-        NavigationUtil.goToPage(borderPane, "/fxml/TransactionView.fxml");
-    }
-    public void goToBudget() {
-        NavigationUtil.goToPage(borderPane, "/fxml/BudgetView.fxml");
-    }
-    public void goToGoal() {
-        NavigationUtil.goToPage(borderPane, "/fxml/GoalsView.fxml");
-    }
-    public void goToNotification() {
-        NavigationUtil.goToPage(borderPane, "/fxml/NotificationView.fxml");
-    }
-    public void goToReport() {
-        NavigationUtil.goToPage(borderPane, "/fxml/ReportView.fxml");
-    }
-
-
-
 }

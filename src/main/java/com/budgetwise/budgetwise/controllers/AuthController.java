@@ -82,7 +82,8 @@ public class AuthController {
             goToDashboard();
 
         } catch (Exception e) {
-            alertUtil.showError(e.getMessage());
+//            alertUtil.showError(e.getMessage());
+            e.printStackTrace();
         }
     }
     public void goToLogin(){
@@ -92,7 +93,7 @@ public class AuthController {
         NavigationUtil.goToPage(rootPane, "/fxml/RegisterView.fxml");
     }
     public void goToDashboard(){
-        NavigationUtil.goToPage(rootPane, "/fxml/DashboardView.fxml");
+        NavigationUtil.goToPage(rootPane, "/fxml/MainView.fxml");
     }
 
 
