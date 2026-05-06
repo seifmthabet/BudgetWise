@@ -88,7 +88,7 @@ public class Validation {
             throw new IllegalArgumentException("User id must be positive");
         }
 
-        if (goal.getGoalId() <= 0) {
+        if (goal.getGoalId() < 0) {
             throw new IllegalArgumentException("Goal id must be positive");
         }
 

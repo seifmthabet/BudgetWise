@@ -5,19 +5,22 @@ import com.budgetwise.budgetwise.models.enums.GoalStatus;
 import com.budgetwise.budgetwise.utils.DatabaseManager;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GoalDAO {
 
     private Goal mapResultSetToGoal(ResultSet rs) throws SQLException {
+        String deadlineStr = rs.getString("deadline");
+        LocalDateTime deadline = LocalDateTime.parse(deadlineStr);
         return new Goal(
                 rs.getInt("goal_id"),
                 rs.getInt("user_id"),
                 rs.getString("name"),
                 rs.getDouble("target_amount"),
                 rs.getDouble("current_amount"),
-                rs.getString("deal_line"),
+                deadline,
                 GoalStatus.valueOf(rs.getString("status"))
         );
     }
@@ -25,20 +28,19 @@ public class GoalDAO {
     public void save (Goal entity){
         String query = """
                 INSERT INTO goals
-                (goal_id, user_id, name, target_amount, current_amount, deadline, status)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                (user_id, name, target_amount, current_amount, deadline, status)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """;
 
         try (Connection conn = DatabaseManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
 
-            stmt.setInt(1, entity.getGoalId());
-            stmt.setInt(2, entity.getUserId());
-            stmt.setString(3, entity.getName());
-            stmt.setDouble(4, entity.getTargetAmount());
-            stmt.setDouble(5, entity.getCurrentAmount());
-            stmt.setTimestamp(6, Timestamp.valueOf(entity.getDeadline()));
-            stmt.setString(7, entity.getStatus().name());
+            stmt.setInt(1, entity.getUserId());
+            stmt.setString(2, entity.getName());
+            stmt.setDouble(3, entity.getTargetAmount());
+            stmt.setDouble(4, entity.getCurrentAmount());
+            stmt.setString(5, entity.getDeadline().toString());
+            stmt.setString(6, entity.getStatus().toString());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
