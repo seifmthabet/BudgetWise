@@ -24,17 +24,16 @@ public class BudgetDAO implements GenericDAO<Budget> {
     }
 
     public void save(Budget entity) {
-        String command = "INSERT INTO budgets (user_id,category_id,amount,spent_amount,start_date,end_date,alert_threshold)" +
-                "VALUES (?,?,?,?,?,?,?)";
+        String command = "INSERT INTO budgets (user_id,category_id,amount,start_date,end_date,alert_threshold)" +
+                "VALUES (?,?,?,?,?,?)";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(command)) {
             stmt.setInt(1, entity.getUserId());
             stmt.setInt(2, entity.getCategoryId());
             stmt.setDouble(3, entity.getAmount());
-            stmt.setDouble(4, entity.getSpentAmount());
-            stmt.setTimestamp(5, Timestamp.valueOf(entity.getStartDate()));
-            stmt.setTimestamp(6, Timestamp.valueOf(entity.getEndDate()));
-            stmt.setInt(7, entity.getAlertThreshold());
+            stmt.setTimestamp(4, Timestamp.valueOf(entity.getStartDate()));
+            stmt.setTimestamp(5, Timestamp.valueOf(entity.getEndDate()));
+            stmt.setInt(6, entity.getAlertThreshold());
 
 
             stmt.executeUpdate();
@@ -80,13 +79,12 @@ public class BudgetDAO implements GenericDAO<Budget> {
     }
 
     public void update(Budget entity) {
-        String command = "UPDATE budgets SET amount = ?,spent_amount = ? , end_date = ? WHERE budget_id = ?";
+        String command = "UPDATE budgets SET amount = ?, end_date = ? WHERE budget_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(command)) {
             stmt.setDouble(1, entity.getAmount());
-            stmt.setDouble(2, entity.getSpentAmount());
-            stmt.setString(3, entity.getEndDate().toString());
-            stmt.setInt(4, entity.getBudgetId());
+            stmt.setTimestamp(2, Timestamp.valueOf(entity.getEndDate()));
+            stmt.setInt(3, entity.getBudgetId());
 
             stmt.executeUpdate();
 
@@ -94,6 +92,21 @@ public class BudgetDAO implements GenericDAO<Budget> {
             throw new RuntimeException("Failed to update Budgets:", e);
         }
 
+    }
+    public void updateSpentAmount(int budgetId, double spentAmount) {
+        String sql = "UPDATE budgets SET spent_amount = ? WHERE budget_id = ?";
+
+        try (Connection conn = DatabaseManager.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setDouble(1, spentAmount);
+            stmt.setInt(2, budgetId);
+
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to update spent amount", e);
+        }
     }
 
     public void delete(int id) {
