@@ -14,14 +14,19 @@ public class BudgetService {
     }
 
     public void createBudget(Budget budget){
+        Budget existing = budgetDAO.findByCategoryAndDate(budget.getUserId(),budget.getCategoryId(),budget.getStartDate().getMonthValue(),budget.getStartDate().getYear());
+
+        if (existing != null) {
+            throw new RuntimeException("Budget already exists for this category in this month");
+        }
         budgetDAO.save(budget);
     }
 
-    public void updateBudget(Budget budget){
-        budgetDAO.update(budget);
-    }
-
     public void deleteBudget(Budget budget){
+        Budget budget1 = budgetDAO.findById(budget.getBudgetId());
+        if(budget1 == null){
+            throw new IllegalArgumentException("Budget Not Found");
+        }
         budgetDAO.delete(budget.getBudgetId());
     }
     public List<Budget> getBudgets(int user_id){
@@ -49,12 +54,13 @@ public class BudgetService {
         if (budget == null) {
             throw new RuntimeException("Budget not found");
         }
-
         budget.setSpentAmount(budget.getSpentAmount() + amount);
-        budgetDAO.update(budget);
+        Double newSpent =  budget.getSpentAmount();
+        budgetDAO.updateSpentAmount(budget_id,newSpent);
     }
 
-    public void updateAmount(int budget_id,double amount){
+    public void updateBudget(int budget_id, double amount,LocalDateTime endDate){
+
         if (amount <= 0) {
             throw new IllegalArgumentException("Amount must be positive");
         }
@@ -65,18 +71,19 @@ public class BudgetService {
             throw new RuntimeException("Budget not found");
         }
 
+        if (amount < budget.getSpentAmount()) {
+            throw new RuntimeException("New amount cannot be less than already spent");
+        }
+        budget.setEndDate(budget.getEndDate());
         budget.setAmount(amount);
+        budget.setEndDate(endDate);
         budgetDAO.update(budget);
     }
 
-    public void updateEndDate(int budget_id,String date){
-        Budget budget = budgetDAO.findById(budget_id);
-
-        if (budget == null) {
-            throw new RuntimeException("Budget not found");
+    public List<Budget> filterById(int userId){
+        if(userId <=0){
+            throw new IllegalArgumentException("Invalid user ID");
         }
-
-        budget.setEndDate(LocalDateTime.parse(date));
-        budgetDAO.update(budget);
+        return budgetDAO.findByUserId(userId);
     }
 }

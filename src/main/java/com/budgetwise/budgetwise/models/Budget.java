@@ -1,5 +1,6 @@
 package com.budgetwise.budgetwise.models;
 
+import com.budgetwise.budgetwise.core.AppContext;
 import com.budgetwise.budgetwise.models.enums.BudgetStatus;
 
 import java.time.LocalDate;
@@ -54,6 +55,10 @@ public class Budget {
     }
     public int getUserId(){return userId;}
     public int getCategoryId(){return categoryId;}
+    public String getCategoryName(){
+        Category category = AppContext.getCategoryDAO().findById(getCategoryId());
+        return category.getName();
+    }
     public double getAmount() {
         return amount;
     }
@@ -74,7 +79,7 @@ public class Budget {
         }
     }
 
-    private double getRemainingAmount() {
+    public Double getRemainingAmount() {
         return amount - spentAmount;
     }
     public void setAmount(double amount){
@@ -86,9 +91,9 @@ public class Budget {
     public void setEndDate(LocalDateTime date){
         this.endDate = date;
     }
-    public void setBudgetId(int budgetId){
-        this.budgetId = budgetId;
+    @Override
+    public String toString() {
+        return getCategoryName() + " - " + amount;
     }
-
 
 }

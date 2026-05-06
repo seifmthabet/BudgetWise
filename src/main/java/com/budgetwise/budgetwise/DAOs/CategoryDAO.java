@@ -11,7 +11,9 @@ public class CategoryDAO implements GenericDAO<Category> {
     private Category mapResultSetToCategory(ResultSet rs) throws SQLException {
         return new Category(
                 rs.getInt("category_id"),
-                rs.getInt("user_id"),
+                 rs.getObject("user_id") != null
+                ? rs.getInt("user_id")
+                : null,
                 rs.getString("name"),
                 rs.getBoolean("is_default")
         );
@@ -52,6 +54,21 @@ public class CategoryDAO implements GenericDAO<Category> {
     public List<Category> findAll() {
         List<Category> categories = new ArrayList<>();
         String query = "SELECT * FROM categories";
+        try (Connection conn = DatabaseManager.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                categories.add(mapResultSetToCategory(rs));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to fetch all categories", e);
+        }
+        return categories;
+    }
+
+    public List<Category> findDefault() {
+        List<Category> categories = new ArrayList<>();
+        String query = "SELECT * FROM categories WHERE is_default = 1 ";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
              PreparedStatement stmt = conn.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {

@@ -54,4 +54,5 @@ public class AppContext {
     public static AlertUtil getAlertUtil() {
         return alertUtil;
     }
+    public static CategoryDAO getCategoryDAO() {return categoryDAO;}
 }
