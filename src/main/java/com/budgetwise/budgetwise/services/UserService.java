@@ -25,7 +25,7 @@ public class UserService {
 
         userDAO.save(user);
 
-        return user;
+        return userDAO.findByEmail(email);
     }
 
     public User login(String email, String password) {

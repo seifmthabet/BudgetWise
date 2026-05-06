@@ -18,11 +18,9 @@ import javafx.util.Duration;
 public class AuthController {
 
     @FXML private TextField nameField;
-    @FXML private TextField EmailField;
-    @FXML private TextField PasswordField;
-
     @FXML private TextField emailField;
     @FXML private TextField passwordField;
+    @FXML private TextField confirmPasswordField;
     @FXML
     private AnchorPane rootPane;
     @FXML private Circle bubble1;
@@ -48,14 +46,20 @@ public class AuthController {
 
         try {
             String name = nameField.getText();
-            String email = EmailField.getText();
-            String password = PasswordField.getText();
+            String email = emailField.getText();
+            String password = passwordField.getText();
+            String confirmPassword = confirmPasswordField.getText();
 
             if (!validation.validateRigester(name, email, password)) return;
-
-            userService.register(name, email, password);
+            if (!password.equals(confirmPassword)) {
+                alertUtil.showWarning("Passwords do not match");
+                return;
+            }
+            User user = userService.register(name, email, password);
 
             alertUtil.showSuccess("Account Created Successfully");
+            AppContext.getSession().setCurrentUser(user);
+            goToDashboard();
 
         } catch (Exception e) {
             alertUtil.showError(e.getMessage());
@@ -78,8 +82,7 @@ public class AuthController {
             goToDashboard();
 
         } catch (Exception e) {
-//            alertUtil.showError(e.getMessage());
-            e.printStackTrace();
+            alertUtil.showError(e.getMessage());
         }
     }
     public void goToLogin(){
