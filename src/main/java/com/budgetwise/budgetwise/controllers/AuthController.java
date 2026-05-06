@@ -1,6 +1,5 @@
 package com.budgetwise.budgetwise.controllers;
 
-import com.budgetwise.budgetwise.DAOs.UserDAO;
 import com.budgetwise.budgetwise.core.AppContext;
 import com.budgetwise.budgetwise.models.User;
 import com.budgetwise.budgetwise.services.UserService;
@@ -18,6 +17,8 @@ import javafx.util.Duration;
 public class AuthController {
 
     @FXML private TextField nameField;
+
+
     @FXML private TextField emailField;
     @FXML private TextField passwordField;
     @FXML private TextField confirmPasswordField;
@@ -79,7 +80,7 @@ public class AuthController {
 
             alertUtil.showSuccess("Welcome " + user.getName());
             AppContext.getSession().setCurrentUser(user);
-            goToDashboard();
+            goToBudget();
 
         } catch (Exception e) {
 //            alertUtil.showError(e.getMessage());
@@ -94,6 +95,9 @@ public class AuthController {
     }
     public void goToDashboard(){
         NavigationUtil.goToPage(rootPane, "/fxml/MainView.fxml");
+    }
+    public void goToBudget(){
+        NavigationUtil.goToPage(rootPane, "/fxml/BudgetView.fxml");
     }
 
 

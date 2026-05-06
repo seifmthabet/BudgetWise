@@ -13,7 +13,8 @@ public class Goal {
     private LocalDateTime deadline;
     private GoalStatus status;
 
-    public Goal(int userId, String name, double targetAmount, double currentAmount, LocalDateTime deadline, GoalStatus status) {
+    public Goal(int goalId, int userId, String name, double targetAmount, double currentAmount, LocalDateTime deadline, GoalStatus status) {
+        this.goalId = goalId;
         this.userId = userId;
         this.name = name;
         this.targetAmount = targetAmount;
@@ -21,9 +22,7 @@ public class Goal {
         this.deadline = deadline;
         this.status = status;
     }
-
-    public Goal(int goalId, int userId, String name, double targetAmount, double currentAmount, String dealLine, GoalStatus status) {
-        this.goalId = goalId;
+    public Goal(int userId, String name, double targetAmount, double currentAmount, LocalDateTime deadline, GoalStatus status) {
         this.userId = userId;
         this.name = name;
         this.targetAmount = targetAmount;

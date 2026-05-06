@@ -18,7 +18,7 @@ public class CategoryService {
         if (category.getName() == null || category.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Category name cannot be empty");
         }
-        if (!category.getName().matches("^[a-zA-Z0-9\\s]+$"))
+        if (!category.getName().matches("^[a-zA-Z0-9\\s&]+$"))
             throw new IllegalArgumentException("Category name contains invalid characters");
         if (category.getUserId() <= 0) {
             throw new IllegalArgumentException("Invalid user ID");
@@ -47,7 +47,7 @@ public class CategoryService {
         if (category.getName() == null || category.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Category name cannot be empty");
         }
-        if (!category.getName().matches("^[a-zA-Z0-9\\s]+$"))
+        if (!category.getName().matches("^[a-zA-Z0-9\\s&]+$"))
             throw new IllegalArgumentException("Category name contains invalid characters");
         if (categoryDAO.existsDefaultCategoryByName(category.getName())) {
             throw new IllegalArgumentException("Cannot use default category name");
@@ -60,5 +60,8 @@ public class CategoryService {
             throw new IllegalArgumentException("Invalid user ID");
         }
         return categoryDAO.findByUser(userId);
+    }
+    public List<Category> getAllDefaults() {
+        return categoryDAO.findDefault();
     }
 }

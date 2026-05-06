@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.HBox?>
@@ -11,66 +13,136 @@
          xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.budgetwise.budgetwise.controllers.BudgetController"
         >
 
-            <!-- HEADER -->
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Label text="💰 Budgets"
-                       style="-fx-text-fill:white; -fx-font-size:24; -fx-font-weight:bold;"/>
+            <!-- ================= MAIN ================= -->
+            <VBox spacing="20" style="-fx-padding:30;">
 
-                <Button text="+ New Budget"
-                        onAction="#showForm"
-                        style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);
-                           -fx-text-fill:white;"/>
-            </HBox>
+                <!-- HEADER -->
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                    <Label style="-fx-text-fill:white; -fx-font-size:24; -fx-font-weight:bold;" text="Budgets" />
 
-            <!-- LIST -->
-            <ListView fx:id="budgetList"
-                      prefHeight="400"
-                      style="-fx-background-color:#1f2937; -fx-background-radius:10;"/>
+                    <Button onAction="#showForm" style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);                                -fx-text-fill:white;" text="+ New Budget" />
+               <Button layoutX="113.0" layoutY="15.0" onAction="#showEditForm" style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);                                -fx-text-fill:white;" text="Edit Budget" />
+                </HBox>
 
-        </VBox>
+                <VBox spacing="10" style="-fx-background-color:#111827; -fx-padding:15; -fx-background-radius:15;">
 
-        <!-- ================= FORM ================= -->
-<!--        <AnchorPane fx:id="formOverlay"-->
-<!--                    visible="false"-->
-<!--                    style="-fx-background-color: rgba(0,0,0,0.6);">-->
+                    <Label style="-fx-text-fill:white; -fx-font-size:16;" text="Budgets" />
 
-<!--            <VBox spacing="15"-->
-<!--                  alignment="CENTER"-->
-<!--                  layoutX="300" layoutY="120"-->
-<!--                  style="-fx-background-color:#111827;-->
-<!--                     -fx-padding:30;-->
-<!--                     -fx-background-radius:20;">-->
+                    <TableView fx:id="budgetTable" prefHeight="400" style="-fx-background-color:#1f2937;">
 
-<!--                <Label text="Create Budget"-->
-<!--                       style="-fx-text-fill:white; -fx-font-size:20;"/>-->
+                        <columns>
+                            <TableColumn fx:id="categoryColumn" prefWidth="140" text="Category" />
+                            <TableColumn fx:id="amountColumn" prefWidth="120" text="Amount" />
+                            <TableColumn fx:id="spentColumn" prefWidth="120" text="Spent" />
+                            <TableColumn fx:id="remainingColumn" prefWidth="120" text="Remaining" />
+                            <TableColumn fx:id="startDateColumn" prefWidth="130" text="Start Date" />
+                            <TableColumn fx:id="endDateColumn" prefWidth="130" text="End Date" />
+                        </columns>
 
-<!--                &lt;!&ndash; Category &ndash;&gt;-->
-<!--                <ComboBox fx:id="categoryBox"-->
-<!--                          promptText="Select Category"-->
-<!--                          style="-fx-background-color:#1f2937; -fx-text-fill:white;"/>-->
+                    </TableView>
 
-<!--                &lt;!&ndash; Amount &ndash;&gt;-->
-<!--                <TextField fx:id="amountField"-->
-<!--                           promptText="Budget Amount"-->
-<!--                           style="-fx-background-color:#1f2937; -fx-text-fill:white;"/>-->
+                </VBox>
 
-<!--                &lt;!&ndash; Period &ndash;&gt;-->
-<!--                <DatePicker fx:id="periodPicker"/>-->
+            </VBox>
 
-<!--                &lt;!&ndash; Buttons &ndash;&gt;-->
-<!--                <HBox spacing="10">-->
-<!--                    <Button text="Cancel"-->
-<!--                            onAction="#hideForm"-->
-<!--                            style="-fx-background-color:#374151; -fx-text-fill:white;"/>-->
+            <!-- ================= FORM OVERLAY ================= -->
+            <AnchorPane fx:id="formcreateOverlay" style="-fx-background-color: rgba(0,0,0,0.6);" visible="false">
 
-<!--                    <Button text="Save"-->
-<!--                            onAction="#handleSaveBudget"-->
-<!--                            style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);-->
-<!--                               -fx-text-fill:white;"/>-->
-<!--                </HBox>-->
+                <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
-<!--            </VBox>-->
+                    <VBox alignment="CENTER" maxWidth="320" spacing="15" style="-fx-background-color:#111827;                      -fx-padding:30;                      -fx-background-radius:20;">
 
-<!--        </AnchorPane>-->
+                        <!-- TITLE -->
+                        <Label style="-fx-text-fill:white; -fx-font-size:20;" text="Create Budget" />
+
+                        <!-- CATEGORY -->
+                        <ComboBox fx:id="categoryBox" maxWidth="260" prefWidth="260" promptText="Select Category" />
+
+
+                        <!-- AMOUNT -->
+                        <TextField fx:id="amountField" maxWidth="260" prefWidth="260" promptText="Budget Amount" />
+
+                        <!-- START DATE -->
+                        <DatePicker fx:id="startDatePicker" maxWidth="260" prefWidth="260" promptText="Start Date" />
+
+                        <!-- END DATE -->
+                        <DatePicker fx:id="endDatePicker" maxWidth="260" prefWidth="260" promptText="End Date" />
+
+                        <!-- ALERT -->
+                        <TextField fx:id="alertField" maxWidth="260" prefWidth="260" promptText="Alert Threshold (%) e.g. 80" />
+
+                        <!-- BUTTONS -->
+                        <HBox alignment="CENTER" spacing="10">
+                            <Button onAction="#hideForm" style="-fx-background-color:#374151; -fx-text-fill:white;" text="Cancel" />
+
+                            <Button onAction="#handleSaveBudget" style="-fx-background-color:#10b981; -fx-text-fill:white;" text="Save" />
+                        </HBox>
+
+                    </VBox>
+
+                </StackPane>
+
+          </AnchorPane>
+            <AnchorPane fx:id="editOverlay" visible="false"
+                        style="-fx-background-color: rgba(0,0,0,0.6);">
+
+                <StackPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0"
+                           AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+
+                    <VBox spacing="20" maxWidth="600" alignment="CENTER"
+                          style="-fx-background-color:#111827;
+                     -fx-padding:30;
+                     -fx-background-radius:20;">
+
+                        <!-- TITLE -->
+                        <Label text="Edit Budget"
+                               style="-fx-text-fill:white; -fx-font-size:22; -fx-font-weight:bold;"/>
+
+                        <ListView fx:id="budgetListView"
+                                  prefHeight="200"
+                                  maxWidth="500"
+                                  style="-fx-background-color:#1f2937;
+                             -fx-control-inner-background:#1f2937;
+                             -fx-cell-hover-color:#374151;
+                             -fx-padding:10;"/>
+
+                        <!-- FIELDS -->
+                        <HBox spacing="15" alignment="CENTER">
+                            <TextField fx:id="editAmountField"
+                                       promptText="Amount"
+                                       prefWidth="150"/>
+
+                            <TextField fx:id="editAlertField"
+                                       promptText="Alert %"
+                                       prefWidth="150"/>
+                        </HBox>
+
+                        <HBox spacing="15" alignment="CENTER">
+                            <DatePicker fx:id="editStartDatePicker"
+                                        prefWidth="150"/>
+
+                            <DatePicker fx:id="editEndDatePicker"
+                                        prefWidth="150"/>
+                        </HBox>
+
+                        <!-- BUTTONS -->
+                        <HBox spacing="15" alignment="CENTER">
+                            <Button text="Delete"
+                                    onAction="#deleteSelectedBudget"
+                                    style="-fx-background-color:#ef4444; -fx-text-fill:white; -fx-pref-width:100;"/>
+
+                            <Button text="Update"
+                                    onAction="#handleUpdateBudget"
+                                    style="-fx-background-color:#10b981; -fx-text-fill:white; -fx-pref-width:100;"/>
+
+                            <Button text="Cancel"
+                                    onAction="#hideEditForm"
+                                    style="-fx-background-color:#374151; -fx-text-fill:white; -fx-pref-width:100;"/>
+                        </HBox>
+
+                    </VBox>
+
+                </StackPane>
+            </AnchorPane>
 
 
