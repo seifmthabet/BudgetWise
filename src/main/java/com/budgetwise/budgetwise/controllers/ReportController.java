@@ -50,11 +50,6 @@ public class ReportController {
         // Chart initialization logic here...
     }
 
-    @FXML
-    private void handleRangeChange() {
-        // Update charts based on rangeBox.getValue()
-    }
-
     @FXML public void showExportModal() {
         exportModalOverlay.setVisible(true);
     }
@@ -158,6 +153,8 @@ public class ReportController {
 
         return "Top spending category: " + maxEntry.getKey()
                 + " (" + String.format("%.2f", maxEntry.getValue()) + ")";
+    }
+    @FXML
     private void handleGenerateAndDownload() {
         try {
             String format = exportFormatBox.getValue();
