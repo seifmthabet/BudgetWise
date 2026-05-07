@@ -26,7 +26,7 @@ public class Main extends Application {
 //    public void stop() {
 //        DatabaseManager.getInstance().close();
 //    }
-
+//
     public static void main(String[] args) {
         launch(args);
     }
