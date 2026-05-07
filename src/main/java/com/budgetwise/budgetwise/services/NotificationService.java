@@ -31,6 +31,13 @@ public class NotificationService {
         return notificationDAO.findUnreadByUserId(userId);
     }
 
+    public Notification getNotificationById(int notificationId) {
+        if (notificationId <= 0) {
+            throw new IllegalArgumentException("Invalid notification ID");
+        }
+        return notificationDAO.findById(notificationId);
+    }
+
     public boolean markAsRead(int notificationId) {
         if (notificationId <= 0) {
             throw new IllegalArgumentException("Invalid notification ID");
@@ -50,7 +57,7 @@ public class NotificationService {
         if (notificationId <= 0) {
             throw new IllegalArgumentException("Invalid notification ID");
         }
-        if (notificationDAO.findById(notificationId) != null) {
+        if (notificationDAO.findById(notificationId) == null) {
             throw new IllegalArgumentException("Notification not found");
         }
         notificationDAO.delete(notificationId);

@@ -2,6 +2,7 @@ package com.budgetwise.budgetwise.controllers;
 
 import com.budgetwise.budgetwise.models.Budget;
 import com.budgetwise.budgetwise.models.Category;
+import com.budgetwise.budgetwise.models.enums.NotificationType;
 import com.budgetwise.budgetwise.utils.NavigationUtil;
 import com.budgetwise.budgetwise.core.AppContext;
 import javafx.beans.property.SimpleObjectProperty;
@@ -97,6 +98,8 @@ public void handleSaveBudget() {
         budgetTable.setItems(getData());
 
         hideForm();
+        AppContext.getAlertUtil().showSuccess("Budget Created Successfully");
+        AppContext.getNotificationService().sendNotification(userId, NotificationType.BUDGET_CREATED, "Budget Created");
 
     } catch (Exception e) {
         AppContext.getAlertUtil().showError(e.getMessage());
@@ -214,6 +217,8 @@ public void handleSaveBudget() {
             budgetTable.setItems(getData());
             budgetListView.setItems(getData());
 
+            AppContext.getNotificationService().sendNotification(userId, NotificationType.BUDGET_UPDATED, "Budget Updated");
+
         } catch (Exception e) {
             AppContext.getAlertUtil().showError(e.getMessage());
         }
@@ -234,6 +239,8 @@ public void handleSaveBudget() {
 
         budgetTable.setItems(getData());
         budgetListView.setItems(getData());
+        AppContext.getNotificationService().sendNotification(userId, NotificationType.BUDGET_DELETED, "Budget Deleted");
+
     }
 
 
