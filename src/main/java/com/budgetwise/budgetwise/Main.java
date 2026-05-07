@@ -22,10 +22,10 @@ public class Main extends Application {
         stage.show();
     }
 
-    @Override
-    public void stop() {
-        DatabaseManager.getInstance().close();
-    }
+//    @Override
+//    public void stop() {
+//        DatabaseManager.getInstance().close();
+//    }
 
     public static void main(String[] args) {
         launch(args);

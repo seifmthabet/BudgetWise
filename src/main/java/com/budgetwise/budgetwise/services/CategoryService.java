@@ -55,6 +55,13 @@ public class CategoryService {
         categoryDAO.update(category);
     }
 
+    public Category findById(int categoryId) {
+        if (categoryId <= 0) {
+            throw new IllegalArgumentException("Invalid category ID");
+        }
+        return categoryDAO.findById(categoryId);
+    }
+
     public List<Category> getCategories(int userId) {
         if (userId <= 0) {
             throw new IllegalArgumentException("Invalid user ID");

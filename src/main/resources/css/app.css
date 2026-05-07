@@ -117,3 +117,148 @@
     -fx-font-weight: bold;
     -fx-padding: 0 0 20 0;
 }
+
+/* --- Modal & Overlay Styling --- */
+.modal-dialog {
+    -fx-background-color: rgba(17, 24, 39, 0.85); /* Deep dark blue/grey */
+    -fx-background-radius: 16;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-width: 1;
+    -fx-border-radius: 16;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 20, 0, 0, 10);
+}
+
+/* --- Form Inputs (TextFields, ComboBox, DatePicker) --- */
+.text-field, .combo-box, .date-picker {
+    -fx-background-color: rgba(31, 41, 55, 0.6);
+    -fx-border-color: rgba(255, 255, 255, 0.15);
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-text-fill: white;
+    -fx-padding: 8 12;
+    -fx-prompt-text-fill: #6b7280;
+    -fx-font-size: 14px;
+}
+
+/* Focus states for inputs */
+.text-field:focused, .combo-box:focused, .date-picker:focused {
+    -fx-border-color: #3b82f6; /* Blue highlight */
+    -fx-background-color: rgba(31, 41, 55, 0.9);
+}
+
+/* ComboBox dropdown list styling */
+.combo-box-popup .list-view {
+    -fx-background-color: #1f2937;
+    -fx-border-color: rgba(255,255,255,0.1);
+}
+.combo-box-popup .list-cell {
+    -fx-text-fill: white;
+    -fx-padding: 8 10;
+}
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #374151;
+}
+
+/* Action Buttons */
+.btn-primary {
+    -fx-background-color: linear-gradient(to right, #ff7eb3, #ff758c);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+}
+
+.btn-secondary {
+    -fx-background-color: rgba(55, 65, 81, 0.6);
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+/* --- Progress Bar Styling --- */
+.progress-bar {
+    -fx-pref-height: 10px;
+}
+
+.progress-bar > .track {
+    -fx-background-color: rgba(31, 41, 55, 0.8);
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-radius: 10;
+}
+
+.progress-bar > .bar {
+    -fx-background-color: linear-gradient(to right, #3b82f6, #8b5cf6); /* Blue to Purple */
+    -fx-background-radius: 10;
+    -fx-padding: 5px;
+}
+
+/* Specific styling for the Goals ListView to remove borders */
+#goalList {
+    -fx-background-color: transparent;
+    -fx-control-inner-background: transparent;
+}
+#goalList .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 8px 0; /* Vertical spacing between cards */
+}
+#goalList .list-cell:empty {
+    -fx-background-color: transparent;
+}
+
+/* --- Chart Customization --- */
+.chart {
+    -fx-padding: 10;
+    -fx-legend-side: bottom;
+}
+
+.chart-content {
+    -fx-padding: 10;
+}
+
+.chart-title {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.chart-legend {
+    -fx-background-color: transparent;
+    -fx-text-fill: #9ca3af;
+}
+
+.chart-legend-item {
+    -fx-text-fill: #9ca3af;
+}
+
+/* Axis Styling */
+.axis {
+    -fx-tick-label-fill: #9ca3af;
+    -fx-tick-mark-stroke: #334155;
+}
+
+.axis-label {
+    -fx-text-fill: white;
+}
+
+/* Specific PieChart Styling */
+.chart-pie-label {
+    -fx-fill: white;
+    -fx-font-size: 12px;
+}
+
+.chart-pie {
+    -fx-border-color: #0f172a;
+    -fx-border-width: 2px;
+}
+
+/* BarChart Bars */
+.chart-bar {
+    -fx-bar-gap: 5;
+}
+
+.default-color0.chart-bar { -fx-bar-fill: #3b82f6; } /* Income - Blue */
+.default-color1.chart-bar { -fx-bar-fill: #ef4444; } /* Expense - Red */

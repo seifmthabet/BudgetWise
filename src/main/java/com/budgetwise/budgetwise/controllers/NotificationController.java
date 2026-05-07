@@ -1,5 +1,6 @@
 package com.budgetwise.budgetwise.controllers;
 
+import com.budgetwise.budgetwise.core.AppContext;
 import com.budgetwise.budgetwise.models.Notification;
 import com.budgetwise.budgetwise.models.enums.NotificationType;
 import com.budgetwise.budgetwise.utils.NavigationUtil;
@@ -10,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -63,10 +63,12 @@ public class NotificationController {
 
                 readBtn.setOnAction(e -> {
                     item.markAsRead();
+                    AppContext.getNotificationService().markAsRead(item.getNotificationId());
                     getListView().refresh();
                 });
 
                 deleteBtn.setOnAction(e -> {
+                    AppContext.getNotificationService().deleteNotification(item.getNotificationId());
                     getListView().getItems().remove(item);
                 });
 
@@ -76,9 +78,9 @@ public class NotificationController {
         });
 
         notificationList.setItems(FXCollections.observableArrayList(
-                new Notification(1, NotificationType.PAYMENT_REMINDER, "New transaction added", false),
-                new Notification(1,  NotificationType.PAYMENT_REMINDER, "Budget exceeded!", true),
-                new Notification(1,  NotificationType.PAYMENT_REMINDER, "Goal reached 🎉", false)
+                AppContext.getNotificationService().getUnreadNotifications(
+                        AppContext.getSession().getCurrentUser().getUserId()
+                )
         ));
     }
 

@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS transactions (
     category_id     INTEGER,
     description     TEXT,
     payment_method  TEXT,
-    date            TEXT    NOT NULL,
+    date            TIMESTAMP    NOT NULL,
     FOREIGN KEY (user_id)     REFERENCES users(user_id)      ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(category_id)
 );
@@ -64,14 +64,14 @@ CREATE TABLE IF NOT EXISTS notifications (
 );
 
 -- Seed default categories (not tied to any user)
-INSERT OR IGNORE INTO categories (user_id, name, is_default) VALUES
-    (NULL, 'Food & Dining',    1),
-    (NULL, 'Transport',        1),
-    (NULL, 'Groceries',        1),
-    (NULL, 'Entertainment',    1),
-    (NULL, 'Bills & Utilities',1),
-    (NULL, 'Healthcare',       1),
-    (NULL, 'Education',        1),
-    (NULL, 'Salary',           1),
-    (NULL, 'Freelance',        1),
-    (NULL, 'Other',            1);
+-- INSERT OR IGNORE INTO categories (user_id, name, is_default) VALUES
+--     (NULL, 'Food & Dining',    1),
+--     (NULL, 'Transport',        1),
+--     (NULL, 'Groceries',        1),
+--     (NULL, 'Entertainment',    1),
+--     (NULL, 'Bills & Utilities',1),
+--     (NULL, 'Healthcare',       1),
+--     (NULL, 'Education',        1),
+--     (NULL, 'Salary',           1),
+--     (NULL, 'Freelance',        1),
+--     (NULL, 'Other',            1);

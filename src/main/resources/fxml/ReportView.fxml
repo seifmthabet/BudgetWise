@@ -1,58 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
 
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.chart.BarChart?>
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.CategoryAxis?>
+<VBox spacing="25" prefHeight="720.0" prefWidth="1280.0"
+      style="-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b); -fx-padding:30;"
+      stylesheets="@../css/app.css"
+      xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.budgetwise.budgetwise.controllers.ReportController">
 
-        <VBox spacing="20"
-              style="-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b); -fx-padding:30;"
-              xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.budgetwise.budgetwise.controllers.ReportController"
-        >
+    <HBox spacing="15" alignment="CENTER_LEFT">
+        <Label text="📊 Reports &amp; Analytics"
+               style="-fx-text-fill:white; -fx-font-size:26; -fx-font-weight:bold;"/>
 
-            <!-- HEADER -->
-            <HBox spacing="10" alignment="CENTER_LEFT">
-                <Label text="📊 Reports and Analytics"
-                       style="-fx-text-fill:white; -fx-font-size:24; -fx-font-weight:bold;"/>
+        <Pane HBox.hgrow="ALWAYS" />
 
-                <ComboBox fx:id="rangeBox"
-                          promptText="Select Range"
-                          onAction="#handleRangeChange"
-                          style="-fx-background-color:#1f2937; -fx-text-fill:white;"/>
-            </HBox>
+        <ComboBox fx:id="rangeBox" promptText="Time Period" prefWidth="180" onAction="#handleRangeChange" />
 
-            <!-- EMPTY MESSAGE -->
-            <Label fx:id="emptyLabel"
-                   text="No transaction data available for this period."
-                   visible="false"
-                   style="-fx-text-fill:#9ca3af;"/>
+        <MenuButton text="💾 Export As" styleClass="btn-primary">
+            <items>
+                <MenuItem text="Export as CSV" onAction="#handleExportCSV" />
+                <MenuItem text="Export as PDF" onAction="#handleExportPDF" />
+                <MenuItem text="Export as Excel" onAction="#handleExportExcel" />
+            </items>
+        </MenuButton>
+    </HBox>
 
-            <!-- PIE CHART -->
-            <PieChart fx:id="expensePieChart"
-                      title="Expenses by Category"
-                      prefHeight="250"
-                      style="-fx-background-color:#111827; -fx-background-radius:15;"/>
-
-            <!-- BAR CHART -->
-            <BarChart fx:id="incomeExpenseChart" prefHeight="300">
-
-                <xAxis>
-                    <CategoryAxis />
-                </xAxis>
-
-                <yAxis>
-                    <NumberAxis />
-                </yAxis>
-
-            </BarChart>
-
-            <!-- INSIGHT -->
-            <Label fx:id="insightLabel"
-                   style="-fx-text-fill:#22c55e; -fx-font-size:14;"/>
-
+    <HBox spacing="20" VBox.vgrow="ALWAYS">
+        <VBox spacing="15" styleClass="card-glass" style="-fx-padding: 20;" HBox.hgrow="ALWAYS">
+            <Label text="Expense Allocation" style="-fx-text-fill:white; -fx-font-size:18; -fx-font-weight:bold;" />
+            <PieChart fx:id="expensePieChart" legendSide="RIGHT" VBox.vgrow="ALWAYS" />
         </VBox>
+
+        <VBox spacing="20" styleClass="card-glass" style="-fx-padding: 20; -fx-min-width: 300;">
+            <Label text="Smart Insights" style="-fx-text-fill:white; -fx-font-size:18; -fx-font-weight:bold;" />
+            <Label fx:id="insightLabel" wrapText="true" style="-fx-text-fill:#22c55e; -fx-font-size:15;" text="Analyzing your data..." />
+            <Label fx:id="emptyLabel" text="No data for this period." visible="false" style="-fx-text-fill:#ef4444;" />
+        </VBox>
+    </HBox>
+
+    <VBox spacing="15" styleClass="card-glass" style="-fx-padding: 20;" VBox.vgrow="ALWAYS">
+        <Label text="Cash Flow (Income vs. Expenses)" style="-fx-text-fill:white; -fx-font-size:18; -fx-font-weight:bold;" />
+        <BarChart fx:id="incomeExpenseChart" VBox.vgrow="ALWAYS">
+            <xAxis><CategoryAxis side="BOTTOM" /></xAxis>
+            <yAxis><NumberAxis side="LEFT" /></yAxis>
+        </BarChart>
+    </VBox>
+
+</VBox>

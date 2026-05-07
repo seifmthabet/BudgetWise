@@ -80,7 +80,7 @@ public class AuthController {
 
             alertUtil.showSuccess("Welcome " + user.getName());
             AppContext.getSession().setCurrentUser(user);
-            goToBudget();
+            goToDashboard();
 
         } catch (Exception e) {
 //            alertUtil.showError(e.getMessage());
@@ -95,9 +95,6 @@ public class AuthController {
     }
     public void goToDashboard(){
         NavigationUtil.goToPage(rootPane, "/fxml/MainView.fxml");
-    }
-    public void goToBudget(){
-        NavigationUtil.goToPage(rootPane, "/fxml/BudgetView.fxml");
     }
 
 

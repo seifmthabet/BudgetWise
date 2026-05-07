@@ -15,7 +15,38 @@ public class ReportController {
 
     @FXML private PieChart expensePieChart;
     @FXML private BarChart<String, Number> incomeExpenseChart;
-    @FXML private Label emptyLabel;
+    @FXML private Label insightLabel, emptyLabel;
+    @FXML private ComboBox<String> rangeBox;
+
+    @FXML
+    public void initialize() {
+        rangeBox.setItems(javafx.collections.FXCollections.observableArrayList(
+                "This Month", "Last Month", "Last 3 Months", "This Year"
+        ));
+        // Chart initialization logic here...
+    }
+
+    @FXML
+    private void handleExportCSV() {
+        // Implementation: Use a FileChooser to save CSV
+        System.out.println("Exporting CSV...");
+    }
+
+    @FXML
+    private void handleExportPDF() {
+        // Implementation: Call PDF generation logic
+        System.out.println("Generating PDF Report...");
+    }
+
+    @FXML
+    private void handleExportExcel() {
+        System.out.println("Generating Excel Report...");
+    }
+
+    @FXML
+    private void handleRangeChange() {
+        // Update charts based on rangeBox.getValue()
+    }
 
     @FXML
     private void handleGenerateReport() {

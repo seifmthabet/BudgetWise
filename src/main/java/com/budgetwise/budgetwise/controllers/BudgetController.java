@@ -45,7 +45,6 @@ public class BudgetController {
     @FXML private DatePicker editEndDatePicker;
     @FXML private TextField editAlertField;
 
-    private Budget editingBudget;
 
     @FXML private ComboBox<Category> categoryBox;
     @FXML private TextField amountField;
@@ -53,26 +52,9 @@ public class BudgetController {
     @FXML private DatePicker startDatePicker;
     @FXML private DatePicker endDatePicker;
     @FXML private TextField newCategoryField;
+
+    private Budget editingBudget;
     private int userId;
-//  ======================= Navigations Pages ===========================
-    public void goToDashboard() {
-    NavigationUtil.goToPage(borderPane, "/fxml/DashboardView.fxml");
-}
-    public void goToTransaction() {
-        NavigationUtil.goToPage(borderPane, "/fxml/TransactionView.fxml");
-    }
-    public void goToBudget() {
-        NavigationUtil.goToPage(borderPane, "/fxml/BudgetView.fxml");
-    }
-    public void goToGoal() {
-        NavigationUtil.goToPage(borderPane, "/fxml/GoalsView.fxml");
-    }
-    public void goToNotification() {
-        NavigationUtil.goToPage(borderPane, "/fxml/NotificationView.fxml");
-    }
-    public void goToReport() {
-        NavigationUtil.goToPage(borderPane, "/fxml/ReportView.fxml");
-    }
 
 //  ======================= Show Form -> Create Budget ===========================
     public void showForm(){
@@ -124,46 +106,70 @@ public void handleSaveBudget() {
     public void initialize(){
         userId = AppContext.getSession().getCurrentUser().getUserId();
 
-        categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(
-                data.getValue().getCategoryName()
-        ));
-        amountColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(
-                data.getValue().getAmount()
-        ));
-        spentColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(
-                data.getValue().getSpentAmount()
-        ));
-        remainingColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(
-                data.getValue().getRemainingAmount()
-        ));
-        startDateColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(
-                data.getValue().getStartDate().toLocalDate()
-        ));
-        endDateColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(
-                data.getValue().getEndDate().toLocalDate()
-        ));
+        // 1. Setup Table Columns
+        categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCategoryName()));
+        amountColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getAmount()));
+        spentColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getSpentAmount()));
+        startDateColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getStartDate().toLocalDate()));
+        endDateColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getEndDate().toLocalDate()));
+
+        // Set Remaining amount with logic for dynamic coloring
+        remainingColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getRemainingAmount()));
+        remainingColumn.setCellFactory(column -> new TableCell<Budget, Double>() {
+            @Override
+            protected void updateItem(Double remaining, boolean empty) {
+                super.updateItem(remaining, empty);
+                if (empty || remaining == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText("$" + String.format("%.2f", remaining));
+                    if (remaining < 0) {
+                        setStyle("-fx-text-fill: #ef4444; -fx-font-weight: bold;"); // Red if overdrawn
+                    } else if (remaining < 50) { // Or compare against a percentage of the total
+                        setStyle("-fx-text-fill: #f59e0b; -fx-font-weight: bold;"); // Orange if low
+                    } else {
+                        setStyle("-fx-text-fill: #22c55e; -fx-font-weight: bold;"); // Green if healthy
+                    }
+                }
+            }
+        });
+
         budgetTable.setItems(getData());
 
+        // 2. Setup Category ComboBox
         ObservableList<Category> categories = FXCollections.observableArrayList(
                 AppContext.getCategoryService().getAllDefaults()
         );
-
         categoryBox.setItems(categories);
+
+        // 3. Setup Edit ListView with a custom cell for a cleaner UI
+        budgetListView.setCellFactory(list -> new ListCell<Budget>() {
+            @Override
+            protected void updateItem(Budget item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("-fx-background-color: transparent;");
+                } else {
+                    setText(item.getCategoryName() + "  -  $" + item.getAmount() + " (" + item.getStartDate().toLocalDate() + " to " + item.getEndDate().toLocalDate() + ")");
+                    setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10; -fx-background-color: transparent; -fx-border-color: rgba(255,255,255,0.05); -fx-border-width: 0 0 1 0;");
+                }
+            }
+        });
+
+        // Edit List Selection Listener
         budgetListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, selected) -> {
-
             if (selected != null) {
-
                 editAmountField.setText(String.valueOf(selected.getAmount()));
-
                 editStartDatePicker.setValue(selected.getStartDate().toLocalDate());
                 editEndDatePicker.setValue(selected.getEndDate().toLocalDate());
-
                 editAlertField.setText(String.valueOf(selected.getAlertThreshold()));
-
                 editingBudget = selected;
             }
         });
     }
+
     private ObservableList<Budget> getData() {
         return FXCollections.observableArrayList(AppContext.getBudgetService().filterById(userId));
     }

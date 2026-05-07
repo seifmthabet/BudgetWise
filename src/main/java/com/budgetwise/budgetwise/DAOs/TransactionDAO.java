@@ -39,7 +39,7 @@ public class TransactionDAO implements GenericDAO<Transaction>{
             stmt.setInt(2, entity.getCategoryId());
             stmt.setString(3, entity.getType().name());
             stmt.setBigDecimal(4, entity.getAmount());
-            stmt.setTimestamp(5, Timestamp.valueOf(entity.getDate()));
+            stmt.setTimestamp(5, Timestamp.valueOf(LocalDateTime.now()));
             stmt.setString(6, entity.getDescription());
             stmt.setString(7, entity.getPaymentMethod().name());
             stmt.executeUpdate();

@@ -4,26 +4,17 @@ import com.budgetwise.budgetwise.core.AppContext;
 import com.budgetwise.budgetwise.models.Goal;
 import com.budgetwise.budgetwise.models.enums.GoalStatus;
 import com.budgetwise.budgetwise.services.GoalService;
-import com.budgetwise.budgetwise.utils.NavigationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class GoalController {
-
-    public Button dashboardBtn;
-    public Button transactionBtn;
-    public Button budgetBtn;
-    public Button goalBtn;
-    public Button notificationBtn;
-    public Button reportBtn;
-    @FXML private BorderPane borderPane;
     @FXML private ListView<Goal> goalList;
     @FXML private AnchorPane formOverlay;
     @FXML private TextField goalNameField;
@@ -41,17 +32,53 @@ public class GoalController {
 
         loadGoals();
 
-        // Customizing the list view display
         goalList.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(Goal item, boolean empty) {
                 super.updateItem(item, empty);
+
                 if (empty || item == null) {
+                    setGraphic(null);
                     setText(null);
                 } else {
-                    String progress = String.format("%.1f%%", item.getProgressPercent());
-                    setText(String.format("%s | Target: %.2f | Saved: %.2f | Progress: %s",
-                            item.getName(), item.getTargetAmount(), item.getCurrentAmount(), progress));
+                    HBox card = new HBox(20);
+                    card.setAlignment(Pos.CENTER_LEFT);
+                    card.setStyle("-fx-background-color: rgba(31, 41, 55, 0.6); -fx-background-radius: 12; -fx-border-color: rgba(255, 255, 255, 0.05); -fx-border-radius: 12; -fx-padding: 20;");
+
+                    VBox infoBox = new VBox(5);
+                    Label nameLabel = new Label(item.getName());
+                    nameLabel.setStyle("-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;");
+
+                    Label dateLabel = new Label("Deadline: " + item.getDeadline().toLocalDate().toString());
+                    dateLabel.setStyle("-fx-text-fill: #9ca3af; -fx-font-size: 13px;");
+
+                    infoBox.getChildren().addAll(nameLabel, dateLabel);
+
+                    Pane spacer = new Pane();
+                    HBox.setHgrow(spacer, Priority.ALWAYS);
+
+                    VBox progressBox = new VBox(8);
+                    progressBox.setAlignment(Pos.CENTER_RIGHT);
+                    progressBox.setPrefWidth(250);
+
+                    HBox numbersBox = new HBox();
+                    numbersBox.setAlignment(Pos.BASELINE_CENTER);
+                    Label savedLabel = new Label("$" + String.format("%.2f", item.getCurrentAmount()));
+                    savedLabel.setStyle("-fx-text-fill: #22c55e; -fx-font-weight: bold; -fx-font-size: 14px;");
+                    Label targetLabel = new Label("of $" + String.format("%.2f", item.getTargetAmount()));
+                    targetLabel.setStyle("-fx-text-fill: #9ca3af; -fx-font-size: 14px;");
+
+                    numbersBox.getChildren().addAll(savedLabel, targetLabel);
+
+                    ProgressBar progressBar = new ProgressBar(item.getProgressPercent() / 100.0);
+                    progressBar.setMaxWidth(Double.MAX_VALUE); // Let it stretch
+
+                    progressBox.getChildren().addAll(numbersBox, progressBar);
+
+                    card.getChildren().addAll(infoBox, spacer, progressBox);
+
+                    setGraphic(card);
+                    setText(null);
                 }
             }
         });
@@ -64,6 +91,11 @@ public class GoalController {
 
     @FXML
     public void showForm() {
+        // Reset fields when opening form
+        goalNameField.clear();
+        targetField.clear();
+        savedField.clear();
+        deadlinePicker.setValue(null);
         formOverlay.setVisible(true);
     }
 
@@ -75,9 +107,8 @@ public class GoalController {
     @FXML
     public void handleCreateGoal() {
         try {
-            // Validation
             if (goalNameField.getText().isEmpty() || targetField.getText().isEmpty()) {
-                showAlert("Input Error", "Please fill in all required fields (Name and Target Amount).");
+                AppContext.getAlertUtil().showError("Please fill in the Name and Target Amount.");
                 return;
             }
 
@@ -87,7 +118,7 @@ public class GoalController {
 
             LocalDateTime deadline = deadlinePicker.getValue() != null ?
                     deadlinePicker.getValue().atTime(LocalTime.MIDNIGHT) :
-                    LocalDateTime.now();
+                    LocalDateTime.now().plusMonths(1);
 
             Goal newGoal = new Goal(userId, name, target, saved, deadline, GoalStatus.IN_PROGRESS);
 
@@ -97,24 +128,9 @@ public class GoalController {
             hideForm();
 
         } catch (NumberFormatException e) {
-            showAlert("Input Error", "Please enter valid numeric values for Amount fields.");
+            AppContext.getAlertUtil().showError("Please enter valid numeric values for Amounts.");
         } catch (Exception e) {
-            showAlert("Error", "An error occurred while creating the goal: " + e.getMessage());
+            AppContext.getAlertUtil().showError("An error occurred: " + e.getMessage());
         }
     }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    @FXML public void goToDashboard() { NavigationUtil.goToPage(borderPane, "/fxml/DashboardView.fxml"); }
-    @FXML public void goToTransaction() { NavigationUtil.goToPage(borderPane, "/fxml/TransactionView.fxml"); }
-    @FXML public void goToBudget() { NavigationUtil.goToPage(borderPane, "/fxml/BudgetView.fxml"); }
-    @FXML public void goToGoal() { NavigationUtil.goToPage(borderPane, "/fxml/GoalsView.fxml"); }
-    @FXML public void goToNotification() { NavigationUtil.goToPage(borderPane, "/fxml/NotificationView.fxml"); }
-    @FXML public void goToReport() { NavigationUtil.goToPage(borderPane, "/fxml/ReportView.fxml"); }
 }

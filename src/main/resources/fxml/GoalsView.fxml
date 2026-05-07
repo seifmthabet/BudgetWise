@@ -1,50 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
+<StackPane stylesheets="@../css/app.css"
+           xmlns="http://javafx.com/javafx/25"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.budgetwise.budgetwise.controllers.GoalController">
 
-        <VBox spacing="20" style="-fx-padding:30;-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b); "
-              xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.budgetwise.budgetwise.controllers.GoalController"
-        >
+    <VBox spacing="20" style="-fx-padding:30; -fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b);">
 
-            <!-- HEADER -->
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Label style="-fx-text-fill:white; -fx-font-size:24; -fx-font-weight:bold;" text="🎯 Goals" />
+        <HBox alignment="CENTER_LEFT" spacing="10">
+            <Label style="-fx-text-fill:white; -fx-font-size:26; -fx-font-weight:bold;" text="🎯 Financial Goals" />
+            <Pane HBox.hgrow="ALWAYS" /> <Button onAction="#showForm" styleClass="btn-primary" text="+ Add New Goal" />
+        </HBox>
 
-                <Button onAction="#showForm" style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);                            -fx-text-fill:white;" text="+ Add Goal" />
-            </HBox>
-
-            <!-- GOALS LIST -->
-            <ListView fx:id="goalList" prefHeight="400" style="-fx-background-color:#1f2937; -fx-background-radius:10;" />
-
+        <VBox spacing="15" styleClass="card-glass" style="-fx-padding: 20;" VBox.vgrow="ALWAYS">
+            <Label style="-fx-text-fill:white; -fx-font-size:18; -fx-font-weight:bold;" text="Your Progress" />
+            <ListView fx:id="goalList" VBox.vgrow="ALWAYS" />
         </VBox>
 
+    </VBox>
 
-        <!-- ================= OVERLAY FORM ================= -->
-<!--        <AnchorPane fx:id="formOverlay" style="-fx-background-color: rgba(0,0,0,0.6);" visible="false">-->
+    <AnchorPane fx:id="formOverlay" style="-fx-background-color: rgba(0,0,0,0.6);" visible="false">
 
-<!--            <VBox alignment="CENTER" layoutX="300" layoutY="120" spacing="15" style="-fx-background-color:#111827;                      -fx-padding:30;                      -fx-background-radius:20;">-->
+        <StackPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+            <VBox alignment="CENTER" maxWidth="350" spacing="18" styleClass="modal-dialog" style="-fx-padding:40;">
 
-<!--                <Label style="-fx-text-fill:white; -fx-font-size:20;" text="Create Goal" />-->
+                <Label style="-fx-text-fill:white; -fx-font-size:22; -fx-font-weight:bold;" text="Create New Goal" />
 
-<!--                <TextField fx:id="goalNameField" promptText="Goal Name" style="-fx-background-color:#1f2937; -fx-text-fill:white;" />-->
+                <TextField fx:id="goalNameField" promptText="Goal Name (e.g., New Laptop)" maxWidth="Infinity" />
+                <TextField fx:id="targetField" promptText="Target Amount ($)" maxWidth="Infinity" />
+                <TextField fx:id="savedField" promptText="Already Saved ($) - Optional" maxWidth="Infinity" />
+                <DatePicker fx:id="deadlinePicker" promptText="Target Date" maxWidth="Infinity" />
 
-<!--                <TextField fx:id="targetField" promptText="Target Amount" style="-fx-background-color:#1f2937; -fx-text-fill:white;" />-->
+                <HBox alignment="CENTER" spacing="15" style="-fx-padding: 10 0 0 0;">
+                    <Button onAction="#hideForm" styleClass="btn-secondary" text="Cancel" prefWidth="100" />
+                    <Button onAction="#handleCreateGoal" style="-fx-background-color:#10b981; -fx-text-fill:white; -fx-background-radius:8; -fx-font-weight:bold; -fx-cursor:hand;" text="Create Goal" prefWidth="100" />
+                </HBox>
 
-<!--                <TextField fx:id="savedField" promptText="Saved Amount (optional)" style="-fx-background-color:#1f2937; -fx-text-fill:white;" />-->
+            </VBox>
+        </StackPane>
 
-<!--                <DatePicker fx:id="deadlinePicker" />-->
-
-<!--                <HBox spacing="10">-->
-<!--                    <Button onAction="#hideForm" style="-fx-background-color:#374151; -fx-text-fill:white;" text="Cancel" />-->
-
-<!--                    <Button onAction="#handleCreateGoal" style="-fx-background-color: linear-gradient(to right,#ff7eb3,#ff758c);                                -fx-text-fill:white;" text="Create" />-->
-<!--                </HBox>-->
-
-<!--            </VBox>-->
-
-<!--        </AnchorPane>-->
+    </AnchorPane>
+</StackPane>
