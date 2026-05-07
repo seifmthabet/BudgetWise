@@ -172,5 +172,31 @@ public class BudgetDAO implements GenericDAO<Budget> {
 
         return null;
     }
+    public Budget findByCategory(int user_id, int category_id) {
+
+        String command = """
+        SELECT * FROM budgets
+        WHERE user_id = ? AND category_id = ?
+        LIMIT 1
+        """;
+
+        try (Connection conn = DatabaseManager.getInstance().getConnection();
+             PreparedStatement stmt = conn.prepareStatement(command)) {
+
+            stmt.setInt(1, user_id);
+            stmt.setInt(2, category_id);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return mapResultSetToBudget(rs);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to Find Budget", e);
+        }
+
+        return null;
+    }
 }
 

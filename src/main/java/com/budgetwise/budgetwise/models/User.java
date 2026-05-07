@@ -64,7 +64,7 @@ public class User {
     private String language;
     private LocalDateTime createdAt;
 
-    public User(String name, String email, String password)
+    public User(String name, String email, String password, String currency)
     {
         if (name == null || name.trim().isEmpty() ) throw new IllegalArgumentException("Name cannot be empty");
         if (email == null || email.trim().isEmpty()) throw new IllegalArgumentException("Email cannot be empty");
@@ -74,7 +74,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.currency = "USD";
+        this.currency = currency;
         this.language = "en";
         this.createdAt = LocalDateTime.now();
     }

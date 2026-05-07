@@ -9,6 +9,7 @@ public class AppContext {
     private static final SessionManager session = new SessionManager();
     private static final Validation validator = new Validation();
     private static final AlertUtil alertUtil = new AlertUtil();
+    private static final CurrencyConverter currencyConverter = new CurrencyConverter();
 
     private static final UserDAO userDAO = new UserDAO();
     private static final TransactionDAO transactionDAO = new TransactionDAO();
@@ -59,4 +60,5 @@ public class AppContext {
         return alertUtil;
     }
     public static CategoryDAO getCategoryDAO() {return categoryDAO;}
+    public static CurrencyConverter getCurrencyConverter() {return currencyConverter;}
 }

@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane fx:id="mainRoot" prefHeight="720.0" prefWidth="1280.0"
             style="-fx-background-color: linear-gradient(to bottom right,#0f172a,#1e293b);"
             stylesheets="@../css/app.css"
-            xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/25"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.budgetwise.budgetwise.controllers.MainController">
 
     <left>
-        <VBox spacing="10" styleClass="sidebar" style="-fx-padding: 30 20 20 20;">
+        <VBox spacing="10"
+              styleClass="sidebar"
+              style="-fx-padding: 30 20 20 20;">
+
             <Label styleClass="sidebar-logo" text="BudgetWise" />
 
             <Button fx:id="dashboardBtn" onAction="#goToDashboard" text="Dashboard" styleClass="nav-button, nav-button-active" />
@@ -20,11 +23,27 @@
             <Button fx:id="goalBtn" onAction="#goToGoal" text="Goals" styleClass="nav-button" />
             <Button fx:id="notificationBtn" onAction="#goToNotification" text="Notifications" styleClass="nav-button" />
             <Button fx:id="reportBtn" onAction="#goToReport" text="Reports" styleClass="nav-button" />
+            <Button fx:id="ProfiletBtn" onAction="#goToProfile" text="Settings" styleClass="nav-button" />
+
+            <Pane VBox.vgrow="ALWAYS" />
+
+            <!-- LOGOUT (BOTTOM) -->
+            <Button fx:id="logoutBtn"
+                    onAction="#handleLogout"
+                    text="Log Out"
+                    maxWidth="Infinity"
+                    style="-fx-background-color: #ef4444;
+                           -fx-text-fill: white;
+                           -fx-background-radius: 8;
+                           -fx-font-weight: bold;
+                           -fx-cursor: hand;
+                           -fx-padding: 8 12;" />
+
         </VBox>
     </left>
 
     <center>
-        <!-- The views will render here with their own padding -->
+        <!-- Main content -->
     </center>
 
 </BorderPane>

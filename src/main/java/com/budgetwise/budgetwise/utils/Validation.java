@@ -128,10 +128,9 @@ public class Validation {
 
         LocalDateTime now = LocalDateTime.now();
 
-        if (startTime.getYear() < now.getYear() ||
-                (startTime.getYear() == now.getYear() && startTime.getMonthValue() < now.getMonthValue()) && startTime.getDayOfMonth() < now.getDayOfMonth()) {
+        if (startTime.isBefore(now)) {
 
-            throw new IllegalArgumentException("Cannot create budget for past months");
+            throw new IllegalArgumentException("Cannot create budget for past Time");
         }
 
         if (!endTime.isAfter(startTime)) {

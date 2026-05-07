@@ -79,20 +79,27 @@ public class UserDAO implements GenericDAO<User> {
     }
 
     public void update(User entity){
-        String command = "UPDATE users SET name = ?,email = ? , password = ? WHERE user_id = ?";
+        String command = """
+        UPDATE users 
+        SET name = ?, email = ?, password = ?, currency = ?, language = ?
+        WHERE user_id = ?
+    """;
+
         try (Connection conn = DatabaseManager.getInstance().getConnection();
-             PreparedStatement stmt = conn.prepareStatement(command) ){
-            stmt.setString(1,entity.getName());
-            stmt.setString(2,entity.getEmail());
-            stmt.setString(3,entity.getPassword());
-            stmt.setInt(4,entity.getUserId());
+             PreparedStatement stmt = conn.prepareStatement(command)) {
+
+            stmt.setString(1, entity.getName());
+            stmt.setString(2, entity.getEmail());
+            stmt.setString(3, entity.getPassword());
+            stmt.setString(4, entity.getCurrency());
+            stmt.setString(5, entity.getLanguage());
+            stmt.setInt(6, entity.getUserId());
 
             stmt.executeUpdate();
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Failed to update Users:", e);
         }
-
     }
 
     public void delete(int id) {
@@ -136,9 +143,7 @@ public class UserDAO implements GenericDAO<User> {
             }
 
         } catch (SQLException e) {
-            System.err.println("Database error while finding user by email: " + e.getMessage());
-            e.printStackTrace();
-            throw new RuntimeException("Database error: " + e.getMessage(), e);
+            throw new RuntimeException("Error to Save User",e);
         }
 
         return null;

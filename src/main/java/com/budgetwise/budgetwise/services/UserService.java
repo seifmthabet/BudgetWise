@@ -21,7 +21,7 @@ public class UserService {
 
         String hashed = PasswordUtil.hashPassword(password);
 
-        User user = new User(name, email, hashed);
+        User user = new User(name, email, hashed,"USD");
 
         userDAO.save(user);
 
@@ -42,4 +42,47 @@ public class UserService {
 
         return user;
     }
+    public User findUserById(int userId){
+        User user = userDAO.findById(userId);
+        if(user == null){
+            throw new IllegalArgumentException("User Not Found");
+        }
+        return user;
+    }
+    public void updateUserProfile(User user) {
+
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+
+        User existingUser = userDAO.findById(user.getUserId());
+
+        if (existingUser == null) {
+            throw new IllegalArgumentException("User Not Found");
+        }
+
+        if (user.getName() == null || user.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+
+        if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
+
+        if (!user.getEmail().matches("^[A-Za-z0-9]+@(.+)$")) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
+
+        if (user.getCurrency() == null || user.getCurrency().trim().isEmpty()) {
+            throw new IllegalArgumentException("Currency cannot be empty");
+        }
+
+        existingUser.setName(user.getName());
+        existingUser.setEmail(user.getEmail());
+        existingUser.setCurrency(user.getCurrency());
+
+        userDAO.update(existingUser);
+
+    }
+
 }
