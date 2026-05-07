@@ -24,6 +24,7 @@ public class AppContext {
     private static final GoalService goalService = new GoalService(goalDAO, validator);
     private static final BudgetService budgetService = new BudgetService(budgetDAO);
     private static final CategoryService categoryService = new CategoryService(categoryDAO);
+    private static final DataExportService dataExportService = new DataExportService();
 
     public static SessionManager getSession() {
         return session;
@@ -48,6 +49,9 @@ public class AppContext {
     }
     public static CategoryService getCategoryService() {
         return categoryService;
+    }
+    public static DataExportService getDataExportService() {
+        return dataExportService;
     }
     public static Validation getValidator() {
         return validator;

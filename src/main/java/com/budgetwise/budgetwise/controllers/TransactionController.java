@@ -4,6 +4,7 @@ import com.budgetwise.budgetwise.core.AppContext;
 import com.budgetwise.budgetwise.models.Budget;
 import com.budgetwise.budgetwise.models.Category;
 import com.budgetwise.budgetwise.models.Transaction;
+import com.budgetwise.budgetwise.models.enums.NotificationType;
 import com.budgetwise.budgetwise.models.enums.PaymentMethod;
 import com.budgetwise.budgetwise.models.enums.TransactionType;
 import javafx.beans.property.SimpleObjectProperty;
@@ -172,6 +173,7 @@ public class TransactionController {
             AppContext.getValidator().validateTransaction(tx);
 
             AppContext.getTransactionService().addTransaction(tx);
+            AppContext.getNotificationService().sendNotification(userId, NotificationType.TRANSACTION_CREATED, "New Transaction Created: " + title + "");
 
             if (type == TransactionType.EXPENSE) {
 

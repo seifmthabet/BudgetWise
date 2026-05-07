@@ -3,6 +3,7 @@ package com.budgetwise.budgetwise.controllers;
 import com.budgetwise.budgetwise.core.AppContext;
 import com.budgetwise.budgetwise.models.Goal;
 import com.budgetwise.budgetwise.models.enums.GoalStatus;
+import com.budgetwise.budgetwise.models.enums.NotificationType;
 import com.budgetwise.budgetwise.services.GoalService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -126,6 +127,7 @@ public class GoalController {
 
             loadGoals();
             hideForm();
+            AppContext.getNotificationService().sendNotification(userId, NotificationType.GOAL_CREATED, "New Goal Created: " + name);
 
         } catch (NumberFormatException e) {
             AppContext.getAlertUtil().showError("Please enter valid numeric values for Amounts.");
