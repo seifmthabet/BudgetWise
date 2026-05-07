@@ -21,6 +21,14 @@ public class BudgetService {
         }
         budgetDAO.save(budget);
     }
+    public Budget findByCategoryAndDate(int userId,int categoryId,LocalDateTime startDate){
+        Budget existing = budgetDAO.findByCategoryAndDate(userId,categoryId,startDate.getMonthValue(),startDate.getYear());
+
+        if (existing != null) {
+            throw new RuntimeException("Budget already exists for this category in this month");
+        }
+        return existing;
+    }
 
     public void deleteBudget(Budget budget){
         Budget budget1 = budgetDAO.findById(budget.getBudgetId());
@@ -52,7 +60,7 @@ public class BudgetService {
         Budget budget = budgetDAO.findById(budget_id);
 
         if (budget == null) {
-            throw new RuntimeException("Budget not found");
+            throw new RuntimeException("Can't Add Amount");
         }
         budget.setSpentAmount(budget.getSpentAmount() + amount);
         Double newSpent =  budget.getSpentAmount();
@@ -86,4 +94,24 @@ public class BudgetService {
         }
         return budgetDAO.findByUserId(userId);
     }
+    public Budget AccessCategory(int userId,int categoryId){
+        Budget budget = budgetDAO.findByCategory(userId,categoryId);
+        if(budget == null){
+            return null;
+        }
+        return budget;
+    }
+    public void removeExpiredBudgets() {
+
+        List<Budget> budgets = budgetDAO.findAll();
+
+        for (Budget budget : budgets) {
+
+            if (budget.getEndDate().isBefore(LocalDateTime.now())) {
+
+                budgetDAO.delete(budget.getBudgetId());
+            }
+        }
+    }
+
 }

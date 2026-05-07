@@ -2,6 +2,8 @@ package com.budgetwise.budgetwise.controllers;
 
 import com.budgetwise.budgetwise.models.Budget;
 import com.budgetwise.budgetwise.models.Category;
+import com.budgetwise.budgetwise.models.Transaction;
+import com.budgetwise.budgetwise.models.User;
 import com.budgetwise.budgetwise.utils.NavigationUtil;
 import com.budgetwise.budgetwise.core.AppContext;
 import javafx.beans.property.SimpleObjectProperty;
@@ -13,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -66,6 +69,10 @@ public class BudgetController {
 //  ======================= Save ===========================
 public void handleSaveBudget() {
     try {
+        BigDecimal Balance = AppContext.getTransactionService().getTotalBalance(userId);
+        if(Balance.intValue() == 0){
+            throw new RuntimeException("You Should Add Balance To Make A Budget");
+        }
         Category category = categoryBox.getValue();
         double amount = Double.parseDouble(amountField.getText());
         int alert = alertField.getText().isEmpty()
@@ -105,7 +112,8 @@ public void handleSaveBudget() {
 //  ======================= Intialize ===========================
     public void initialize(){
         userId = AppContext.getSession().getCurrentUser().getUserId();
-
+        //Expire Date
+        AppContext.getBudgetService().removeExpiredBudgets();
         // 1. Setup Table Columns
         categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getCategoryName()));
         amountColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getAmount()));
@@ -187,7 +195,6 @@ public void handleSaveBudget() {
 
     @FXML
     public void handleUpdateBudget() {
-
         if (editingBudget == null) {
             AppContext.getAlertUtil().showError("Select budget first");
             return;

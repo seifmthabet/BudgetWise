@@ -16,7 +16,7 @@ public class Transaction {
     private PaymentMethod paymentMethod;
     private LocalDateTime timestamp;
 
-    public Transaction(int userId, int categoryId, TransactionType type, BigDecimal amount, String description, PaymentMethod paymentMethod) {
+    public Transaction(int userId, int categoryId, TransactionType type, BigDecimal amount, String description, PaymentMethod paymentMethod, LocalDateTime timestamp) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Amount must be greater than zero");
         if (description == null || description.trim().isEmpty()) throw new IllegalArgumentException("Description cannot be empty");
         if (paymentMethod == null) throw new IllegalArgumentException("Payment method cannot be null");
@@ -29,7 +29,7 @@ public class Transaction {
         this.amount = amount;
         this.description = description;
         this.paymentMethod = paymentMethod;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = timestamp;
     }
 
     public Transaction(int transactionId,int userId, int categoryId, TransactionType type, BigDecimal amount, String description, PaymentMethod paymentMethod, LocalDateTime timestamp) {

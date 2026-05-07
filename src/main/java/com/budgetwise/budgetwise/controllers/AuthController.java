@@ -77,14 +77,16 @@ public class AuthController {
             if (!validation.validateLogin(email, password)) return;
 
             User user = userService.login(email, password);
+            if(user ==null){
+                throw  new RuntimeException("User Not Found");
+            }
 
             alertUtil.showSuccess("Welcome " + user.getName());
             AppContext.getSession().setCurrentUser(user);
             goToDashboard();
 
         } catch (Exception e) {
-//            alertUtil.showError(e.getMessage());
-            e.printStackTrace();
+           alertUtil.showError(e.getMessage());
         }
     }
     public void goToLogin(){

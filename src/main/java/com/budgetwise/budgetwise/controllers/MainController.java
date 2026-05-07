@@ -1,19 +1,23 @@
 package com.budgetwise.budgetwise.controllers;
 
 import com.budgetwise.budgetwise.Main;
+import com.budgetwise.budgetwise.core.AppContext;
 import com.budgetwise.budgetwise.utils.NavigationUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class MainController {
     @FXML private BorderPane mainRoot;
-    @FXML private Button dashboardBtn, transactionBtn, budgetBtn, goalBtn, notificationBtn, reportBtn;
+    @FXML private Button dashboardBtn, transactionBtn, budgetBtn, goalBtn, notificationBtn, reportBtn,ProfiletBtn,logoutBtn;
 
     private Button currentActiveBtn;
 
@@ -59,5 +63,29 @@ public class MainController {
     public void goToReport() {
         NavigationUtil.goToPage(mainRoot, "/fxml/ReportView.fxml");
         setActive(reportBtn);
+    }
+    public void goToProfile() {
+        NavigationUtil.goToPage(mainRoot, "/fxml/ProfileView.fxml");
+        setActive(ProfiletBtn);
+    }
+    public void handleLogout() {
+
+        AppContext.getSession().setCurrentUser(null);
+
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/fxml/LoginView.fxml")
+            );
+
+            Parent root = loader.load();
+
+            Stage stage = (Stage) mainRoot.getScene().getWindow();
+
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error LogOut");
+        }
     }
 }

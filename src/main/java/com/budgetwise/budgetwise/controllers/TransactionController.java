@@ -1,6 +1,7 @@
 package com.budgetwise.budgetwise.controllers;
 
 import com.budgetwise.budgetwise.core.AppContext;
+import com.budgetwise.budgetwise.models.Budget;
 import com.budgetwise.budgetwise.models.Category;
 import com.budgetwise.budgetwise.models.Transaction;
 import com.budgetwise.budgetwise.models.enums.PaymentMethod;
@@ -57,7 +58,7 @@ public class TransactionController {
 
     private void setupTableColumns() {
         titleColumn.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getDescription()));
-        dateColumn.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getDate().toString()));
+        dateColumn.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getDate().toLocalDate().toString()));
 
         // Styled Amount Column
         amountColumn.setCellValueFactory(d -> new SimpleObjectProperty<>(d.getValue().getAmount()));
@@ -126,23 +127,72 @@ public class TransactionController {
 
     @FXML
     private void handleSaveTransaction() {
+
         try {
-            // Logic to save through TransactionService...
+
             Category category = categoryCombo.getValue();
             TransactionType type = typeCombo.getValue();
             PaymentMethod payment = paymentCombo.getValue();
-            LocalDateTime date = datePicker.getValue().atStartOfDay();
-            BigDecimal amount = BigDecimal.valueOf(Double.parseDouble(amountField.getText()));
-            String title = titleField.getText();
-            int userId = AppContext.getSession().getCurrentUser().getUserId();
+            LocalDate time =  datePicker.getValue();
 
-            Transaction tx = new Transaction(userId, category.getCategoryId(), type, amount, title, payment);
+            LocalDateTime date = time.atStartOfDay();
+
+
+            BigDecimal amount = BigDecimal.valueOf(
+                    Double.parseDouble(amountField.getText())
+            );
+
+            String title = titleField.getText();
+
+            int userId = AppContext.getSession()
+                    .getCurrentUser()
+                    .getUserId();
+
+            BigDecimal balance = AppContext.getTransactionService()
+                    .getTotalBalance(userId);
+
+            if (type == TransactionType.EXPENSE &&
+                    amount.compareTo(balance) > 0) {
+
+                throw new RuntimeException(
+                        "Insufficient balance. Available: " + balance
+                );
+            }
+
+            Transaction tx = new Transaction(
+                    userId,
+                    category.getCategoryId(),
+                    type,
+                    amount,
+                    title,
+                    payment,
+                    date
+            );
+
             AppContext.getValidator().validateTransaction(tx);
+
             AppContext.getTransactionService().addTransaction(tx);
+
+            if (type == TransactionType.EXPENSE) {
+
+                Budget budget = AppContext.getBudgetService()
+                        .AccessCategory(userId, category.getCategoryId());
+
+                if (budget != null) {
+
+                    AppContext.getBudgetService()
+                            .updateSpentAmount(
+                                    budget.getBudgetId(),
+                                    amount.doubleValue()
+                            );
+                }
+            }
 
             hideForm();
             loadData();
+
         } catch (Exception e) {
+
             AppContext.getAlertUtil().showError(e.getMessage());
         }
     }

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/25"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.budgetwise.budgetwise.controllers.UserProfile"
+           style="-fx-background-color: linear-gradient(to bottom right,#0f172a,#111827);">
+
+    <VBox spacing="25" style="-fx-padding:30;">
+
+        <!-- HEADER -->
+        <HBox alignment="CENTER_LEFT" spacing="15"
+              style="-fx-padding: 0 0 10 0;">
+
+            <Label text="User Profile"
+                   style="-fx-text-fill:white;
+                          -fx-font-size:28;
+                          -fx-font-weight:bold;" />
+
+            <Pane HBox.hgrow="ALWAYS"/>
+
+            <Button text="Save Changes"
+                    onAction="#handleSaveProfile"
+                    style="-fx-background-color:#10b981;
+                           -fx-text-fill:white;
+                           -fx-background-radius:12;
+                           -fx-padding:8 18;
+                           -fx-font-weight:bold;
+                           -fx-cursor:hand;" />
+        </HBox>
+
+        <!-- MAIN -->
+        <HBox spacing="25" VBox.vgrow="ALWAYS">
+
+            <!-- LEFT CARD -->
+            <VBox spacing="15"
+                  prefWidth="380"
+                  style="-fx-background-color: rgba(255,255,255,0.05);
+                         -fx-padding:25;
+                         -fx-background-radius:18;
+                         -fx-border-radius:18;
+                         -fx-border-color: rgba(255,255,255,0.08);">
+
+                <Label text="Profile Overview"
+                       style="-fx-text-fill:white;
+                              -fx-font-size:18;
+                              -fx-font-weight:bold;" />
+
+                <Label text="Name"
+                       style="-fx-text-fill:#9ca3af;" />
+                <Label fx:id="nameLabel"
+                       style="-fx-text-fill:white;
+                              -fx-font-size:16;" />
+
+                <Label text="Email"
+                       style="-fx-text-fill:#9ca3af;" />
+                <Label fx:id="emailLabel"
+                       style="-fx-text-fill:white;
+                              -fx-font-size:16;" />
+
+                <Separator />
+
+                <!-- STATS GRID -->
+                <HBox spacing="15">
+
+                    <VBox spacing="5"
+                          style="-fx-background-color: rgba(34,197,94,0.08);
+                                 -fx-padding:15;
+                                 -fx-background-radius:14;
+                                 -fx-min-width:140;">
+
+                        <Label text="Transactions"
+                               style="-fx-text-fill:#9ca3af;" />
+
+                        <Label fx:id="transactionsCount"
+                               text="0"
+                               style="-fx-text-fill:#22c55e;
+                                      -fx-font-size:22;
+                                      -fx-font-weight:bold;" />
+                    </VBox>
+
+                    <VBox spacing="5"
+                          style="-fx-background-color: rgba(59,130,246,0.08);
+                                 -fx-padding:15;
+                                 -fx-background-radius:14;
+                                 -fx-min-width:140;">
+
+                        <Label text="Budgets"
+                               style="-fx-text-fill:#9ca3af;" />
+
+                        <Label fx:id="budgetsCount"
+                               text="0"
+                               style="-fx-text-fill:#3b82f6;
+                                      -fx-font-size:22;
+                                      -fx-font-weight:bold;" />
+                    </VBox>
+
+                </HBox>
+
+            </VBox>
+
+            <!-- RIGHT CARD -->
+            <VBox spacing="18"
+                  HBox.hgrow="ALWAYS"
+                  style="-fx-background-color: rgba(255,255,255,0.05);
+                         -fx-padding:25;
+                         -fx-background-radius:18;
+                         -fx-border-radius:18;
+                         -fx-border-color: rgba(255,255,255,0.08);">
+
+                <Label text="Account Settings"
+                       style="-fx-text-fill:white;
+                              -fx-font-size:18;
+                              -fx-font-weight:bold;" />
+
+                <TextField fx:id="nameField"
+                           promptText="Full Name"
+                           style="-fx-background-color:#111827;
+                                  -fx-text-fill:white;
+                                  -fx-prompt-text-fill:#6b7280;
+                                  -fx-background-radius:10;
+                                  -fx-border-color:#374151;
+                                  -fx-padding:10;" />
+
+                <TextField fx:id="emailField"
+                           promptText="Email"
+                           style="-fx-background-color:#111827;
+                                  -fx-text-fill:white;
+                                  -fx-prompt-text-fill:#6b7280;
+                                  -fx-background-radius:10;
+                                  -fx-border-color:#374151;
+                                  -fx-padding:10;" />
+
+                <TextField fx:id="currencyField"
+                           promptText="Currency"
+                           style="-fx-background-color:#111827;
+                                  -fx-text-fill:white;
+                                  -fx-prompt-text-fill:#6b7280;
+                                  -fx-background-radius:10;
+                                  -fx-border-color:#374151;
+                                  -fx-padding:10;" />
+
+                <CheckBox fx:id="notificationCheck"
+                          text="Enable Notifications"
+                          style="-fx-text-fill:white;" />
+
+                <Label text="All changes will be saved to your account"
+                       style="-fx-text-fill:#6b7280;" />
+
+            </VBox>
+
+        </HBox>
+
+    </VBox>
+
+</StackPane>
