@@ -12,6 +12,9 @@ module com.budgetwise.budgetwise {
     requires java.sql;
     requires org.xerial.sqlitejdbc;
     requires jbcrypt;
+    requires com.github.librepdf.openpdf;
+    requires org.apache.poi.poi;
+    requires org.apache.poi.ooxml;
 
     opens com.budgetwise.budgetwise.controllers to javafx.fxml;
     opens com.budgetwise.budgetwise.models to javafx.base;
