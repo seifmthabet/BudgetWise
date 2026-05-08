@@ -15,12 +15,18 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * MainController component.
+ */
 public class MainController {
     @FXML private BorderPane mainRoot;
     @FXML private Button dashboardBtn, transactionBtn, budgetBtn, goalBtn, notificationBtn, reportBtn,ProfiletBtn,logoutBtn;
 
     private Button currentActiveBtn;
 
+    /**
+     * initialize operation.
+     */
     @FXML
     public void initialize() throws IOException {
         currentActiveBtn = dashboardBtn;
@@ -40,34 +46,58 @@ public class MainController {
         currentActiveBtn = activeBtn;
     }
 
+    /**
+     * goToDashboard operation.
+     */
     public void goToDashboard() {
         NavigationUtil.goToPage(mainRoot, "/fxml/DashboardView.fxml");
         setActive(dashboardBtn);
     }
+    /**
+     * goToTransaction operation.
+     */
     public void goToTransaction() {
         NavigationUtil.goToPage(mainRoot, "/fxml/TransactionView.fxml");
         setActive(transactionBtn);
     }
+    /**
+     * goToBudget operation.
+     */
     public void goToBudget() {
         NavigationUtil.goToPage(mainRoot, "/fxml/BudgetView.fxml");
         setActive(budgetBtn);
     }
+    /**
+     * goToGoal operation.
+     */
     public void goToGoal() {
         NavigationUtil.goToPage(mainRoot, "/fxml/GoalsView.fxml");
         setActive(goalBtn);
     }
+    /**
+     * goToNotification operation.
+     */
     public void goToNotification() {
         NavigationUtil.goToPage(mainRoot, "/fxml/NotificationView.fxml");
         setActive(notificationBtn);
     }
+    /**
+     * goToReport operation.
+     */
     public void goToReport() {
         NavigationUtil.goToPage(mainRoot, "/fxml/ReportView.fxml");
         setActive(reportBtn);
     }
+    /**
+     * goToProfile operation.
+     */
     public void goToProfile() {
         NavigationUtil.goToPage(mainRoot, "/fxml/ProfileView.fxml");
         setActive(ProfiletBtn);
     }
+    /**
+     * handleLogout operation.
+     */
     public void handleLogout() {
 
         AppContext.getSession().setCurrentUser(null);

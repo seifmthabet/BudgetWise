@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
 
+/**
+ * DatabaseManager component.
+ */
 public class DatabaseManager {
 
     private static final String DB_URL = "jdbc:sqlite:budgetwise.sqlite";
@@ -21,6 +24,10 @@ public class DatabaseManager {
         }
     }
 
+    /**
+     * getInstance operation.
+     * @return result value
+     */
     public static synchronized DatabaseManager getInstance() {
         if (instance == null) {
             instance = new DatabaseManager();
@@ -28,6 +35,10 @@ public class DatabaseManager {
         return instance;
     }
 
+    /**
+     * getConnection operation.
+     * @return result value
+     */
     public Connection getConnection() {
         try {
             Connection conn = DriverManager.getConnection(DB_URL);

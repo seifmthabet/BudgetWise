@@ -20,6 +20,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * BudgetController component.
+ */
 public class BudgetController {
 //  ======================= UI Elements ===========================
 
@@ -61,13 +64,22 @@ public class BudgetController {
     private int userId;
 
 //  ======================= Show Form -> Create Budget ===========================
+    /**
+     * showForm operation.
+     */
     public void showForm(){
         formcreateOverlay.setVisible(true);
     }
+    /**
+     * hideForm operation.
+     */
     public void hideForm(){
         formcreateOverlay.setVisible(false);
     }
 //  ======================= Save ===========================
+/**
+ * handleSaveBudget operation.
+ */
 public void handleSaveBudget() {
     try {
         BigDecimal Balance = AppContext.getTransactionService().getTotalBalance(userId);
@@ -113,6 +125,9 @@ public void handleSaveBudget() {
     }
 }
 //  ======================= Intialize ===========================
+    /**
+     * initialize operation.
+     */
     public void initialize(){
         userId = AppContext.getSession().getCurrentUser().getUserId();
         //Expire Date
@@ -185,17 +200,26 @@ public void handleSaveBudget() {
         return FXCollections.observableArrayList(AppContext.getBudgetService().filterById(userId));
     }
     //  ======================== Show and Edit  ===========================
+    /**
+     * showEditForm operation.
+     */
     public void showEditForm() {
         editOverlay.setVisible(true);
 
         budgetListView.setItems(getData());
     }
+    /**
+     * hideEditForm operation.
+     */
     public void hideEditForm() {
         editOverlay.setVisible(false);
     }
 
     //  ======================== Update ===========================
 
+    /**
+     * handleUpdateBudget operation.
+     */
     @FXML
     public void handleUpdateBudget() {
         if (editingBudget == null) {
@@ -232,6 +256,9 @@ public void handleSaveBudget() {
     }
     //  ======================== Delete ===========================
 
+    /**
+     * deleteSelectedBudget operation.
+     */
     @FXML
     public void deleteSelectedBudget() {
 

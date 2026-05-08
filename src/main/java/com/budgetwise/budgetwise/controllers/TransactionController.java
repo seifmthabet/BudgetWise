@@ -18,6 +18,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * TransactionController component.
+ */
 public class TransactionController {
     @FXML private TableView<Transaction> transactionsTable;
     @FXML private TableColumn<Transaction, String> titleColumn, typeColumn, categoryColumn, dateColumn;
@@ -37,6 +40,9 @@ public class TransactionController {
 
     private ObservableList<Transaction> masterData;
 
+    /**
+     * initialize operation.
+     */
     @FXML
     public void initialize() {
         setupTableColumns();

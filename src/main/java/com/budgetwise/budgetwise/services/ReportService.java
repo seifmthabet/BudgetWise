@@ -12,13 +12,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * ReportService component.
+ */
 public class ReportService {
         private final TransactionDAO transactionDAO;
 
+        /**
+         * ReportService operation.
+         * @param transactionDAO parameter value
+         */
         public ReportService(TransactionDAO transactionDAO) {
                 this.transactionDAO = transactionDAO;
         }
 
+        /**
+         * getMonthlySummary operation.
+         * @param userId parameter value
+         * @param month parameter value
+         * @param year parameter value
+         * @return result value
+         */
         public Map<String, Double> getMonthlySummary(int userId, int month, int year) {
                 if(userId <= 0){
                         throw new IllegalArgumentException("userId must be greater than 0");
@@ -50,6 +64,13 @@ public class ReportService {
                 return monthlySummary;
         }
 
+        /**
+         * getExpenseByCategory operation.
+         * @param userId parameter value
+         * @param startDate parameter value
+         * @param endDate parameter value
+         * @return result value
+         */
         public Map<String, Double> getExpenseByCategory(int userId, LocalDate startDate, LocalDate endDate) {
                 if(userId <= 0){
                         throw new IllegalArgumentException("userId must be greater than 0");
@@ -72,6 +93,13 @@ public class ReportService {
                 return categoryMap;
         }
 
+        /**
+         * getIncomeVsExpense operation.
+         * @param userId parameter value
+         * @param startDate parameter value
+         * @param endDate parameter value
+         * @return result value
+         */
         public double[] getIncomeVsExpense(int userId, LocalDate startDate, LocalDate endDate) {
                 if(userId <= 0){
                         throw new IllegalArgumentException("userId must be greater than 0");

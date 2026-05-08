@@ -15,6 +15,9 @@ import javafx.scene.control.*;
 
 import java.math.BigDecimal;
 
+/**
+ * DashboardController component.
+ */
 public class DashboardController {
 
     // ===== Labels =====
@@ -41,6 +44,9 @@ public class DashboardController {
     private int userId;
 
     // ================= INIT =================
+    /**
+     * initialize operation.
+     */
     @FXML
     public void initialize() {
 

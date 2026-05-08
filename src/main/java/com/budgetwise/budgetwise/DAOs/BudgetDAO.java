@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * BudgetDAO component.
+ */
 public class BudgetDAO implements GenericDAO<Budget> {
     private Budget mapResultSetToBudget(ResultSet rs) throws SQLException {
 
@@ -23,6 +26,10 @@ public class BudgetDAO implements GenericDAO<Budget> {
         );
     }
 
+    /**
+     * save operation.
+     * @param entity parameter value
+     */
     public void save(Budget entity) {
         String command = "INSERT INTO budgets (user_id,category_id,amount,start_date,end_date,alert_threshold)" +
                 "VALUES (?,?,?,?,?,?)";
@@ -43,6 +50,11 @@ public class BudgetDAO implements GenericDAO<Budget> {
         }
     }
 
+    /**
+     * findById operation.
+     * @param budgetId parameter value
+     * @return result value
+     */
     public Budget findById(int budgetId) {
         String command = "SELECT * FROM budgets WHERE budget_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
@@ -61,6 +73,10 @@ public class BudgetDAO implements GenericDAO<Budget> {
         return null;
     }
 
+    /**
+     * findAll operation.
+     * @return result value
+     */
     public List<Budget> findAll() {
         List<Budget> budgets = new ArrayList<>();
         String command = "SELECT * FROM budgets";
@@ -78,6 +94,10 @@ public class BudgetDAO implements GenericDAO<Budget> {
         return budgets;
     }
 
+    /**
+     * update operation.
+     * @param entity parameter value
+     */
     public void update(Budget entity) {
         String command = "UPDATE budgets SET amount = ?, end_date = ? WHERE budget_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
@@ -93,6 +113,11 @@ public class BudgetDAO implements GenericDAO<Budget> {
         }
 
     }
+    /**
+     * updateSpentAmount operation.
+     * @param budgetId parameter value
+     * @param spentAmount parameter value
+     */
     public void updateSpentAmount(int budgetId, double spentAmount) {
         String sql = "UPDATE budgets SET spent_amount = ? WHERE budget_id = ?";
 
@@ -109,6 +134,10 @@ public class BudgetDAO implements GenericDAO<Budget> {
         }
     }
 
+    /**
+     * delete operation.
+     * @param id parameter value
+     */
     public void delete(int id) {
         String command = "DELETE FROM budgets WHERE budget_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
@@ -121,6 +150,11 @@ public class BudgetDAO implements GenericDAO<Budget> {
         }
     }
 
+    /**
+     * findByUserId operation.
+     * @param id parameter value
+     * @return result value
+     */
     public List<Budget> findByUserId(int id) {
         List<Budget> budgets = new ArrayList<>();
 
@@ -144,6 +178,14 @@ public class BudgetDAO implements GenericDAO<Budget> {
 
     }
     
+    /**
+     * findByCategoryAndDate operation.
+     * @param user_id parameter value
+     * @param category_id parameter value
+     * @param month parameter value
+     * @param year parameter value
+     * @return result value
+     */
     public Budget findByCategoryAndDate(int user_id, int category_id, int month, int year) {
 
         String command ="""
@@ -172,6 +214,12 @@ public class BudgetDAO implements GenericDAO<Budget> {
 
         return null;
     }
+    /**
+     * findByCategory operation.
+     * @param user_id parameter value
+     * @param category_id parameter value
+     * @return result value
+     */
     public Budget findByCategory(int user_id, int category_id) {
 
         String command = """

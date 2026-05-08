@@ -11,8 +11,17 @@ import javafx.util.Duration;
 
 import java.util.Objects;
 
+/**
+ * NavigationUtil component.
+ */
 public class NavigationUtil {
 
+    /**
+     * goToPage operation.
+     * @param currentRoot parameter value
+     * @param fxmlPath parameter value
+     * @return result value
+     */
     public static void goToPage(AnchorPane currentRoot, String fxmlPath) {
         try {
             FXMLLoader loader = new FXMLLoader(
@@ -55,6 +64,12 @@ public class NavigationUtil {
         }
     }
 
+    /**
+     * goToPage operation.
+     * @param root parameter value
+     * @param fxmlPath parameter value
+     * @return result value
+     */
     public static void goToPage(BorderPane root, String fxmlPath) {
         try {
             Parent view = FXMLLoader.load(

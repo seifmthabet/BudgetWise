@@ -14,6 +14,9 @@ import javafx.animation.*;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+/**
+ * LandingController component.
+ */
 public class LandingController {
     AlertUtil alertUtil = new AlertUtil();
     @FXML private AnchorPane root;
@@ -28,6 +31,9 @@ public class LandingController {
 
     @FXML private VBox teamBox;
 
+    /**
+     * initialize operation.
+     */
     @FXML
     public void initialize() {
 
@@ -84,26 +90,41 @@ public class LandingController {
     }
     private final DropShadow shadow = new DropShadow(15, Color.rgb(0,0,0,0.4));
 
+    /**
+     * loginHoverIn operation.
+     */
     public void loginHoverIn() {
         loginBtn.setEffect(shadow);
         loginBtn.setTranslateY(-2);
     }
 
+    /**
+     * loginHoverOut operation.
+     */
     public void loginHoverOut() {
         loginBtn.setEffect(null);
         loginBtn.setTranslateY(0);
     }
 
+    /**
+     * registerHoverIn operation.
+     */
     public void registerHoverIn() {
         registerBtn.setEffect(shadow);
         registerBtn.setTranslateY(-2);
     }
 
+    /**
+     * registerHoverOut operation.
+     */
     public void registerHoverOut() {
         registerBtn.setEffect(null);
         registerBtn.setTranslateY(0);
     }
 
+    /**
+     * goToLogin operation.
+     */
     public void goToLogin() {
         try {
             NavigationUtil.goToPage(root,"/fxml/LoginView.fxml");
@@ -112,6 +133,9 @@ public class LandingController {
         }
     }
 
+    /**
+     * goToRegister operation.
+     */
     public void goToRegister() {
         try {
             NavigationUtil.goToPage(root,"/fxml/RegisterView.fxml");

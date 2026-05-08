@@ -4,13 +4,24 @@ import com.budgetwise.budgetwise.DAOs.CategoryDAO;
 import com.budgetwise.budgetwise.models.Category;
 import java.util.List;
 
+/**
+ * CategoryService component.
+ */
 public class CategoryService {
     private final CategoryDAO categoryDAO;
 
+    /**
+     * CategoryService operation.
+     * @param categoryDAO parameter value
+     */
     public CategoryService(CategoryDAO categoryDAO) {
         this.categoryDAO = categoryDAO;
     }
 
+    /**
+     * createCategory operation.
+     * @param category parameter value
+     */
     public void createCategory(Category category) {
         if (categoryDAO.existsDefaultCategoryByName(category.getName())) {
             throw new IllegalArgumentException("Cannot use default category name");
@@ -30,6 +41,10 @@ public class CategoryService {
         categoryDAO.save(category);
     }
 
+    /**
+     * deleteCategory operation.
+     * @param categoryId parameter value
+     */
     public void deleteCategory(int categoryId) {
         if (categoryId <= 0) {
             throw new IllegalArgumentException("Invalid category ID");
@@ -37,6 +52,10 @@ public class CategoryService {
         categoryDAO.delete(categoryId);
     }
 
+    /**
+     * updateCategory operation.
+     * @param category parameter value
+     */
     public void updateCategory(Category category) {
         if (category == null) {
             throw new IllegalArgumentException("Category cannot be null");
@@ -55,6 +74,11 @@ public class CategoryService {
         categoryDAO.update(category);
     }
 
+    /**
+     * findById operation.
+     * @param categoryId parameter value
+     * @return result value
+     */
     public Category findById(int categoryId) {
         if (categoryId <= 0) {
             throw new IllegalArgumentException("Invalid category ID");
@@ -62,12 +86,21 @@ public class CategoryService {
         return categoryDAO.findById(categoryId);
     }
 
+    /**
+     * getCategories operation.
+     * @param userId parameter value
+     * @return result value
+     */
     public List<Category> getCategories(int userId) {
         if (userId <= 0) {
             throw new IllegalArgumentException("Invalid user ID");
         }
         return categoryDAO.findByUser(userId);
     }
+    /**
+     * getAllDefaults operation.
+     * @return result value
+     */
     public List<Category> getAllDefaults() {
         return categoryDAO.findDefault();
     }

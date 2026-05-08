@@ -8,8 +8,18 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * Validation component.
+ */
 public class Validation {
     //  ======================= Rigester Validation ===========================
+    /**
+     * validateRigester operation.
+     * @param name parameter value
+     * @param email parameter value
+     * @param password parameter value
+     * @return result value
+     */
     public Boolean  validateRigester(String name , String email ,String password){
         if(name == null || name.trim().isEmpty()){
             throw new IllegalArgumentException("name cannot be null");
@@ -35,6 +45,12 @@ public class Validation {
         return true;
     }
     //  ======================= Login Validation ===========================
+    /**
+     * validateLogin operation.
+     * @param email parameter value
+     * @param password parameter value
+     * @return result value
+     */
     public Boolean validateLogin(String email , String password){
         if(email == null || email.trim().isEmpty()){
             throw new IllegalArgumentException("Email cannot be null");
@@ -49,6 +65,11 @@ public class Validation {
         return true;
     }
     //  ======================= Transaction Validation ===========================
+    /**
+     * validateTransaction operation.
+     * @param tx parameter value
+     * @return result value
+     */
     public boolean validateTransaction(Transaction tx){
         if (tx == null) {
             throw new IllegalArgumentException("Transaction cannot be null");
@@ -81,6 +102,11 @@ public class Validation {
         return true;
     }
     //  ======================= Goal Validation ===========================
+    /**
+     * validateGoal operation.
+     * @param goal parameter value
+     * @return result value
+     */
     public boolean validateGoal(Goal goal){
         if (goal == null) {
             throw new IllegalArgumentException("Goal cannot be null");
@@ -112,6 +138,14 @@ public class Validation {
 
         return true;
     }
+    /**
+     * validateBudget operation.
+     * @param category parameter value
+     * @param amount parameter value
+     * @param startTime parameter value
+     * @param endTime parameter value
+     * @return result value
+     */
     public Boolean validateBudget(Category category , Double amount , LocalDateTime startTime, LocalDateTime endTime){
 
         if(category == null){
@@ -139,6 +173,13 @@ public class Validation {
 
         return true;
     }
+     /**
+      * validateUpdateBudget operation.
+      * @param amount parameter value
+      * @param startTime parameter value
+      * @param endTime parameter value
+      * @return result value
+      */
      public Boolean validateUpdateBudget( Double amount ,LocalDateTime startTime, LocalDateTime endTime){
 
         if(amount == null || amount <= 0){

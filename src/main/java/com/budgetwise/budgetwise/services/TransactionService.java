@@ -9,20 +9,37 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * TransactionService component.
+ */
 public class TransactionService {
     private final TransactionDAO transactionDAO;
     private final Validation validator;
 
+    /**
+     * TransactionService operation.
+     * @param transactionDAO parameter value
+     * @param validator parameter value
+     */
     public TransactionService(TransactionDAO transactionDAO, Validation validator) {
         this.transactionDAO = transactionDAO;
         this.validator = validator;
     }
 
+    /**
+     * addTransaction operation.
+     * @param tx parameter value
+     */
     public void addTransaction(Transaction tx) {
         if (validator.validateTransaction(tx))
             transactionDAO.save(tx);
     }
 
+    /**
+     * deleteTransaction operation.
+     * @param transactionId parameter value
+     * @return result value
+     */
     public boolean deleteTransaction(int transactionId) {
         if (transactionId <= 0) {
             throw new IllegalArgumentException("Invalid transaction ID");
@@ -36,10 +53,19 @@ public class TransactionService {
         return true;
     }
 
+    /**
+     * getTransactions operation.
+     * @return result value
+     */
     public List<Transaction> getTransactions(){
         return transactionDAO.findAll();
     }
 
+    /**
+     * filterByUserId operation.
+     * @param userId parameter value
+     * @return result value
+     */
     public List<Transaction> filterByUserId(int userId){
         if (userId <= 0) {
             throw new IllegalArgumentException("Invalid user ID");
@@ -47,6 +73,12 @@ public class TransactionService {
         return transactionDAO.findByUserId(userId);
     }
 
+    /**
+     * filterByCategoryId operation.
+     * @param userId parameter value
+     * @param categoryId parameter value
+     * @return result value
+     */
     public List<Transaction> filterByCategoryId(int userId, int categoryId){
         if (userId <= 0 || categoryId <= 0) {
             throw new IllegalArgumentException("Invalid user ID or category ID");
@@ -54,6 +86,13 @@ public class TransactionService {
         return transactionDAO.findByCategoryId(userId, categoryId);
     }
 
+    /**
+     * filterByDateRange operation.
+     * @param userId parameter value
+     * @param startDate parameter value
+     * @param endDate parameter value
+     * @return result value
+     */
     public List<Transaction> filterByDateRange(int userId, LocalDateTime startDate, LocalDateTime endDate){
         if (userId <= 0 || startDate == null || endDate == null) {
             throw new IllegalArgumentException("Invalid user ID or date range");
@@ -66,6 +105,11 @@ public class TransactionService {
         return transactionDAO.findByDateRange(userId, startDate, endDate);
     }
 
+    /**
+     * getTotalIncome operation.
+     * @param userId parameter value
+     * @return result value
+     */
     public BigDecimal getTotalIncome(int userId) {
         if (userId <= 0) {
             throw new IllegalArgumentException("Invalid user ID");
@@ -77,6 +121,11 @@ public class TransactionService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    /**
+     * getTotalExpense operation.
+     * @param userId parameter value
+     * @return result value
+     */
     public BigDecimal getTotalExpense(int userId) {
         if (userId <= 0) {
             throw new IllegalArgumentException("Invalid user ID");
@@ -88,6 +137,11 @@ public class TransactionService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    /**
+     * getTotalBalance operation.
+     * @param userId parameter value
+     * @return result value
+     */
     public BigDecimal getTotalBalance(int userId) {
         if (userId <= 0) {
             throw new IllegalArgumentException("Invalid user ID");

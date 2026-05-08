@@ -5,14 +5,28 @@ import com.budgetwise.budgetwise.models.User;
 import com.budgetwise.budgetwise.utils.PasswordUtil;
 import com.budgetwise.budgetwise.core.SessionManager;
 
+/**
+ * UserService component.
+ */
 public class UserService {
 
     private final UserDAO userDAO;
 
+    /**
+     * UserService operation.
+     * @param userDAO parameter value
+     */
     public UserService(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
+    /**
+     * register operation.
+     * @param name parameter value
+     * @param email parameter value
+     * @param password parameter value
+     * @return result value
+     */
     public User register(String name, String email, String password) {
 
         if (userDAO.emailExists(email)) {
@@ -28,6 +42,12 @@ public class UserService {
         return userDAO.findByEmail(email);
     }
 
+    /**
+     * login operation.
+     * @param email parameter value
+     * @param password parameter value
+     * @return result value
+     */
     public User login(String email, String password) {
 
         User user = userDAO.findByEmail(email);
@@ -42,6 +62,11 @@ public class UserService {
 
         return user;
     }
+    /**
+     * findUserById operation.
+     * @param userId parameter value
+     * @return result value
+     */
     public User findUserById(int userId){
         User user = userDAO.findById(userId);
         if(user == null){
@@ -49,6 +74,10 @@ public class UserService {
         }
         return user;
     }
+    /**
+     * updateUserProfile operation.
+     * @param user parameter value
+     */
     public void updateUserProfile(User user) {
 
         if (user == null) {

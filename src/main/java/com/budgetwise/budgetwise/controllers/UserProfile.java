@@ -5,6 +5,9 @@ import com.budgetwise.budgetwise.models.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
+/**
+ * UserProfile component.
+ */
 public class UserProfile {
 
     @FXML private Label nameLabel;
@@ -21,6 +24,9 @@ public class UserProfile {
     // ===== Current User =====
     private User currentUser;
 
+    /**
+     * initialize operation.
+     */
     @FXML
     public void initialize() {
         loadUser();

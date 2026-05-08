@@ -8,6 +8,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * NotificationDAO component.
+ */
 public class NotificationDAO implements GenericDAO<Notification> {
 
     private Notification mapResultSetToNotification(ResultSet rs) throws SQLException {
@@ -20,6 +23,10 @@ public class NotificationDAO implements GenericDAO<Notification> {
                 rs.getTimestamp("timestamp").toLocalDateTime());
     }
 
+    /**
+     * save operation.
+     * @param entity parameter value
+     */
     public void save(Notification entity){
         String query = "INSERT INTO notifications (user_id,type,message,is_read,timestamp) VALUES (?,?,?,?,?)";
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -34,6 +41,11 @@ public class NotificationDAO implements GenericDAO<Notification> {
         }
     }
 
+    /**
+     * findById operation.
+     * @param id parameter value
+     * @return result value
+     */
     public Notification findById(int id){
         String query = "Select * FROM notifications WHERE notification_id = ?";
         Notification entity = null;
@@ -54,6 +66,10 @@ public class NotificationDAO implements GenericDAO<Notification> {
         return entity;
     }
 
+    /**
+     * findAll operation.
+     * @return result value
+     */
     public List<Notification> findAll(){
         List<Notification> notifications = new ArrayList<>();
         String query = "SELECT * FROM notifications ORDER BY timestamp DESC";
@@ -73,6 +89,10 @@ public class NotificationDAO implements GenericDAO<Notification> {
         return notifications;
     }
 
+    /**
+     * update operation.
+     * @param entity parameter value
+     */
     public void update(Notification entity) {
         String query = "UPDATE notifications SET is_read = ? WHERE notification_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -84,6 +104,10 @@ public class NotificationDAO implements GenericDAO<Notification> {
         }
     }
 
+    /**
+     * delete operation.
+     * @param id parameter value
+     */
     public void delete(int id) {
         String query = "DELETE FROM notifications WHERE notification_id = ?";
 
@@ -95,6 +119,11 @@ public class NotificationDAO implements GenericDAO<Notification> {
         }
     }
 
+    /**
+     * findAllByUserId operation.
+     * @param id parameter value
+     * @return result value
+     */
     public List<Notification> findAllByUserId(int id) {
         String query = "SELECT * FROM notifications WHERE user_id = ? ORDER BY timestamp DESC";
         List<Notification> notifications = new ArrayList<>();
@@ -112,6 +141,11 @@ public class NotificationDAO implements GenericDAO<Notification> {
         return notifications;
     }
 
+    /**
+     * findUnreadByUserId operation.
+     * @param id parameter value
+     * @return result value
+     */
     public List<Notification> findUnreadByUserId(int id) {
         String query = "SELECT * FROM notifications WHERE user_id = ? AND is_read = false ORDER BY timestamp DESC";
         List<Notification> notifications = new ArrayList<>();

@@ -15,6 +15,9 @@ import javafx.scene.layout.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * GoalController component.
+ */
 public class GoalController {
     @FXML private ListView<Goal> goalList;
     @FXML private AnchorPane formOverlay;
@@ -31,6 +34,9 @@ public class GoalController {
     private GoalService goalService;
     private int userId;
 
+    /**
+     * initialize operation.
+     */
     @FXML
     public void initialize() {
         goalService = AppContext.getGoalService();
@@ -94,6 +100,10 @@ public class GoalController {
         });
     }
 
+    /**
+     * showContributionForm operation.
+     * @param goal parameter value
+     */
     @FXML
     public void showContributionForm(Goal goal) {
         this.selectedGoalForContribution = goal;
@@ -102,11 +112,17 @@ public class GoalController {
         contributionOverlay.setVisible(true);
     }
 
+    /**
+     * hideContributionForm operation.
+     */
     @FXML
     public void hideContributionForm() {
         contributionOverlay.setVisible(false);
     }
 
+    /**
+     * handleSaveContribution operation.
+     */
     @FXML
     public void handleSaveContribution() {
         try {
@@ -130,6 +146,9 @@ public class GoalController {
         goalList.setItems(goals);
     }
 
+    /**
+     * showForm operation.
+     */
     @FXML
     public void showForm() {
         // Reset fields when opening form
@@ -140,11 +159,17 @@ public class GoalController {
         formOverlay.setVisible(true);
     }
 
+    /**
+     * hideForm operation.
+     */
     @FXML
     public void hideForm() {
         formOverlay.setVisible(false);
     }
 
+    /**
+     * handleCreateGoal operation.
+     */
     @FXML
     public void handleCreateGoal() {
         try {

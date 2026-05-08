@@ -14,6 +14,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
+/**
+ * AuthController component.
+ */
 public class AuthController {
 
     @FXML private TextField nameField;
@@ -32,6 +35,9 @@ public class AuthController {
     private AlertUtil alertUtil;
     private Validation validation;
 
+    /**
+     * initialize operation.
+     */
     @FXML
     public void initialize() {
         userService = AppContext.getUserService();
@@ -42,6 +48,9 @@ public class AuthController {
         animateBubble(bubble3, 25);
     }
 
+    /**
+     * handleRegister operation.
+     */
     @FXML
     public void handleRegister() {
 
@@ -67,6 +76,9 @@ public class AuthController {
         }
     }
 
+    /**
+     * handleLogin operation.
+     */
     @FXML
     public void handleLogin() {
 
@@ -89,12 +101,21 @@ public class AuthController {
            alertUtil.showError(e.getMessage());
         }
     }
+    /**
+     * goToLogin operation.
+     */
     public void goToLogin(){
         NavigationUtil.goToPage(rootPane,"/fxml/LoginView.fxml");
     }
+    /**
+     * goToRegister operation.
+     */
     public void goToRegister(){
         NavigationUtil.goToPage(rootPane, "/fxml/RegisterView.fxml");
     }
+    /**
+     * goToDashboard operation.
+     */
     public void goToDashboard(){
         NavigationUtil.goToPage(rootPane, "/fxml/MainView.fxml");
     }

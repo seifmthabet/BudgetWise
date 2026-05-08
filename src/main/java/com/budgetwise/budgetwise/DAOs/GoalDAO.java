@@ -9,6 +9,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * GoalDAO component.
+ */
 public class GoalDAO {
 
     private Goal mapResultSetToGoal(ResultSet rs) throws SQLException {
@@ -25,6 +28,10 @@ public class GoalDAO {
         );
     }
 
+    /**
+     * save operation.
+     * @param entity parameter value
+     */
     public void save (Goal entity){
         String query = """
                 INSERT INTO goals
@@ -48,6 +55,11 @@ public class GoalDAO {
         }
     }
 
+    /**
+     * findById operation.
+     * @param goalId parameter value
+     * @return result value
+     */
     public Goal findById(int goalId){
         String query = "SELECT * FROM goals WHERE goal_id = ?";
         Goal entity;
@@ -68,6 +80,11 @@ public class GoalDAO {
         return null;
     }
 
+    /**
+     * findAll operation.
+     * @param userId parameter value
+     * @return result value
+     */
     public List<Goal> findAll(int userId) {
         List<Goal> goals = new ArrayList<>();
         String query = "SELECT * FROM goals WHERE user_id = ?";
@@ -88,6 +105,10 @@ public class GoalDAO {
         return goals;
     }
 
+    /**
+     * update operation.
+     * @param entity parameter value
+     */
     public void update(Goal entity) {
         String query = "UPDATE goals SET target_amount = ?, deadline = ? WHERE goal_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -100,6 +121,10 @@ public class GoalDAO {
         }
     }
 
+    /**
+     * delete operation.
+     * @param id parameter value
+     */
     public void delete(int id) {
         String query = "DELETE FROM goals WHERE goal_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -110,6 +135,11 @@ public class GoalDAO {
         }
     }
 
+    /**
+     * findByUserId operation.
+     * @param id parameter value
+     * @return result value
+     */
     public Goal findByUserId(int id){
         String query = "SELECT * FROM goals WHERE user_id = ?";
         Goal entity;

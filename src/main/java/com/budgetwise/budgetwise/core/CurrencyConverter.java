@@ -1,5 +1,8 @@
 package com.budgetwise.budgetwise.core;
 
+/**
+ * CurrencyConverter component.
+ */
 public class CurrencyConverter {
 
     public static double convert(double amount,

@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TransactionDAO component.
+ */
 public class TransactionDAO implements GenericDAO<Transaction>{
 
     private Transaction mapResultSetToTransaction(ResultSet rs) throws SQLException {
@@ -25,6 +28,10 @@ public class TransactionDAO implements GenericDAO<Transaction>{
         );
     }
 
+    /**
+     * save operation.
+     * @param entity parameter value
+     */
     public void save(Transaction entity) {
         String query = """
                 INSERT INTO transactions
@@ -49,6 +56,11 @@ public class TransactionDAO implements GenericDAO<Transaction>{
         }
     }
 
+    /**
+     * findById operation.
+     * @param id parameter value
+     * @return result value
+     */
     public Transaction findById(int id){
         String query = "SELECT * FROM transactions WHERE transaction_id = ?";
         Transaction entity;
@@ -69,6 +81,10 @@ public class TransactionDAO implements GenericDAO<Transaction>{
         return null;
     }
 
+    /**
+     * findAll operation.
+     * @return result value
+     */
     public List<Transaction> findAll() {
         List<Transaction> transactions = new ArrayList<>();
         String query = "SELECT * FROM transactions ORDER BY date DESC";
@@ -88,6 +104,10 @@ public class TransactionDAO implements GenericDAO<Transaction>{
         return transactions;
     }
 
+    /**
+     * update operation.
+     * @param entity parameter value
+     */
     public void update(Transaction entity) {
         String query = "UPDATE transactions SET amount = ?, description = ? WHERE transaction_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -100,6 +120,10 @@ public class TransactionDAO implements GenericDAO<Transaction>{
         }
     }
 
+    /**
+     * delete operation.
+     * @param id parameter value
+     */
     public void delete(int id) {
         String query = "DELETE FROM transactions WHERE transaction_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -110,6 +134,11 @@ public class TransactionDAO implements GenericDAO<Transaction>{
         }
     }
 
+    /**
+     * findByUserId operation.
+     * @param userId parameter value
+     * @return result value
+     */
     public List<Transaction> findByUserId(int userId){
         String query = "SELECT * FROM transactions WHERE user_id = ? ORDER BY date DESC";
         List<Transaction> transactions = new ArrayList<>();
@@ -130,6 +159,12 @@ public class TransactionDAO implements GenericDAO<Transaction>{
         return transactions;
     }
 
+    /**
+     * findByCategoryId operation.
+     * @param userId parameter value
+     * @param categoryId parameter value
+     * @return result value
+     */
     public List<Transaction> findByCategoryId(int userId, int categoryId){
         String query = "SELECT * FROM transactions WHERE user_id = ? AND category_id = ? ORDER BY date DESC";
         List<Transaction> transactions = new ArrayList<>();
@@ -151,6 +186,13 @@ public class TransactionDAO implements GenericDAO<Transaction>{
         return transactions;
     }
 
+    /**
+     * findByDateRange operation.
+     * @param userId parameter value
+     * @param startDate parameter value
+     * @param endDate parameter value
+     * @return result value
+     */
     public List<Transaction> findByDateRange(int userId, LocalDateTime startDate, LocalDateTime endDate){
         List<Transaction> transactions = new ArrayList<>();
         String query = "SELECT * FROM transactions WHERE user_id = ? AND date BETWEEN ? AND ? ORDER BY date DESC";

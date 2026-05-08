@@ -16,6 +16,9 @@ import javafx.scene.layout.AnchorPane;
 import java.time.LocalDate;
 import java.util.Map;
 
+/**
+ * ReportController component.
+ */
 public class ReportController {
 
     private final ReportService reportService =
@@ -34,6 +37,9 @@ public class ReportController {
     @FXML private CheckBox checkBudgets;
     @FXML private CheckBox checkGoals;
 
+    /**
+     * initialize operation.
+     */
     @FXML
     public void initialize() {
         rangeBox.setItems(javafx.collections.FXCollections.observableArrayList(
@@ -65,6 +71,9 @@ public class ReportController {
     }
 
 
+    /**
+     * handleGenerateReport operation.
+     */
     @FXML
     public void handleGenerateReport() {
         String selected = rangeBox.getValue();

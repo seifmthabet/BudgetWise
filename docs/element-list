@@ -1,0 +1,9 @@
+module:com.budgetwise.budgetwise
+com.budgetwise.budgetwise
+com.budgetwise.budgetwise.controllers
+com.budgetwise.budgetwise.core
+com.budgetwise.budgetwise.DAOs
+com.budgetwise.budgetwise.models
+com.budgetwise.budgetwise.models.enums
+com.budgetwise.budgetwise.services
+com.budgetwise.budgetwise.utils

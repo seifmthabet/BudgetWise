@@ -6,6 +6,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * UserDAO component.
+ */
 public class UserDAO implements GenericDAO<User> {
 
     private User mapResultSetToUser(ResultSet rs) throws SQLException {
@@ -22,6 +25,10 @@ public class UserDAO implements GenericDAO<User> {
     }
 
 
+    /**
+     * save operation.
+     * @param entity parameter value
+     */
     public void save(User entity) {
         String sql = """
         INSERT INTO users(name, email, password, currency, language, created_at)
@@ -44,6 +51,11 @@ public class UserDAO implements GenericDAO<User> {
         }
     }
 
+    /**
+     * findById operation.
+     * @param id parameter value
+     * @return result value
+     */
     public User findById(int id){
         String query = "SELECT * FROM users WHERE user_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
@@ -61,6 +73,10 @@ public class UserDAO implements GenericDAO<User> {
         return null;
     }
 
+    /**
+     * findAll operation.
+     * @return result value
+     */
     public List<User> findAll(){
         List<User> users = new ArrayList<>();
         String query = "SELECT * FROM users";
@@ -78,6 +94,10 @@ public class UserDAO implements GenericDAO<User> {
         return users;
     }
 
+    /**
+     * update operation.
+     * @param entity parameter value
+     */
     public void update(User entity){
         String command = """
         UPDATE users 
@@ -102,6 +122,10 @@ public class UserDAO implements GenericDAO<User> {
         }
     }
 
+    /**
+     * delete operation.
+     * @param id parameter value
+     */
     public void delete(int id) {
         String command = "DELETE FROM users WHERE user_id = ?";
         try (Connection conn = DatabaseManager.getInstance().getConnection();
@@ -113,6 +137,11 @@ public class UserDAO implements GenericDAO<User> {
             throw new RuntimeException("Failed to delete Users:", e);
         }
     }
+    /**
+     * emailExists operation.
+     * @param email parameter value
+     * @return result value
+     */
     public boolean emailExists(String email) {
         String sql = "SELECT 1 FROM users WHERE email = ?";
 
@@ -128,6 +157,11 @@ public class UserDAO implements GenericDAO<User> {
             throw new RuntimeException("Error while checking if email exists", e);
         }
     }
+    /**
+     * findByEmail operation.
+     * @param email parameter value
+     * @return result value
+     */
     public User findByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
 

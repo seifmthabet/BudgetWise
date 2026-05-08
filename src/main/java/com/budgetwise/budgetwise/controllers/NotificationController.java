@@ -14,10 +14,16 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * NotificationController component.
+ */
 public class NotificationController {
     @FXML
     private ListView<Notification> notificationList;
 
+    /**
+     * initialize operation.
+     */
     @FXML
     public void initialize() {
         notificationList.setCellFactory(list -> new ListCell<>(){
@@ -84,6 +90,9 @@ public class NotificationController {
         ));
     }
 
+    /**
+     * handleClearAll operation.
+     */
     @FXML
     public void handleClearAll(){
         notificationList.getItems().clear();

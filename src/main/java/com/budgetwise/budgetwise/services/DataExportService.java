@@ -9,6 +9,9 @@ import com.budgetwise.budgetwise.utils.ExportUtil;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * DataExportService component.
+ */
 public class DataExportService {
     private void executeDownload(String format, List<Transaction> transactions, List<Budget> budgets, List<Goal> goals) {
         switch (format.toUpperCase()) {

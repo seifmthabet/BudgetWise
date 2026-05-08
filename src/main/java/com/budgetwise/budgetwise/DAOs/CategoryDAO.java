@@ -6,6 +6,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * CategoryDAO component.
+ */
 public class CategoryDAO implements GenericDAO<Category> {
 
     private Category mapResultSetToCategory(ResultSet rs) throws SQLException {
@@ -19,6 +22,10 @@ public class CategoryDAO implements GenericDAO<Category> {
         );
     }
 
+    /**
+     * save operation.
+     * @param entity parameter value
+     */
     @Override
     public void save(Category entity) {
         String query = "INSERT INTO categories (user_id, name, is_default) VALUES (?, ?, ?)";
@@ -33,6 +40,11 @@ public class CategoryDAO implements GenericDAO<Category> {
         }
     }
 
+    /**
+     * findById operation.
+     * @param id parameter value
+     * @return result value
+     */
     @Override
     public Category findById(int id) {
         String query = "SELECT * FROM categories WHERE category_id = ?";
@@ -50,6 +62,10 @@ public class CategoryDAO implements GenericDAO<Category> {
         return null;
     }
 
+    /**
+     * findAll operation.
+     * @return result value
+     */
     @Override
     public List<Category> findAll() {
         List<Category> categories = new ArrayList<>();
@@ -66,6 +82,10 @@ public class CategoryDAO implements GenericDAO<Category> {
         return categories;
     }
 
+    /**
+     * findDefault operation.
+     * @return result value
+     */
     public List<Category> findDefault() {
         List<Category> categories = new ArrayList<>();
         String query = "SELECT * FROM categories WHERE is_default = 1 ";
@@ -81,6 +101,10 @@ public class CategoryDAO implements GenericDAO<Category> {
         return categories;
     }
 
+    /**
+     * update operation.
+     * @param entity parameter value
+     */
     @Override
     public void update(Category entity) {
         String query = "UPDATE categories SET name = ?, is_default = ? WHERE category_id = ?";
@@ -95,6 +119,10 @@ public class CategoryDAO implements GenericDAO<Category> {
         }
     }
 
+    /**
+     * delete operation.
+     * @param id parameter value
+     */
     @Override
     public void delete(int id) {
         String query = "DELETE FROM categories WHERE category_id = ?";
@@ -107,6 +135,11 @@ public class CategoryDAO implements GenericDAO<Category> {
         }
     }
 
+    /**
+     * findByUser operation.
+     * @param userId parameter value
+     * @return result value
+     */
     public List<Category> findByUser(int userId) {
         List<Category> categories = new ArrayList<>();
         String query = "SELECT * FROM categories WHERE user_id = ?";
@@ -123,6 +156,11 @@ public class CategoryDAO implements GenericDAO<Category> {
         }
         return categories;
     }
+    /**
+     * existsDefaultCategoryByName operation.
+     * @param name parameter value
+     * @return result value
+     */
     public boolean existsDefaultCategoryByName(String name) {
         String query = "SELECT 1 FROM categories WHERE name = ? AND is_default = 1 LIMIT 1";
 

@@ -21,6 +21,9 @@ import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * ExportUtil component.
+ */
 public class ExportUtil {
     private static File showSavingDialog(String title, String fileName, String extensionDescription, String extension) {
         FileChooser fileChooser = new FileChooser();
@@ -30,6 +33,11 @@ public class ExportUtil {
         return fileChooser.showSaveDialog(new Stage());
     }
     //========================= CSV =================================
+    /**
+     * exportToCSV operation.
+     * @param transactions parameter value
+     * @return result value
+     */
     public static void exportToCSV(List<Transaction> transactions) {
         File file = showSavingDialog("Export Transactions", "BudgetWise_report.csv", "CSV Files", "*.csv");
         if (file == null) return;
@@ -50,6 +58,13 @@ public class ExportUtil {
     }
 
     //========================= PDF =================================
+    /**
+     * exportToPDF operation.
+     * @param transactions parameter value
+     * @param budgets parameter value
+     * @param goals parameter value
+     * @return result value
+     */
     public static void exportToPDF(List<Transaction> transactions, List<Budget> budgets, List<Goal> goals) {
         File file = showSavingDialog("Export Transactions", "BudgetWise_report.pdf", "PDF Files", "*.pdf");
         if (file == null) return;
@@ -180,6 +195,13 @@ public class ExportUtil {
         fillSheetData(wb, sheet, headers, list);
     }
 
+    /**
+     * exportToExcel operation.
+     * @param transactions parameter value
+     * @param budgets parameter value
+     * @param goals parameter value
+     * @return result value
+     */
     public static void exportToExcel(List<Transaction> transactions, List<Budget> budgets, List<Goal> goals) {
         File file = showSavingDialog("Save Excel File", "BudgetWise_report.xlsx", "Excel Files", "*.xlsx");
         if (file == null) return;

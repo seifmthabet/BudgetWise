@@ -6,8 +6,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Main component.
+ */
 public class Main extends Application {
 
+    /**
+     * start operation.
+     * @param stage parameter value
+     */
     @Override
     public void start(Stage stage) throws Exception {
         DatabaseManager.getInstance();
@@ -27,6 +34,11 @@ public class Main extends Application {
 //        DatabaseManager.getInstance().close();
 //    }
 //
+    /**
+     * main operation.
+     * @param args parameter value
+     * @return result value
+     */
     public static void main(String[] args) {
         launch(args);
     }

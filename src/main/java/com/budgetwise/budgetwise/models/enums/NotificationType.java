@@ -1,5 +1,8 @@
 package com.budgetwise.budgetwise.models.enums;
 
+/**
+ * NotificationType component.
+ */
 public enum NotificationType {
     BUDGET_ALERT,
     BUDGET_CREATED,

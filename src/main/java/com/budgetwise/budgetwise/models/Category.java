@@ -1,11 +1,20 @@
 package com.budgetwise.budgetwise.models;
 
+/**
+ * Category component.
+ */
 public class Category {
     private int categoryId;
     private Integer userId;
     private String name;
     private boolean isDefault;
 
+    /**
+     * Category operation.
+     * @param userId parameter value
+     * @param name parameter value
+     * @param isDefault parameter value
+     */
     public Category(Integer userId, String name, boolean isDefault) {
         if (name == null || name.trim().isEmpty())
             throw new IllegalArgumentException("Category name cannot be empty");
@@ -20,6 +29,13 @@ public class Category {
         this.name = name;
         this.isDefault = isDefault;
     }
+    /**
+     * Category operation.
+     * @param categoryId parameter value
+     * @param userId parameter value
+     * @param name parameter value
+     * @param isDefault parameter value
+     */
     public Category(int categoryId, Integer userId, String name, boolean isDefault) {
 
         if (name == null || name.trim().isEmpty())
@@ -39,18 +55,34 @@ public class Category {
         this.isDefault = isDefault;
     }
 
+    /**
+     * getCategoryId operation.
+     * @return result value
+     */
     public int getCategoryId() {
         return categoryId;
     }
 
+    /**
+     * getName operation.
+     * @return result value
+     */
     public String getName() {
         return name;
     }
+    /**
+     * isDefault operation.
+     * @return result value
+     */
     public boolean isDefault() {
         return isDefault;
     }
 
     public int getUserId() {return userId;}
+    /**
+     * toString operation.
+     * @return result value
+     */
     @Override
     public String toString() {
         return name;

@@ -6,6 +6,9 @@ import com.budgetwise.budgetwise.models.enums.TransactionType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Transaction component.
+ */
 public class Transaction {
     private int transactionId;
     private int userId;
@@ -16,6 +19,16 @@ public class Transaction {
     private PaymentMethod paymentMethod;
     private LocalDateTime timestamp;
 
+    /**
+     * Transaction operation.
+     * @param userId parameter value
+     * @param categoryId parameter value
+     * @param type parameter value
+     * @param amount parameter value
+     * @param description parameter value
+     * @param paymentMethod parameter value
+     * @param timestamp parameter value
+     */
     public Transaction(int userId, int categoryId, TransactionType type, BigDecimal amount, String description, PaymentMethod paymentMethod, LocalDateTime timestamp) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Amount must be greater than zero");
         if (description == null || description.trim().isEmpty()) throw new IllegalArgumentException("Description cannot be empty");
@@ -32,6 +45,17 @@ public class Transaction {
         this.timestamp = timestamp;
     }
 
+    /**
+     * Transaction operation.
+     * @param transactionId parameter value
+     * @param userId parameter value
+     * @param categoryId parameter value
+     * @param type parameter value
+     * @param amount parameter value
+     * @param description parameter value
+     * @param paymentMethod parameter value
+     * @param timestamp parameter value
+     */
     public Transaction(int transactionId,int userId, int categoryId, TransactionType type, BigDecimal amount, String description, PaymentMethod paymentMethod, LocalDateTime timestamp) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) throw new IllegalArgumentException("Amount must be greater than zero");
         if (description == null || description.trim().isEmpty()) throw new IllegalArgumentException("Description cannot be empty");
@@ -51,34 +75,66 @@ public class Transaction {
         this.timestamp = timestamp;
     }
 
+    /**
+     * getUserId operation.
+     * @return result value
+     */
     public int getUserId() {
         return userId;
     }
 
+    /**
+     * getTransactionId operation.
+     * @return result value
+     */
     public int getTransactionId() {
         return transactionId;
     }
 
+    /**
+     * getCategoryId operation.
+     * @return result value
+     */
     public int getCategoryId() {
         return categoryId;
     }
 
+    /**
+     * getDescription operation.
+     * @return result value
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * getPaymentMethod operation.
+     * @return result value
+     */
     public PaymentMethod getPaymentMethod() {
         return paymentMethod;
     }
 
+    /**
+     * getDate operation.
+     * @return result value
+     */
     public LocalDateTime getDate() {
         return timestamp;
     }
 
+    /**
+     * getType operation.
+     * @return result value
+     */
     public TransactionType getType() {
         return type;
     }
 
+    /**
+     * getAmount operation.
+     * @return result value
+     */
     public BigDecimal getAmount() {
         return amount;
     }
