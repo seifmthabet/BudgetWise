@@ -25,10 +25,15 @@ public class GoalService {
         if (amount <= 0){
             throw new IllegalArgumentException("Amount must be greater than 0");
         }
-        if (goalDAO.findById(goalId) == null){
+
+        Goal goal = goalDAO.findById(goalId);
+        if (goal == null){
             throw new IllegalArgumentException("Invalid goal ID");
         }
-        goalDAO.findById(goalId).addContribution(amount);
+
+        goal.addContribution(amount);
+
+        goalDAO.update(goal);
     }
 
     public List<Goal> getGoals (int userId){
@@ -61,5 +66,6 @@ public class GoalService {
         goalDAO.delete(goalId);
         return true;
     }
+
 
 }

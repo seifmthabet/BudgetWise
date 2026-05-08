@@ -23,6 +23,11 @@ public class GoalController {
     @FXML private TextField savedField;
     @FXML private DatePicker deadlinePicker;
 
+    @FXML private AnchorPane contributionOverlay;
+    @FXML private TextField contributionAmountField;
+    @FXML private Label contributionGoalTitle;
+    private Goal selectedGoalForContribution;
+
     private GoalService goalService;
     private int userId;
 
@@ -75,6 +80,10 @@ public class GoalController {
                     progressBar.setMaxWidth(Double.MAX_VALUE); // Let it stretch
 
                     progressBox.getChildren().addAll(numbersBox, progressBar);
+                    Button addMoneyBtn = new Button("Add $");
+                    addMoneyBtn.setStyle("-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-size: 11px; -fx-background-radius: 5; -fx-cursor: hand;");
+                    addMoneyBtn.setOnAction(e -> showContributionForm(item));
+                    infoBox.getChildren().add(addMoneyBtn);
 
                     card.getChildren().addAll(infoBox, spacer, progressBox);
 
@@ -83,6 +92,37 @@ public class GoalController {
                 }
             }
         });
+    }
+
+    @FXML
+    public void showContributionForm(Goal goal) {
+        this.selectedGoalForContribution = goal;
+        contributionGoalTitle.setText("To: " + goal.getName());
+        contributionAmountField.clear();
+        contributionOverlay.setVisible(true);
+    }
+
+    @FXML
+    public void hideContributionForm() {
+        contributionOverlay.setVisible(false);
+    }
+
+    @FXML
+    public void handleSaveContribution() {
+        try {
+            double amount = Double.parseDouble(contributionAmountField.getText());
+
+            goalService.addContribution(selectedGoalForContribution.getGoalId(), amount);
+
+            loadGoals();
+            hideContributionForm();
+
+            AppContext.getAlertUtil().showSuccess("Success " + "Added $" + amount + " to " + selectedGoalForContribution.getName());
+        } catch (NumberFormatException e) {
+            AppContext.getAlertUtil().showError("Please enter a valid numeric amount.");
+        } catch (Exception e) {
+            AppContext.getAlertUtil().showError("Error: " + e.getMessage());
+        }
     }
 
     private void loadGoals() {
